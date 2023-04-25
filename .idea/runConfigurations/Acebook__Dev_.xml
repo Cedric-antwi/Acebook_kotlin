@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Acebook (Dev)" type="JetRunConfigurationType">
+    <envs>
+      <env name="ENVIRONMENT" value="dev" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.acebook.MainKt" />
+    <module name="kotlin-http4k.Acebook.main" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
