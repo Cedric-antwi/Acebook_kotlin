@@ -15,9 +15,18 @@ This template app was built using:
 - The page to create a new post is implemented, but submitting it is not yet done
 - Users have to be signed in to create posts
 
-## How to run
+## How to setup and run
+
+### Opening the project codebase
+
+You'll need to IntelliJ editor. If not installed already, head to https://www.jetbrains.com/idea/download/#section=mac
+and download the Community Edition.
+
+Once installed, open the project directory into IntelliJ.
 
 ### Setup the database
+
+This project uses PostgreSQL as a database. You'll need to install this first.
 
 Create two PostgreSQL databases `acebook_kotlin` and `acebook_kotlin_test`.
 
@@ -25,13 +34,17 @@ In both databases, import the SQL dump in the file `resources/database.sql`.
 
 ### Running the app (dev environment)
 
-Run the configuration "Acebook (Dev)". This should run the server on port 9000 (you can leave it running in the background).
+Run the configuration "Acebook (Dev)" in the top-left corner of IntelliJ.
+
+This should run the server on port 9000 (you can leave it running in the background).
 
 Head to http://localhost:9000 to browse the app.
 
 ### Running the app (test environment)
 
-Run the configuration "Acebook (Test)". This should run the server on port 9999 (you can leave it running in the background).
+Run the configuration "Acebook (Test)" in the top-left corner of IntelliJ.
+
+This should run the server on port 9999 (you can leave it running in the background).
 
 ### Running the tests
 
