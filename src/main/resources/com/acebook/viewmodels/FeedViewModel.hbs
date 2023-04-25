@@ -1,0 +1,14 @@
+<h1>Welcome to Acebook</h1>
+
+{{#if currentUser}}
+    <p>Currently logged in as {{currentUser.email}}</p>
+    <p>
+        <a href="/sessions/clear" >Sign out</a>
+    </p>
+{{/if}}
+
+<h3>Latest posts</h3>
+
+{{#each posts}}
+    <div class="post">{{content}}</div>
+{{/each}}

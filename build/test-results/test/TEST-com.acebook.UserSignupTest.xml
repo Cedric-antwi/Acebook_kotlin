@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.acebook.UserSignupTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-04-25T10:04:56" hostname="MASTAFF-Leo-Hetsch-Q4C21QXL9G.local" time="0.457">
+  <properties/>
+  <testcase name="Login returns 400 Bad request if parameters are missing()" classname="com.acebook.UserSignupTest" time="0.041"/>
+  <testcase name="New signed up user can sign in()" classname="com.acebook.UserSignupTest" time="0.259"/>
+  <testcase name="Get the signup page()" classname="com.acebook.UserSignupTest" time="0.06"/>
+  <testcase name="Get the login page()" classname="com.acebook.UserSignupTest" time="0.049"/>
+  <testcase name="Signup returns 400 Bad request if parameters are missing()" classname="com.acebook.UserSignupTest" time="0.046"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
