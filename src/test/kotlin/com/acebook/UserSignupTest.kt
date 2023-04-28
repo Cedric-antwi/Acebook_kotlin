@@ -18,7 +18,6 @@ import org.ktorm.dsl.deleteAll
 class UserSignupTest {
     @BeforeEach
     fun setup() {
-        database = Database.connect("jdbc:postgresql://localhost:5432/acebook_kotlin_test")
         database.deleteAll(Users)
     }
 

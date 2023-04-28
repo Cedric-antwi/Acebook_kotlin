@@ -19,7 +19,6 @@ class PostsFeedTest {
 
     @BeforeEach
     fun setup() {
-        database = Database.connect("jdbc:postgresql://localhost:5432/acebook_kotlin_test")
         database.deleteAll(Posts)
 
         val newPost = Post()

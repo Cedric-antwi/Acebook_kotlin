@@ -24,6 +24,9 @@ and download the Community Edition.
 
 Once installed, open the project directory into IntelliJ.
 
+**If you're getting an error** such as "Invalid Gradle JDK configuration found" in the bottom section of the editor, you might need to click "Change JDK location"
+then select the correct JDK (Java Development Kit) before building the project again.
+
 ### Setup the database
 
 This project uses PostgreSQL as a database. You'll need to install this first.

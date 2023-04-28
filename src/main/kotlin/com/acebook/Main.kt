@@ -8,7 +8,7 @@ import org.http4k.template.HandlebarsTemplates
 import org.ktorm.database.Database
 
 val templateRenderer = HandlebarsTemplates().HotReload("src/main/resources")
-var database = Database.connect("jdbc:postgresql://localhost:5432/${Environment.databaseName()}")
+val database = Database.connect("jdbc:postgresql://localhost:5432/${Environment.databaseName()}")
 
 // This is a in-memory cache to store associated session IDs and user IDs
 // (in-memory means it is lost once the program is restarted)
