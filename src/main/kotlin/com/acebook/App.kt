@@ -8,13 +8,18 @@ import org.http4k.core.cookie.cookie
 import org.http4k.filter.DebuggingFilters
 import org.http4k.filter.ServerFilters
 import org.http4k.lens.*
+import org.http4k.routing.ResourceLoader
 import org.http4k.routing.bind
 import org.http4k.routing.routes
+import org.http4k.routing.static
 import org.http4k.template.HandlebarsTemplates
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.find
 import org.ktorm.entity.sequenceOf
+
+// http4k has the concept of "lens" which acts
+// as a validator for certain fields in the incoming HTTP request.
 
 // https://www.http4k.org/guide/concepts/lens/
 
@@ -60,6 +65,10 @@ fun authenticateRequestFromSession(contexts: RequestContexts) = Filter { next ->
     }
 }
 
+// The following function uses the `routes` function
+// from the http4k library to associate HTTP methods and paths
+// to a "handler" function, which will handle the request
+// to return the response.
 fun app(contexts: RequestContexts) = routes(
 
     "/" bind Method.GET to indexHandler(contexts),
@@ -79,7 +88,12 @@ fun app(contexts: RequestContexts) = routes(
         "/new" bind Method.GET to checkAuthenticated(contexts).then(newPostHandler(contexts))
 
         // TODO: Implement the route to create a new post
-    )
+    ),
+
+    // Static assets routes for CSS and images, etc.
+    // For example, http://localhost:9000/static/main.css
+    // will serve the file src/main/resources/static/main.css
+    "/static" bind static(ResourceLoader.Directory("src/main/resources/static"))
 )
 
 fun failResponse (failure: LensFailure) =

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.acebook.CreatePostTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-04-28T12:40:49" hostname="MASTAFF-Leo-Hetsch-Q4C21QXL9G.local" time="1.091">
+<testsuite name="com.acebook.CreatePostTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-05-02T15:46:47" hostname="MASTAFF-Leo-Hetsch-Q4C21QXL9G.local" time="1.011">
   <properties/>
-  <testcase name="Sign up then create a new post()" classname="com.acebook.CreatePostTest" time="1.047"/>
-  <testcase name="Cannot create new post if not signed in()" classname="com.acebook.CreatePostTest" time="0.043"/>
+  <testcase name="Sign up then create a new post()" classname="com.acebook.CreatePostTest" time="0.966"/>
+  <testcase name="Cannot create new post if not signed in()" classname="com.acebook.CreatePostTest" time="0.044"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation

@@ -1,3 +1,6 @@
+{{#> layout}}
+{{#*inline "content"}}
+
 <h1>Welcome to Acebook</h1>
 
 {{#if currentUser}}
@@ -12,3 +15,6 @@
 {{#each posts}}
     <div class="post">{{content}}</div>
 {{/each}}
+
+{{/inline}}
+{{/layout}}

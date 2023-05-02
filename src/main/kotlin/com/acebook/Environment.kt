@@ -2,7 +2,7 @@ package com.acebook
 
 // This object is used to centralise environment-dependent configuration
 //
-// Whenever some value depends of the environment the program runs in (either dev or test),
+// Whenever some value depends on the environment the program runs in (either dev or test),
 // It should be wrapped in this object to be accessed by the rest of the code.
 object Environment {
     private val env = if (System.getenv("ENVIRONMENT") == "dev") "dev" else "test"

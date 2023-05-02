@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.acebook.UserSignupTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-04-28T12:40:50" hostname="MASTAFF-Leo-Hetsch-Q4C21QXL9G.local" time="0.352">
+<testsuite name="com.acebook.UserSignupTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-05-02T15:46:49" hostname="MASTAFF-Leo-Hetsch-Q4C21QXL9G.local" time="0.342">
   <properties/>
-  <testcase name="Login returns 400 Bad request if parameters are missing()" classname="com.acebook.UserSignupTest" time="0.022"/>
-  <testcase name="New signed up user can sign in()" classname="com.acebook.UserSignupTest" time="0.264"/>
-  <testcase name="Get the signup page()" classname="com.acebook.UserSignupTest" time="0.027"/>
-  <testcase name="Get the login page()" classname="com.acebook.UserSignupTest" time="0.019"/>
-  <testcase name="Signup returns 400 Bad request if parameters are missing()" classname="com.acebook.UserSignupTest" time="0.018"/>
+  <testcase name="Login returns 400 Bad request if parameters are missing()" classname="com.acebook.UserSignupTest" time="0.018"/>
+  <testcase name="New signed up user can sign in()" classname="com.acebook.UserSignupTest" time="0.253"/>
+  <testcase name="Get the signup page()" classname="com.acebook.UserSignupTest" time="0.031"/>
+  <testcase name="Get the login page()" classname="com.acebook.UserSignupTest" time="0.022"/>
+  <testcase name="Signup returns 400 Bad request if parameters are missing()" classname="com.acebook.UserSignupTest" time="0.017"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

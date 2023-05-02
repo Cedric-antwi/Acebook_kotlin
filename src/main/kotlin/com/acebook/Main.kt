@@ -15,9 +15,12 @@ val database = Database.connect("jdbc:postgresql://localhost:5432/${Environment.
 val sessionCache = Cache.Builder().build<String, Int>()
 
 fun main() {
+    // RequestContexts is used
+    // to hold session information about the currently signed-in user
     val contexts = RequestContexts()
 
     val port = Environment.port()
+
     val server = appHttpHandler(contexts).asServer(Undertow(port)).start()
 
     println("Server started on " + server.port())

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.acebook.PostsFeedTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-28T12:40:50" hostname="MASTAFF-Leo-Hetsch-Q4C21QXL9G.local" time="0.191">
+<testsuite name="com.acebook.PostsFeedTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-05-02T15:46:48" hostname="MASTAFF-Leo-Hetsch-Q4C21QXL9G.local" time="0.194">
   <properties/>
-  <testcase name="Get the index page()" classname="com.acebook.PostsFeedTest" time="0.191"/>
+  <testcase name="Get the index page()" classname="com.acebook.PostsFeedTest" time="0.194"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

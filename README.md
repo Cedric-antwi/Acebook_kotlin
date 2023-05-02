@@ -3,6 +3,12 @@
 _Coaching this? Find the source
 [here.](https://github.com/makersacademy/slug/blob/main/materials/universe/acebook/seeds/kotlin-http4k/README.ed.md)_
 
+## Technologies
+
+Here's an overview of the technologies used to build this template application. 
+You don't need to do a deep dive on each one right now. Instead, try to get a feeling for 
+the big picture and then dive into the details when a specific task pushes you in that direction.
+
 This template app was built using:
  * Kotlin
  * http4k for the HTTP webserver and routing
@@ -59,6 +65,14 @@ You can do this by right-clicking on the `test` directory in the Project explore
 
 (You can also run individual tests using IntelliJ).
 
+### Using the app
+
+Once the app is running in dev environment, you can head to http://localhost:9000/users/new to create a new account.
+
+Once this is done, you can sign in using the same credentials on http://localhost:9000/sessions/new
+
+The list of posts (index page) is at http://localhost:9000.
+
 ## What are the different files?
  - `App.kt` contains the http4k app with the routing - see https://www.http4k.org/guide/howto/simple_routing/
  - The `handlers` directory contains handler functions (they receive a `Request` and need to return a `Response`)
@@ -80,26 +94,6 @@ https://www.http4k.org/guide/howto/use_html_forms/
 *ktorm*
 
 
-## Package
-```
-./gradlew build
-```
-
-## Setup http4k
-
-https://toolbox.http4k.org/
-
-```bash
-# Install the latest http4k Toolbox binary:
-brew tap http4k/tap && brew install http4k
-
-# ...then test it with:
-http4k --version
-```
-
-## How was this project setup?
-
-@TODO
 
 <!-- BEGIN GENERATED SECTION DO NOT EDIT -->
 
