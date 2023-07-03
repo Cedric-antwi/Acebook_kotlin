@@ -3,6 +3,9 @@
 _Coaching this? Find the source
 [here.](https://github.com/makersacademy/slug/blob/main/materials/universe/acebook/seeds/kotlin-http4k/README.ed.md)_
 
+## TRELLO Board
+https://trello.com/b/UtaAm3wb/team-emerald
+
 ## Technologies
 
 Here's an overview of the technologies used to build this template application. 
