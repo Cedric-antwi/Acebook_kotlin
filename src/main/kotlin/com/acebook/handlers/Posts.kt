@@ -12,10 +12,12 @@ import org.http4k.lens.WebForm
 import org.ktorm.entity.add
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
+import java.time.LocalDateTime
 
 
 fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
     val posts = database.sequenceOf(Posts).toList().reversed()
+    println(posts)
     val currentUser: User? = contexts[request]["user"]
     val viewModel = FeedViewModel(posts, currentUser)
 
@@ -34,11 +36,14 @@ fun newPostHandler(contexts: RequestContexts): HttpHandler = { request: Request 
 fun createNewPost(): HttpHandler = {request: Request ->
     val form = requiredContentLens (request)
     val newPost = requiredPostContent(form)
-
+    val currentTime = LocalDateTime.now()
     val userPost = Post {
         content = newPost
+        dateCreated = currentTime
     }
     val post = database.sequenceOf(Posts).add(userPost)
 
-    Response(Status.OK)
+    Response(Status.SEE_OTHER)
+        .header("Location", "/")
+        .body("")
 }

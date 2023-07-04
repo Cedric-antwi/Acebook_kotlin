@@ -8,5 +8,5 @@ interface Post : Entity<Post> {
     val id: Int
     var content: String
     var userId: Int
-    var dateCreated: LocalDateTime
+    var dateCreated: LocalDateTime?
 }
