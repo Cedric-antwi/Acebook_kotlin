@@ -4,7 +4,7 @@
       <env name="ENVIRONMENT" value="test" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.acebook.MainKt" />
-    <module name="kotlin-http4k.Acebook.main" />
+    <module name="Acebook_kotlin.Acebook.test" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />

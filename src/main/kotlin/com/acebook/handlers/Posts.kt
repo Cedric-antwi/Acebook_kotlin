@@ -20,8 +20,9 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
         .body(templateRenderer(viewModel))
 }
 
-fun newPostHandler(contexts: RequestContexts): HttpHandler = {
-    val viewModel = PostViewModel("")
+fun newPostHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
+    val currentUser: User? = contexts[request]["user"]
+    val viewModel = PostViewModel("",  currentUser = currentUser)
 
     Response(Status.OK)
         .body(templateRenderer(viewModel))
