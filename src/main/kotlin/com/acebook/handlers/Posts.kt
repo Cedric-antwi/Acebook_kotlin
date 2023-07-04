@@ -15,7 +15,7 @@ import org.ktorm.entity.toList
 
 
 fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
-    val posts = database.sequenceOf(Posts).toList()
+    val posts = database.sequenceOf(Posts).toList().reversed()
     val currentUser: User? = contexts[request]["user"]
     val viewModel = FeedViewModel(posts, currentUser)
 
