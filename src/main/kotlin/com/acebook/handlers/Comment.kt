@@ -35,3 +35,4 @@ fun viewAllComments(contexts: RequestContexts, request: Request, id: Int): Respo
     return Response(Status.OK)
         .body(render)
 }
+//fun addNewcomment()

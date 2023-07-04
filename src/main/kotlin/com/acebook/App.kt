@@ -98,12 +98,17 @@ fun app(contexts: RequestContexts) = routes(
     "/posts" bind routes(
         "/new" bind Method.GET to checkAuthenticated(contexts).then(newPostHandler(contexts)),
         "/" bind Method.POST to createNewPost(),
+        "/{id}" bind Method.GET to{request: Request ->
+            val idParamLens = Path.int().of ( "id")
+            val id =idParamLens(request)
+            viewAllComments(contexts, request, id )
+            }
     ),
-    "/comments/{id}" bind Method.GET to{request: Request ->
-        val idParamLens = Path.int().of ( "id")
-        val id =idParamLens(request)
-        viewAllComments(contexts, request, id  )
-    },
+//    "/comments/{id}" bind Method.GET to{request: Request ->
+//        val idParamLens = Path.int().of ( "id")
+//        val id =idParamLens(request)
+//        viewAllComments(contexts, request, id  )
+//    },
 
     // Static assets routes for CSS and images, etc.
     // For example, http://localhost:9000/static/main.css

@@ -13,6 +13,6 @@ object Comments: Table<Comment>("comments") {
     val id = int("id").primaryKey().bindTo { it.id }
     val commentBody = text("comment_body").bindTo { it.commentBody }
     val userId = int("user_id").bindTo { it.userId }
-    val postId = int("user_id").bindTo { it.postId }
+    val postId = int("post_id").bindTo { it.postId }
     val dateCreated = datetime("date_created").bindTo { it.dateCreated }
 }
