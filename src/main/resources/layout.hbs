@@ -1,14 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Acebook</title>
-        <link rel="stylesheet" href="/static/main.css">
-    </head>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--    <head>-->
+<!--        <meta charset="UTF-8">-->
+<!--        <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--        <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--        <title>Acebook</title>-->
+<!--        <link rel="stylesheet" href="/static/main.css">-->
+<!--    </head>-->
 
-    <body>
+<!--    <body>-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ACEBOOK</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    html, body {
+        font-family: "Open Sans", sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .w3-top {
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+    }
+    .navbar {
+        margin-bottom: 20px;
+    }
+    .navbar a {
+        text-decoration: none;
+    }
+    .content {
+        margin-top: 100px;
+        padding: 20px;
+    }
+    </style>
+</head>
+<body class="w3-theme-l5">
+<!--{ {#if currentUser}}-->
+<!--    <a href="#">Profile</a>-->
+<!--    <a href="#">My Requests</a>-->
+<!--    <a href="/posts/new">Add a post</a>-->
+<!--    <a href="/sessions/clear" >Sign out</a>-->
+<!--{ {else}}-->
+<!--    <a href="/sessions/new">Login</a>-->
+<!--    <p><a href="/users/new">Register</a></p>-->
+<!--{ {/if}}-->
+<!-- Navbar -->
+<div class="w3-top">
+
+    {{# if currentUser}}
+    <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+        <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+        <a href="/posts/new" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="New Post">Add a post</a>
+        <a href="/sessions/clear" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out">Sign out</a>
+    </div>
+    {{else}}
+    <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+        <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+        <a href="/sessions/new" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out">Sign in</a>
+        <a href="/users/new" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out">Register</a>
+    </div>
+    {{/if}}
+</div>
+
+<!--&lt;!&ndash; Navbar on small screens &ndash;&gt;-->
+<!--<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">-->
+<!--    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>-->
+<!--    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>-->
+<!--    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>-->
+<!--    <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>-->
+<!--</div>-->
+
+
+
+<!--&lt;!&ndash; Footer &ndash;&gt;-->
+<!--<footer class="w3-container w3-theme-d3 w3-padding-16">-->
+<!--    <h5>Footer</h5>-->
+<!--</footer>-->
+
+<!--<footer class="w3-container w3-theme-d5">-->
+<!--    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>-->
+<!--</footer>-->
+
+    <script>
+    // Accordion
+    function myFunction(id) {
+      var x = document.getElementById(id);
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+        x.previousElementSibling.className += " w3-theme-d1";
+      } else {
+        x.className = x.className.replace("w3-show", "");
+        x.previousElementSibling.className =
+        x.previousElementSibling.className.replace(" w3-theme-d1", "");
+      }
+    }
+
+    // Used to toggle the menu on smaller screens when clicking on the menu button
+    function openNav() {
+      var x = document.getElementById("navDemo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+    </script>
         {{> content}}
     </body>
 </html>
+
+
+<!--    </body>-->
+<!--</html>-->
