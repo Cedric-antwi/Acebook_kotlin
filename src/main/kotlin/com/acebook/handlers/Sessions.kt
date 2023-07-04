@@ -4,6 +4,8 @@ import com.acebook.*
 import com.acebook.entities.User
 import com.acebook.schemas.Users
 import com.acebook.viewmodels.LoginViewModel
+import com.acebook.viewmodels.PostViewModel
+import com.acebook.viewmodels.ProfileSettingsViewModel
 import org.http4k.core.*
 import org.http4k.core.cookie.Cookie
 import org.http4k.core.cookie.cookie
@@ -72,4 +74,20 @@ private fun injectSessionCookie(response: Response, user: User): Response {
     sessionCache.put(sessionId, user.id)
 
     return response.cookie(Cookie("acebook_session_id", sessionId))
+}
+
+fun viewProfile(contexts: RequestContexts):  HttpHandler = { request: Request ->
+    val currentUser: User? = contexts[request]["user"]
+    val viewModel = ProfileSettingsViewModel(currentUser = currentUser)
+    Response(Status.OK)
+        .body(templateRenderer(viewModel))
+}
+
+fun updateProfile():  HttpHandler = { request: Request ->
+    val form = requiredProfileFormLens(request)
+    val newPicture = requiredPictureField(form)
+    println("image here $newPicture")
+    Response(Status.SEE_OTHER)
+        .header("Location", "/")
+        .body("")
 }

@@ -43,6 +43,12 @@ val requiredContentLens = Body.webForm(
     requiredPostContent
 ).toLens()
 
+val requiredPictureField= FormField.required("pictureField")
+
+val requiredProfileFormLens = Body.webForm(
+    Validator.Strict,
+    requiredPictureField
+).toLens()
 
 fun checkAuthenticated(contexts: RequestContexts) = Filter { next ->
     {
@@ -97,6 +103,11 @@ fun app(contexts: RequestContexts) = routes(
         "/" bind Method.POST to createNewPost()
 
         // TODO: Implement the route to create a new post
+    ),
+
+    "/settings" bind routes(
+        "/editprofile" bind Method.GET to viewProfile(contexts),
+        "/" bind Method.POST to updateProfile()
     ),
 
     // Static assets routes for CSS and images, etc.
