@@ -50,7 +50,12 @@ val requiredProfileFormLens = Body.webForm(
     requiredPictureField
 ).toLens()
 
+val requiredCommentContent = FormField.nonEmptyString().required("comment")
 
+val requiredCommentFormLens = Body.webForm(
+    Validator.Strict,
+    requiredCommentContent
+).toLens()
 
 fun checkAuthenticated(contexts: RequestContexts) = Filter { next ->
     {
@@ -108,7 +113,12 @@ fun app(contexts: RequestContexts) = routes(
             val idParamLens = Path.int().of ( "id")
             val id =idParamLens(request)
             viewAllComments(contexts, request, id )
-            }
+            },
+        "/add/{id}" bind Method.POST to{request: Request ->
+            val idParamLens = Path.int().of ( "id")
+            val id =idParamLens(request)
+            addNewcomment(contexts, request, id )
+        },
     ),
 //    "/comments/{id}" bind Method.GET to{request: Request ->
 //        val idParamLens = Path.int().of ( "id")

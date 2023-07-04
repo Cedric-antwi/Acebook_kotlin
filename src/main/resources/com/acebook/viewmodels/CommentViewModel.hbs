@@ -3,12 +3,20 @@
 
         <h1>Add a new comment</h1>
 
-        <form method="POST" action="/posts/add">
+
+
+        <h1>{{currentPost.content}}</h1>
+        <form method="POST" action="/posts/add/{{currentPost.id}}">
             Content: <br />
             <textarea name="comment"></textarea>
 
             <input type="submit" id="submit" />
         </form>
+        {{#each comment}}
+            <p>{{commentBody}}</p>
+        {{/each}}
 
     {{/inline}}
 {{/layout}}
+
+//include time for comments and the post as well
