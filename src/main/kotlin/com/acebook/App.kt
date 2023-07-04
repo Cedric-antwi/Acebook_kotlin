@@ -36,6 +36,14 @@ val requiredSignupFormLens = Body.webForm(
     requiredPasswordField
 ).toLens()
 
+val requiredPostContent = FormField.nonEmptyString().required("content")
+
+val requiredContentLens = Body.webForm(
+    Validator.Strict,
+    requiredPostContent
+).toLens()
+
+
 fun checkAuthenticated(contexts: RequestContexts) = Filter { next ->
     {
         if (contexts[it].get<Int>("user_id") == null) {
@@ -85,7 +93,8 @@ fun app(contexts: RequestContexts) = routes(
     ),
 
     "/posts" bind routes(
-        "/new" bind Method.GET to checkAuthenticated(contexts).then(newPostHandler(contexts))
+        "/new" bind Method.GET to checkAuthenticated(contexts).then(newPostHandler(contexts)),
+        "/" bind Method.POST to createNewPost()
 
         // TODO: Implement the route to create a new post
     ),
