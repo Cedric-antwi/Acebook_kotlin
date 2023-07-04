@@ -8,29 +8,86 @@
 -- -------------------------------------------------------------
 
 
-DROP TABLE IF EXISTS "public"."posts";
+DROP TABLE IF EXISTS likes;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS posts;
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
+DROP TABLE IF EXISTS users;
 -- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS posts_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."posts" (
-    "id" int4 NOT NULL DEFAULT nextval('posts_id_seq'::regclass),
-    "content" text,
-    "user_id" int4
-);
-
-DROP TABLE IF EXISTS "public"."users";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
+DROP SEQUENCE IF EXISTS posts_id_seq;
+DROP SEQUENCE IF EXISTS likes_id_seq;
+DROP SEQUENCE IF EXISTS comments_id_seq;
+DROP SEQUENCE IF EXISTS users_id_seq;
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
-
+CREATE SEQUENCE IF NOT EXISTS posts_id_seq;
+CREATE SEQUENCE IF NOT EXISTS likes_id_seq;
+CREATE SEQUENCE IF NOT EXISTS comments_id_seq;
 -- Table Definition
-CREATE TABLE "public"."users" (
-    "id" int4 NOT NULL DEFAULT nextval('users_id_seq'::regclass),
-    "email" varchar,
-    "encrypted_password" varchar
+-- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+-- Sequence and defined type
+-- Table Definition
+CREATE TABLE users (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    email varchar,
+    encrypted_password varchar(255),
+    PRIMARY KEY (id)
 );
-
+CREATE TABLE posts (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    content text,
+    date_Created TIMESTAMP,
+    user_id int4,
+       CONSTRAINT fk_user
+          FOREIGN KEY(user_id)
+            REFERENCES users(id),
+    PRIMARY KEY (id)
+);
+CREATE TABLE likes(
+    id INT GENERATED ALWAYS AS IDENTITY,
+    user_id int4,
+           CONSTRAINT fk_user
+              FOREIGN KEY(user_id)
+                REFERENCES users(id),
+    post_id int4,
+           CONSTRAINT fk_post
+              FOREIGN KEY(post_id)
+                REFERENCES posts(id)
+);
+CREATE TABLE comments(
+    id INT GENERATED ALWAYS AS IDENTITY,
+    comment_body text,
+    date_Created TIMESTAMP,
+    user_id int4,
+           CONSTRAINT fk_user
+              FOREIGN KEY(user_id)
+                REFERENCES users(id),
+    post_id int4,
+           CONSTRAINT fk_post
+              FOREIGN KEY(post_id)
+                REFERENCES posts(id)
+);
+INSERT INTO users (email, encrypted_password)
+VALUES
+  ('user1@example.com', 'password1'),
+  ('user2@example.com', 'password2'),
+  ('user3@example.com', 'password3');
+-- Insert random data into the "posts" table
+INSERT INTO posts (content,date_Created, user_id)
+VALUES
+  ('Post 1 content',TIMESTAMP  '2023-07-01 12:34:56', 1),
+  ('Post 2 content',TIMESTAMP  '2023-07-02 10:11:12', 2),
+  ('Post 3 content', TIMESTAMP '2023-07-03 08:22:33', 3);
+-- Insert random data into the "likes" table
+INSERT INTO likes (user_id, post_id)
+VALUES
+  (1, 1),
+  (2, 1),
+  (2, 3),
+  (3, 2);
+-- Insert random data into the "comments" table
+INSERT INTO comments (comment_body, date_Created, user_id, post_id)
+VALUES
+  ('Comment 1', TIMESTAMP '2023-07-01 12:45:00', 1, 1),
+  ('Comment 2', TIMESTAMP '2023-07-01 13:15:30', 2, 1),
+  ('Comment 3', TIMESTAMP '2023-07-03 09:00:45', 2, 3),
+  ('Comment 4', TIMESTAMP '2023-07-02 16:30:15', 3, 2);
