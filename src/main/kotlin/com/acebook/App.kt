@@ -50,6 +50,8 @@ val requiredProfileFormLens = Body.webForm(
     requiredPictureField
 ).toLens()
 
+
+
 fun checkAuthenticated(contexts: RequestContexts) = Filter { next ->
     {
         if (contexts[it].get<Int>("user_id") == null) {
@@ -85,6 +87,7 @@ fun authenticateRequestFromSession(contexts: RequestContexts) = Filter { next ->
 // to return the response.
 fun app(contexts: RequestContexts) = routes(
 
+
     "/" bind Method.GET to indexHandler(contexts),
 
     "/users" bind routes(
@@ -100,10 +103,18 @@ fun app(contexts: RequestContexts) = routes(
 
     "/posts" bind routes(
         "/new" bind Method.GET to checkAuthenticated(contexts).then(newPostHandler(contexts)),
-        "/" bind Method.POST to createNewPost()
-
-        // TODO: Implement the route to create a new post
+        "/" bind Method.POST to createNewPost(),
+        "/{id}" bind Method.GET to{request: Request ->
+            val idParamLens = Path.int().of ( "id")
+            val id =idParamLens(request)
+            viewAllComments(contexts, request, id )
+            }
     ),
+//    "/comments/{id}" bind Method.GET to{request: Request ->
+//        val idParamLens = Path.int().of ( "id")
+//        val id =idParamLens(request)
+//        viewAllComments(contexts, request, id  )
+//    },
 
     "/settings" bind routes(
         "/editprofile" bind Method.GET to viewProfile(contexts),
