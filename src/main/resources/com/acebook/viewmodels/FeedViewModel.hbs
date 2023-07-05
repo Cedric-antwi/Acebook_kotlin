@@ -102,6 +102,11 @@
                         <!-- User from database -->
 
                         <h3>{{content}}</h3>
+                        {{#if currentUser}}
+                        <form class="button-styling">
+                            <input type="submit" value="like">
+                        </form>
+                            {{/if}}
                         <hr class="w3-clear">
                         <p>By: {{authorName}}</p><br>
                         <div class="w3-row-padding" style="margin:0 -16px">
