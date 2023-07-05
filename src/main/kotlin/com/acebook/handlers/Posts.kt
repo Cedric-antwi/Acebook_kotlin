@@ -33,13 +33,22 @@ fun newPostHandler(contexts: RequestContexts): HttpHandler = { request: Request 
         .body(templateRenderer(viewModel))
 }
 
-fun createNewPost(): HttpHandler = {request: Request ->
+fun createNewPost(contexts: RequestContexts): HttpHandler = {request: Request ->
     val form = requiredContentLens (request)
     val newPost = requiredPostContent(form)
+    val currentUser: User? = contexts[request]["user"]
     val currentTime = LocalDateTime.now()
     val userPost = Post {
         content = newPost
         dateCreated = currentTime
+        if (currentUser != null) {
+            userId = currentUser.id
+        }
+        if (currentUser != null) {
+            authorName = currentUser.email
+        }
+
+
     }
     val post = database.sequenceOf(Posts).add(userPost)
 

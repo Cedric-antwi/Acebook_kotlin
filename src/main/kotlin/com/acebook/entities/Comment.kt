@@ -10,4 +10,6 @@ interface Comment : Entity<Comment> {
     var userId: Int
     var postId: Int
     var dateCreated: LocalDateTime?
+    var authorName:String
+
 }

@@ -11,4 +11,5 @@ object Posts: Table<Post>("posts") {
     val userId = int("user_id").bindTo { it.userId }
     val content = text("content").bindTo { it.content }
     val dateCreated = datetime("date_created").bindTo { it.dateCreated }
+    val authorName = text("author_name").bindTo{it.authorName}
 }

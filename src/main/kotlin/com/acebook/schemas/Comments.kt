@@ -15,4 +15,6 @@ object Comments: Table<Comment>("comments") {
     val userId = int("user_id").bindTo { it.userId }
     val postId = int("post_id").bindTo { it.postId }
     val dateCreated = datetime("date_created").bindTo { it.dateCreated }
+    val authorName = text("author_name").bindTo{it.authorName}
+
 }
