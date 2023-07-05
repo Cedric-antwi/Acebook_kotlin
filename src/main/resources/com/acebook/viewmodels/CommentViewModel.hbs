@@ -1,6 +1,8 @@
 {{#> layout}}
     {{#*inline "content"}}
-
+<!DOCTYPE html>
+<html>
+<body>
         <h1>Add a new comment</h1>
 
 
@@ -16,7 +18,9 @@
         {{/if}}
         <hr>
         <hr>
-        <h3>Comments</h3>
+        <div id="comment-section">
+            <h3>Comments</h3>
+
         {{#each comment}}
             <p>{{commentBody}}</p>
             <smal>By {{authorName}}</smal>
@@ -24,8 +28,10 @@
             <small>posted: {{dateCreated}}</small>
             <hr>
         {{/each}}
+        </div>
+</body>
+<html>
 
     {{/inline}}
 {{/layout}}
 
-<!--//include time for comments and the post as well-->
