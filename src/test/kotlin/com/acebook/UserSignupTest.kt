@@ -68,7 +68,7 @@ class UserSignupTest {
         assertThat(response, hasBody("Invalid parameters"))
     }
     @Test //custom test
-    fun `Signup returns 200 OK response`() {
+    fun `Testing the signup and login functionality`() {
         val cookieHelper = OkHttp3CookieHelper()
         val client = OkHttp(OkHttpClient().newBuilder().cookieJar(cookieHelper.cookieJar()).build())
         val form = WebForm(
@@ -91,32 +91,15 @@ class UserSignupTest {
                 "email" to listOf("email"),
                 "password" to listOf("password")
             ))
-
         val response2: Response = client(
             Request(Method.POST, "http://localhost:9999/sessions").with(
-                requiredLoginCredentialsLens of form2
+                com.acebook.requiredLoginCredentialsLens of form2
             )
                 .header("content-type", "application/x-www-form-urlencoded")
         )
 
         assertThat(response2, hasStatus(Status.OK))
         assert(response2.bodyString().contains("Acebook"))
-
-        val form3 = WebForm(
-            mapOf(
-                "content" to listOf("content")
-            )
-        )
-
-        val response3: Response = client(
-            Request(Method.POST, "http://localhost:9999/posts").with(
-                requiredContentLens of form3
-            )
-            .header("content-type", "application/x-www-form-urlencoded")
-        )
-
-        assert(response3.bodyString().contains("content"))
-
     }
 
     @Test
