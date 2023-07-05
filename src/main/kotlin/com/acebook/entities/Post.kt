@@ -9,4 +9,6 @@ interface Post : Entity<Post> {
     var content: String
     var userId: Int
     var dateCreated: LocalDateTime?
+    var authorName:String
+
 }

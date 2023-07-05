@@ -36,6 +36,7 @@ CREATE TABLE posts (
     id INT GENERATED ALWAYS AS IDENTITY,
     content text,
     date_Created TIMESTAMP,
+    author_name text,
     user_id int4,
        CONSTRAINT fk_user
           FOREIGN KEY(user_id)
@@ -57,6 +58,7 @@ CREATE TABLE comments(
     id INT GENERATED ALWAYS AS IDENTITY,
     comment_body text,
     date_Created TIMESTAMP,
+    author_name text,
     user_id int4,
            CONSTRAINT fk_user
               FOREIGN KEY(user_id)
@@ -72,11 +74,11 @@ VALUES
   ('user2@example.com', 'password2'),
   ('user3@example.com', 'password3');
 -- Insert random data into the "posts" table
-INSERT INTO posts (content,date_Created, user_id)
+INSERT INTO posts (content,date_Created,author_name, user_id)
 VALUES
-  ('Post 1 content',TIMESTAMP  '2023-07-01 12:34:56', 1),
-  ('Post 2 content',TIMESTAMP  '2023-07-02 10:11:12', 2),
-  ('Post 3 content', TIMESTAMP '2023-07-03 08:22:33', 3);
+    ('Post 1 content',  TIMESTAMP'2023-07-01 12:34:56','user1@example.com', 1),
+    ('Post 2 content',  TIMESTAMP'2023-07-02 10:11:12','user2@example.com', 2),
+    ('Post 3 content',  TIMESTAMP'2023-07-03 08:22:33','user3@example.com', 3);
 -- Insert random data into the "likes" table
 INSERT INTO likes (user_id, post_id)
 VALUES
@@ -85,9 +87,9 @@ VALUES
   (2, 3),
   (3, 2);
 -- Insert random data into the "comments" table
-INSERT INTO comments (comment_body, date_Created, user_id, post_id)
+INSERT INTO comments (comment_body, date_Created, author_name, user_id, post_id)
 VALUES
-  ('Comment 1', TIMESTAMP '2023-07-01 12:45:00', 1, 1),
-  ('Comment 2', TIMESTAMP '2023-07-01 13:15:30', 2, 1),
-  ('Comment 3', TIMESTAMP '2023-07-03 09:00:45', 2, 3),
-  ('Comment 4', TIMESTAMP '2023-07-02 16:30:15', 3, 2);
+    ('Comment 1',  TIMESTAMP'2023-07-01 12:45:00', 'user1@example.com', 1, 1),
+    ('Comment 2',  TIMESTAMP'2023-07-01 13:15:30','user2@example.com', 2, 1),
+    ('Comment 3',  TIMESTAMP'2023-07-03 09:00:45','user3@example.com', 2, 3),
+    ('Comment 4',  TIMESTAMP '2023-07-02 16:30:15','user3@example.com', 3, 2);

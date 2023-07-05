@@ -6,17 +6,26 @@
 
 
         <h1>{{currentPost.content}}</h1>
-        <form method="POST" action="/posts/add/{{currentPost.id}}">
-            Content: <br />
-            <textarea name="comment"></textarea>
+        {{#if currentUser}}
+            <form method="POST" action="/posts/add/{{currentPost.id}}">
+                Content: <br />
+                <textarea name="comment"></textarea>
 
-            <input type="submit" id="submit" />
-        </form>
+                <input type="submit" id="submit" />
+            </form>
+        {{/if}}
+        <hr>
+        <hr>
+        <h3>Comments</h3>
         {{#each comment}}
             <p>{{commentBody}}</p>
+            <smal>By {{authorName}}</smal>
+            <br>
+            <small>posted: {{dateCreated}}</small>
+            <hr>
         {{/each}}
 
     {{/inline}}
 {{/layout}}
 
-//include time for comments and the post as well
+<!--//include time for comments and the post as well-->

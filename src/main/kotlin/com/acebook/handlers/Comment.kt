@@ -46,13 +46,16 @@ fun addNewcomment(contexts: RequestContexts, request: Request, id: Int): Respons
     val currentUser: User? = contexts[request]["user"]
     val currentTime = LocalDateTime.now()
     val userComment = Comment {
-        commentBody = newPost
-        dateCreated = currentTime
-        postId = id
-        if (currentUser != null) {
-            userId = currentUser.id
+            commentBody = newPost
+            dateCreated = currentTime
+            postId = id
+            if (currentUser != null) {
+                userId = currentUser.id
+            }
+            if (currentUser != null) {
+                authorName = currentUser.email
+            }
         }
-    }
     database.sequenceOf(Comments).add(userComment)
 
     return Response(Status.SEE_OTHER)

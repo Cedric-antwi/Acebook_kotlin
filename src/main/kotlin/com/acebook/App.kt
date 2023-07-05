@@ -108,7 +108,7 @@ fun app(contexts: RequestContexts) = routes(
 
     "/posts" bind routes(
         "/new" bind Method.GET to checkAuthenticated(contexts).then(newPostHandler(contexts)),
-        "/" bind Method.POST to createNewPost(),
+        "/" bind Method.POST to createNewPost(contexts = contexts),
         "/{id}" bind Method.GET to{request: Request ->
             val idParamLens = Path.int().of ( "id")
             val id =idParamLens(request)

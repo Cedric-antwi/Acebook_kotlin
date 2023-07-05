@@ -113,24 +113,19 @@
 <!--            </div>-->
 
             {{#each posts}}
-            <a href="/posts/{{id}}">
-            <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-                <img src="/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-                <span class="w3-right w3-opacity">{{dateCreated}}</span>
-                <h4>John Doe</h4><br><!-- User from database -->
-                <hr class="w3-clear">
-                <p>{{content}}</p>
-                <div class="w3-row-padding" style="margin:0 -16px">
-                    <div class="w3-half">
-                        <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-                    </div>
-                    <div class="w3-half">
-                        <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-                    </div>
-                </div>
+                <a href="/posts/{{id}}">
+                    <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+                        <span class="w3-right w3-opacity">Posted: {{dateCreated}}</span>
+                        <!-- User from database -->
 
-            </div>
-            </a>
+                        <h3>{{content}}</h3>
+                        <hr class="w3-clear">
+                        <p>By: {{authorName}}</p><br>
+                        <div class="w3-row-padding" style="margin:0 -16px">
+                        </div>
+
+                    </div>
+                </a>
         {{/each}}
 
             <!-- End Middle Column -->
