@@ -8,5 +8,3 @@ data class ProfileSettingsViewModel(
 
 ): ViewModel
 
-
-//a form to upload an image

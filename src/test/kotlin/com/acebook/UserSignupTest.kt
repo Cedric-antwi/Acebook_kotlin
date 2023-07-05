@@ -5,20 +5,40 @@ import com.acebook.requiredSignupFormLens
 import com.acebook.schemas.Users
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
+import okhttp3.OkHttpClient
 import org.http4k.client.OkHttp
 import org.http4k.core.*
 import org.http4k.hamkrest.*
-import org.http4k.lens.WebForm
-import org.http4k.lens.string
+import org.http4k.lens.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.ktorm.database.Database
 import org.ktorm.dsl.deleteAll
+import org.riversun.okhttp3.OkHttp3CookieHelper
 
 class UserSignupTest {
+    val requiredEmailField = FormField.nonEmptyString().required("email")
+    val requiredPasswordField = FormField.nonEmptyString().required("password")
+    val requiredPostContent = FormField.nonEmptyString().required("content")
+    val requiredSignupFormLens = Body.webForm(
+        Validator.Strict,
+        requiredEmailField,
+        requiredPasswordField
+    ).toLens()
+
+    val requiredLoginCredentialsLens = Body.webForm(
+        Validator.Strict,
+        requiredEmailField,
+        requiredPasswordField
+    ).toLens()
+
+    val requiredContentLens = Body.webForm(
+        Validator.Strict,
+        requiredPostContent
+    ).toLens()
     @BeforeEach
     fun setup() {
-        database.deleteAll(Users)
+//        database.deleteAll(Users)
     }
 
     @Test
@@ -34,6 +54,7 @@ class UserSignupTest {
         assertThat(response, hasBody("Invalid parameters"))
     }
 
+
     @Test
     fun `Signup returns 400 Bad request if parameters are missing`() {
         val client = OkHttp()
@@ -45,6 +66,57 @@ class UserSignupTest {
 
         assertThat(response, hasStatus(Status.BAD_REQUEST))
         assertThat(response, hasBody("Invalid parameters"))
+    }
+    @Test //custom test
+    fun `Signup returns 200 OK response`() {
+        val cookieHelper = OkHttp3CookieHelper()
+        val client = OkHttp(OkHttpClient().newBuilder().cookieJar(cookieHelper.cookieJar()).build())
+        val form = WebForm(
+            mapOf(
+                "email" to listOf("email"),
+                "password" to listOf("password")
+            ))
+
+        val response: Response = client(
+            Request(Method.POST, "http://localhost:9999/users").with(
+                requiredSignupFormLens of form
+            )
+                .header("content-type", "application/x-www-form-urlencoded")
+        )
+
+        assertThat(response, hasStatus(Status.OK))
+        assert(response.bodyString().contains("Login"))
+        val form2 = WebForm(
+            mapOf(
+                "email" to listOf("email"),
+                "password" to listOf("password")
+            ))
+
+        val response2: Response = client(
+            Request(Method.POST, "http://localhost:9999/sessions").with(
+                requiredLoginCredentialsLens of form2
+            )
+                .header("content-type", "application/x-www-form-urlencoded")
+        )
+
+        assertThat(response2, hasStatus(Status.OK))
+        assert(response2.bodyString().contains("Acebook"))
+
+        val form3 = WebForm(
+            mapOf(
+                "content" to listOf("content")
+            )
+        )
+
+        val response3: Response = client(
+            Request(Method.POST, "http://localhost:9999/posts").with(
+                requiredContentLens of form3
+            )
+            .header("content-type", "application/x-www-form-urlencoded")
+        )
+
+        assert(response3.bodyString().contains("content"))
+
     }
 
     @Test

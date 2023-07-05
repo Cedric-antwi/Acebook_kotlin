@@ -42,6 +42,7 @@ dependencies {
     implementation "org.ktorm:ktorm-core:${ktormVersion}"
     implementation "org.mindrot:jbcrypt:0.4"
     implementation "io.github.reactivecircus.cache4k:cache4k:0.9.0"
+    implementation "org.riversun:okhttp3-cookie-helper:1.0.0"
 
 
     testImplementation "org.http4k:http4k-testing-approval:${http4kVersion}"

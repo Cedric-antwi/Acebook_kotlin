@@ -120,11 +120,6 @@ fun app(contexts: RequestContexts) = routes(
             addNewcomment(contexts, request, id )
         },
     ),
-//    "/comments/{id}" bind Method.GET to{request: Request ->
-//        val idParamLens = Path.int().of ( "id")
-//        val id =idParamLens(request)
-//        viewAllComments(contexts, request, id  )
-//    },
 
     "/settings" bind routes(
         "/editprofile" bind Method.GET to viewProfile(contexts),
