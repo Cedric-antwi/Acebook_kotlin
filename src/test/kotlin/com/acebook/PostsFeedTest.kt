@@ -19,7 +19,7 @@ class PostsFeedTest {
 
     @BeforeEach
     fun setup() {
-        database.deleteAll(Posts)
+//        database.deleteAll(Posts)
 
         val newPost = Post()
         newPost.content = "Test post 1"

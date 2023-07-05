@@ -15,8 +15,8 @@ import org.ktorm.dsl.deleteAll
 class CreatePostTest {
     @BeforeEach
     fun setup() {
-        database.deleteAll(Posts)
-        database.deleteAll(Users)
+//        database.deleteAll(Posts)
+//        database.deleteAll(Users)
     }
 
     @Test
