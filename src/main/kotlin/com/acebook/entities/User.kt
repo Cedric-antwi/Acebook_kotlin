@@ -7,4 +7,8 @@ interface User : Entity<User> {
     val id: Int
     var email: String
     var encryptedPassword: String
+    var firstName: String
+    var lastName: String
+    var username: String
+    var image: String
 }

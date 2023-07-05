@@ -9,7 +9,10 @@ import com.acebook.viewmodels.FeedViewModel
 import com.acebook.viewmodels.PostViewModel
 import org.http4k.core.*
 import org.http4k.lens.WebForm
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.update
 import org.ktorm.entity.add
+import org.ktorm.entity.filter
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import java.time.LocalDateTime
@@ -53,6 +56,24 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = {request: Request ->
     val post = database.sequenceOf(Posts).add(userPost)
 
     Response(Status.SEE_OTHER)
+        .header("Location", "/")
+        .body("")
+}
+
+fun likePost(contexts: RequestContexts, request: Request, id: Int): Response {
+    val getCurrentPost = database.sequenceOf(Posts)
+        .filter { it.id eq id }
+        .toList()
+    val post = getCurrentPost[0]
+    val currentLikes = post.likesCount
+    database.update(Posts){
+        set(it.likesCount, (currentLikes+1))
+        where {
+            it.id eq id
+        }
+    }
+
+    return Response(Status.SEE_OTHER)
         .header("Location", "/")
         .body("")
 }

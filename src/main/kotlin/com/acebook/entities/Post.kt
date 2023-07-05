@@ -10,5 +10,6 @@ interface Post : Entity<Post> {
     var userId: Int
     var dateCreated: LocalDateTime?
     var authorName:String
+    var likesCount: Int
 
 }

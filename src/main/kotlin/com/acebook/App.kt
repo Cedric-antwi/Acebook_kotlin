@@ -94,6 +94,11 @@ fun app(contexts: RequestContexts) = routes(
 
 
     "/" bind Method.GET to indexHandler(contexts),
+    "/like/{id}" bind Method.POST to{request: Request ->
+        val idParamLens = Path.int().of ( "id")
+        val id =idParamLens(request)
+        likePost(contexts, request, id )
+    },
 
     "/users" bind routes(
         "/new" bind Method.GET to newUserHandler(),
