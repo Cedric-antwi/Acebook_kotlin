@@ -25,9 +25,13 @@ class PostsFeedTest {
         newPost.content = "Test post 1"
         val newPost2 = Post()
         newPost2.content = "Test post 2"
+        val newPost3 = Post()
+        newPost3.content = "test post 3"
 
         database.sequenceOf(Posts).add(newPost)
         database.sequenceOf(Posts).add(newPost2)
+        database.sequenceOf(Posts).add(newPost3)
+
     }
 
     @Test
