@@ -30,6 +30,10 @@ CREATE TABLE users (
     id INT GENERATED ALWAYS AS IDENTITY,
     email varchar,
     encrypted_password varchar(255),
+    first_name varchar DEFAULT NULL,
+    last_name varchar DEFAULT NULL,
+    username varchar DEFAULT NULL,
+    image varchar DEFAULT NULL,
     PRIMARY KEY (id)
 );
 CREATE TABLE posts (
@@ -37,6 +41,7 @@ CREATE TABLE posts (
     content text,
     date_Created TIMESTAMP,
     author_name text,
+    likes_count INT DEFAULT 0,
     user_id int4,
        CONSTRAINT fk_user
           FOREIGN KEY(user_id)

@@ -102,8 +102,9 @@
                         <!-- User from database -->
 
                         <h3>{{content}}</h3>
+                        <h5>likes{{likesCount}}</h5>
                         {{#if currentUser}}
-                        <form class="button-styling">
+                        <form class="button-styling" method="POST" action="/like/{{id}}">
                             <input type="submit" value="like">
                         </form>
                             {{/if}}
