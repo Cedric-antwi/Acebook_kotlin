@@ -2,6 +2,7 @@ package com.acebook.handlers
 
 import com.acebook.*
 import com.acebook.entities.User
+import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
 import com.acebook.schemas.Users
 import com.acebook.viewmodels.FeedViewModel
@@ -14,10 +15,6 @@ import org.http4k.core.cookie.cookie
 import org.http4k.core.cookie.removeCookie
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.update
-import org.ktorm.entity.filter
-import org.ktorm.entity.first
-import org.ktorm.entity.sequenceOf
-import org.ktorm.entity.toList
 import org.mindrot.jbcrypt.BCrypt
 import java.io.File
 import java.util.*
@@ -33,7 +30,7 @@ import org.http4k.lens.MultipartFormFile
 import org.http4k.server.SunHttp
 import org.http4k.server.asServer
 import org.ktorm.dsl.update
-import org.ktorm.entity.toList
+import org.ktorm.entity.*
 import java.util.UUID
 
 fun newSessionHandler(): HttpHandler = {
@@ -116,7 +113,7 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "path/"
+        val uploadDirectory = "/Users/mou4587/Acebook_kotlin/src/main/resources/static"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)
@@ -144,4 +141,48 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         Response(Status.BAD_REQUEST).body("No picture uploaded")
     }
 
+}
+
+fun editInfo(contexts: RequestContexts, request: Request, id: Int): Response {
+    val form = requiredEditProfileLens(request)
+    val inputUsername = requiredUsernameField(form)
+    val inputFirstname = requiredFirstnameField(form)
+    val inputLastname = requiredLastnameField(form)
+    val getCurrentUser = database.sequenceOf(Users)
+        .filter { it.id eq id }
+        .toList()
+    val user = getCurrentUser[0]
+    println("HERE $user")
+
+    database.update(Users) {
+        set(it.username, inputUsername)
+        where {
+            it.id eq user.id
+        }
+    }
+
+    database.update(Users) {
+        set(it.firstName, inputFirstname)
+        where {
+            it.id eq user.id
+        }
+    }
+
+    database.update(Users) {
+        set(it.lastName, inputLastname)
+        where {
+            it.id eq user.id
+        }
+    }
+
+    database.update(Posts) {
+        set(it.authorName, inputUsername)
+        where {
+            it.userId eq user.id
+        }
+    }
+
+    return Response(Status.SEE_OTHER)
+        .header("Location", "/")
+        .body("")
 }
