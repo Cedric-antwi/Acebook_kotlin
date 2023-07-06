@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 fun viewAllComments(contexts: RequestContexts, request: Request, id: Int): Response {
     val getAllComments = database.sequenceOf(Comments)
         .filter { it.postId eq id }
-        .toList()
+        .sortedBy { it.dateCreated }.toList().reversed()
     println("COMMENTS")
     println(getAllComments)
 
@@ -69,17 +69,18 @@ fun likeComments(contexts: RequestContexts, request: Request, id: Int): Response
     val getCurrentComment = database.sequenceOf(Comments)
         .filter { it.id eq id }
         .toList()
-
     val comment = getCurrentComment[0]
+
     val currentUser: User? = contexts[request]["user"]
     val currentLikes = comment.commentsLikeCount
     val getLikesOnComments = if (currentUser!=null) {
         database.sequenceOf(Likes)
-            .filter { (it.commentId eq comment.id) and (it.userId eq currentUser.id) }
+            .filter { (it.commentId eq comment.id) and (it.userId eq currentUser.id) and (it.postId eq comment.postId) }
             .firstOrNull()
     }else{
         null
     }
+
     if(getLikesOnComments == null){
         database.update(Comments)
         {
@@ -93,11 +94,16 @@ fun likeComments(contexts: RequestContexts, request: Request, id: Int): Response
                 userId = currentUser.id
             }
             commentId =comment.id
+            postId = comment.postId
         }
-
         database.sequenceOf(Likes).add(newLike)
     }
-    return Response(Status.SEE_OTHER)
+
+    return currentUser?.let {
+        Response(Status.SEE_OTHER)
+            .header("Location", "/posts/${comment.postId}")
+            .body("")
+    } ?: Response(Status.SEE_OTHER)
         .header("Location", "/")
         .body("")
 }
