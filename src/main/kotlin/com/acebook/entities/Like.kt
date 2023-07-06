@@ -8,4 +8,5 @@ interface Like : Entity<Like> {
     val id: Int
     var userId: Int
     var postId: Int
+    var commentId: Int
 }

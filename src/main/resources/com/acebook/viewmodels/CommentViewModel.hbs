@@ -27,6 +27,11 @@
             <br>
             <small>posted: {{dateCreated}}</small>
             <hr>
+            {{#if currentUser}}
+                <form class="button-styling" method="POST" action="/comment-like/{{id}}">
+                    <input type="submit" value="like">
+                </form>
+            {{/if}}
         {{/each}}
         </div>
 </body>

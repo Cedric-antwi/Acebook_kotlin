@@ -2,19 +2,20 @@ package com.acebook.handlers
 
 import com.acebook.*
 import com.acebook.entities.Comment
+import com.acebook.entities.Like
 import com.acebook.entities.Post
 import com.acebook.entities.User
 import com.acebook.requiredContentLens
 import com.acebook.schemas.Comments
+import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
 import com.acebook.viewmodels.CommentViewModel
 import com.acebook.viewmodels.FeedViewModel
 import org.http4k.core.*
+import org.ktorm.dsl.and
 import org.ktorm.dsl.eq
-import org.ktorm.entity.add
-import org.ktorm.entity.filter
-import org.ktorm.entity.sequenceOf
-import org.ktorm.entity.toList
+import org.ktorm.dsl.update
+import org.ktorm.entity.*
 import java.time.LocalDateTime
 
 fun viewAllComments(contexts: RequestContexts, request: Request, id: Int): Response {
@@ -60,5 +61,43 @@ fun addNewcomment(contexts: RequestContexts, request: Request, id: Int): Respons
 
     return Response(Status.SEE_OTHER)
         .header("Location", "/posts/$id")
+        .body("")
+}
+
+// Function for counting the likes on the comments
+fun likeComments(contexts: RequestContexts, request: Request, id: Int): Response {
+    val getCurrentComment = database.sequenceOf(Comments)
+        .filter { it.id eq id }
+        .toList()
+
+    val comment = getCurrentComment[0]
+    val currentUser: User? = contexts[request]["user"]
+    val currentLikes = comment.commentsLikeCount
+    val getLikesOnComments = if (currentUser!=null) {
+        database.sequenceOf(Likes)
+            .filter { (it.commentId eq comment.id) and (it.userId eq currentUser.id) }
+            .firstOrNull()
+    }else{
+        null
+    }
+    if(getLikesOnComments == null){
+        database.update(Comments)
+        {
+            set(it.commentsLikeCount, (currentLikes + 1))
+            where {
+                it.id eq id
+            }
+        }
+        val newLike =Like{
+            if (currentUser != null) {
+                userId = currentUser.id
+            }
+            commentId =comment.id
+        }
+
+        database.sequenceOf(Likes).add(newLike)
+    }
+    return Response(Status.SEE_OTHER)
+        .header("Location", "/")
         .body("")
 }

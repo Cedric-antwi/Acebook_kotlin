@@ -48,6 +48,25 @@ CREATE TABLE posts (
             REFERENCES users(id),
     PRIMARY KEY (id)
 );
+
+CREATE TABLE comments(
+    id INT GENERATED ALWAYS AS IDENTITY,
+    comment_body text,
+    date_Created TIMESTAMP,
+    author_name text,
+    comments_like_count INT DEFAULT 0,
+    user_id int4,
+           CONSTRAINT fk_user
+              FOREIGN KEY(user_id)
+                REFERENCES users(id),
+    post_id int4,
+           CONSTRAINT fk_post
+              FOREIGN KEY(post_id)
+                REFERENCES posts(id),
+    PRIMARY KEY (id)
+
+);
+
 CREATE TABLE likes(
     id INT GENERATED ALWAYS AS IDENTITY,
     user_id int4,
@@ -57,21 +76,11 @@ CREATE TABLE likes(
     post_id int4,
            CONSTRAINT fk_post
               FOREIGN KEY(post_id)
-                REFERENCES posts(id)
-);
-CREATE TABLE comments(
-    id INT GENERATED ALWAYS AS IDENTITY,
-    comment_body text,
-    date_Created TIMESTAMP,
-    author_name text,
-    user_id int4,
-           CONSTRAINT fk_user
-              FOREIGN KEY(user_id)
-                REFERENCES users(id),
-    post_id int4,
-           CONSTRAINT fk_post
-              FOREIGN KEY(post_id)
-                REFERENCES posts(id)
+                REFERENCES posts(id),
+     comment_id int4,
+               CONSTRAINT fk_comment
+                  FOREIGN KEY(comment_id)
+                    REFERENCES comments(id)
 );
 INSERT INTO users (email, encrypted_password)
 VALUES
@@ -84,13 +93,7 @@ VALUES
     ('Post 1 content',  TIMESTAMP'2023-07-01 12:34:56','user1@example.com', 1),
     ('Post 2 content',  TIMESTAMP'2023-07-02 10:11:12','user2@example.com', 2),
     ('Post 3 content',  TIMESTAMP'2023-07-03 08:22:33','user3@example.com', 3);
--- Insert random data into the "likes" table
-INSERT INTO likes (user_id, post_id)
-VALUES
-  (1, 1),
-  (2, 1),
-  (2, 3),
-  (3, 2);
+
 -- Insert random data into the "comments" table
 INSERT INTO comments (comment_body, date_Created, author_name, user_id, post_id)
 VALUES
@@ -98,3 +101,11 @@ VALUES
     ('Comment 2',  TIMESTAMP'2023-07-01 13:15:30','user2@example.com', 2, 1),
     ('Comment 3',  TIMESTAMP'2023-07-03 09:00:45','user3@example.com', 2, 3),
     ('Comment 4',  TIMESTAMP '2023-07-02 16:30:15','user3@example.com', 3, 2);
+
+-- Insert random data into the "likes" table
+INSERT INTO likes (user_id, post_id, comment_id)
+VALUES
+    (1, 1, 2),
+    (2, 1, 1),
+    (2, 3, 2),
+    (3, 2, 1);
