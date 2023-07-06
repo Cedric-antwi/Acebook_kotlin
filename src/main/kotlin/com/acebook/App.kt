@@ -125,6 +125,13 @@ fun app(contexts: RequestContexts) = routes(
             addNewcomment(contexts, request, id )
         },
     ),
+   "/comment-like" bind routes(
+       "/{id}" bind Method.POST to{request: Request ->
+           val idParamLens = Path.int().of ( "id")
+           val id =idParamLens(request)
+           likeComments(contexts, request, id )
+       },
+    ),
 
     "/settings" bind routes(
         "/editprofile" bind Method.GET to viewProfile(contexts),
