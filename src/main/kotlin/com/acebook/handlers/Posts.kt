@@ -48,7 +48,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = {request: Request ->
             userId = currentUser.id
         }
         if (currentUser != null) {
-            authorName = currentUser.email
+            authorName = currentUser.username
         }
 
 

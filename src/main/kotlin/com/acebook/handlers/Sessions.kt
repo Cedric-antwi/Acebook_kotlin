@@ -113,7 +113,7 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/cau4611/Desktop/MakersCode/acebook-kotlin-http4k-template/src/main/resources/static"
+        val uploadDirectory = "/Users/mou4587/Acebook_kotlin/src/main/resources/static"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)
@@ -146,14 +146,13 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
 fun editInfo(contexts: RequestContexts, request: Request, id: Int): Response {
     val form = requiredEditProfileLens(request)
     val inputUsername = requiredUsernameField(form)
-//    val inputFirstname = requiredFirstnameField(form)
-//    val inputLastname = requiredLastnameField(form)
+    val inputFirstname = requiredFirstnameField(form)
+    val inputLastname = requiredLastnameField(form)
     val getCurrentUser = database.sequenceOf(Users)
         .filter { it.id eq id }
         .toList()
     val user = getCurrentUser[0]
     println("HERE $user")
-
 
     database.update(Users) {
         set(it.username, inputUsername)
@@ -161,6 +160,28 @@ fun editInfo(contexts: RequestContexts, request: Request, id: Int): Response {
             it.id eq user.id
         }
     }
+
+    database.update(Users) {
+        set(it.firstName, inputFirstname)
+        where {
+            it.id eq user.id
+        }
+    }
+
+    database.update(Users) {
+        set(it.lastName, inputLastname)
+        where {
+            it.id eq user.id
+        }
+    }
+
+    database.update(Posts) {
+        set(it.authorName, inputUsername)
+        where {
+            it.id eq user.id
+        }
+    }
+
     return Response(Status.SEE_OTHER)
         .header("Location", "/")
         .body("")

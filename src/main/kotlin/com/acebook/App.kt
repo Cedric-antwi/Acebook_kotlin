@@ -37,12 +37,16 @@ val requiredLoginCredentialsLens = Body.webForm(
 val requiredSignupFormLens = Body.webForm(
     Validator.Strict,
     requiredEmailField,
-    requiredPasswordField
+    requiredPasswordField,
+    requiredFirstnameField,
+    requiredLastnameField
 ).toLens()
 
 val requiredEditProfileLens = Body.webForm(
     Validator.Strict,
-    requiredUsernameField
+    requiredUsernameField,
+    requiredFirstnameField,
+    requiredLastnameField
 ).toLens()
 
 val requiredPostContent = FormField.nonEmptyString().required("content")
