@@ -10,5 +10,5 @@ import org.ktorm.schema.text
 object Likes: Table<Like>("likes") {
     val id = int("id").primaryKey().bindTo { it.id }
     val userId = int("user_id").bindTo { it.userId }
-    val postId = int("user_id").bindTo { it.postId }
+    val postId = int("post_id").bindTo { it.postId }
 }

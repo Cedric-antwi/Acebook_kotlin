@@ -2,7 +2,9 @@ package com.acebook.handlers
 
 import com.acebook.*
 import com.acebook.entities.User
+import com.acebook.schemas.Posts
 import com.acebook.schemas.Users
+import com.acebook.viewmodels.FeedViewModel
 import com.acebook.viewmodels.LoginViewModel
 import com.acebook.viewmodels.PostViewModel
 import com.acebook.viewmodels.ProfileSettingsViewModel
@@ -11,11 +13,28 @@ import org.http4k.core.cookie.Cookie
 import org.http4k.core.cookie.cookie
 import org.http4k.core.cookie.removeCookie
 import org.ktorm.dsl.eq
+import org.ktorm.dsl.update
 import org.ktorm.entity.filter
 import org.ktorm.entity.first
 import org.ktorm.entity.sequenceOf
+import org.ktorm.entity.toList
 import org.mindrot.jbcrypt.BCrypt
+import java.io.File
 import java.util.*
+//import org.http4k.client.ApacheClient
+import org.http4k.core.Body
+import org.http4k.core.ContentType
+import org.http4k.core.Method.POST
+import org.http4k.core.MultipartFormBody
+import org.http4k.core.Request
+import org.http4k.core.Response
+import org.http4k.core.Status.Companion.OK
+import org.http4k.lens.MultipartFormFile
+import org.http4k.server.SunHttp
+import org.http4k.server.asServer
+import org.ktorm.dsl.update
+import org.ktorm.entity.toList
+import java.util.UUID
 
 fun newSessionHandler(): HttpHandler = {
     val viewModel = LoginViewModel("", "")
@@ -83,11 +102,46 @@ fun viewProfile(contexts: RequestContexts):  HttpHandler = { request: Request ->
         .body(templateRenderer(viewModel))
 }
 
-fun updateProfile():  HttpHandler = { request: Request ->
-    val form = requiredProfileFormLens(request)
-    val newPicture = requiredPictureField(form)
-    println("image here $newPicture")
-    Response(Status.SEE_OTHER)
-        .header("Location", "/")
-        .body("")
+
+fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request ->
+    val receivedForm = MultipartFormBody.from(request)
+    val file = receivedForm.file("picture")
+    val filename = file?.filename
+    val contentType = file?.contentType
+    val inputStream = file?.content
+    if (filename != null && contentType != null && inputStream != null) {
+        // Generate a unique filename using UUID
+        val uniqueFilename = UUID.randomUUID().toString()
+        val extension = filename.substringAfterLast(".", "")
+        val savedFilename = "$uniqueFilename.$extension"
+
+        // Specify the directory where the pictures will be saved
+        val uploadDirectory = "path/"
+
+        // Save the picture to the upload directory
+        val savedFile = File(uploadDirectory, savedFilename)
+        inputStream.use { input ->
+            savedFile.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+        val pictureLink = "/static/$savedFilename"
+        val currentUser: User? = contexts[request]["user"]
+        database.update(Users) {
+            set(it.image, pictureLink)
+            if (currentUser != null) {
+                where {
+                    it.id eq currentUser.id
+                }
+            }
+        }
+
+        Response(Status.SEE_OTHER)
+            .header("Location", "/")
+            .body("")
+
+    } else {
+        Response(Status.BAD_REQUEST).body("No picture uploaded")
+    }
+
 }

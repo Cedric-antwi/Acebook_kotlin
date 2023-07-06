@@ -51,6 +51,9 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     testImplementation "org.http4k:http4k-bom:${http4kVersion}"
     testImplementation "org.http4k:http4k-testing-hamkrest"
+    implementation(platform("org.http4k:http4k-bom:5.2.1.0"))
+    implementation("org.http4k:http4k-core")
+    implementation("org.http4k:http4k-multipart")
 
 }
 
