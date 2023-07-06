@@ -178,7 +178,7 @@ fun editInfo(contexts: RequestContexts, request: Request, id: Int): Response {
     database.update(Posts) {
         set(it.authorName, inputUsername)
         where {
-            it.id eq user.id
+            it.userId eq user.id
         }
     }
 
