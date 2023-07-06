@@ -1,14 +1,64 @@
 {{#> layout}}
 {{#*inline "content"}}
+    <div style="text-align: center; margin-top: 50px;">
+        <div>
+            <h1 id="header" style="font-family: 'Your Handwritten Font', cursive; animation: blink 2s infinite;"></h1>
+            <h2 style="font-family: 'Your Handwritten Font', cursive;">Add your Post</h2>
+        </div>
 
-<h1>Add a new post</h1>
+        <div style="margin-top: 30px;">
+            <form method="POST" action="/posts">
+                Content: <br />
+                <textarea name="content" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 400px; height: 200px; resize: none;"></textarea>
 
-<form method="POST" action="/posts">
-    Content: <br />
-    <textarea name="content"></textarea>
+                <br /><br />
 
-    <input type="submit" id="submit" />
-</form>
+                <label for="emoji">Choose an emoji:</label>
+                <select name="emoji" id="emoji" onchange="addEmojiToContent()" style="margin-top: 10px;">
+                    <option value="😊">😊</option>
+                    <option value="🎉">🎉</option>
+                    <option value="🌟">🌟</option>
+                    <option value="❤️">❤️</option>
+                    <!-- Additional emojis -->
+                    <option value="🔥">🔥</option>
+                    <option value="🍕">🍕</option>
+                    <option value="🎶">🎶</option>
+                    <option value="🌈">🌈</option>
+                    <!-- Flags -->
+                    <option value="🇧🇷">🇧🇷 Brazil Flag</option>
+                    <option value="🇪🇬">🇪🇬 Egyptian Flag</option>
+                    <option value="🇬🇧">🇬🇧 English Flag</option>
+                    <option value="🇩🇪">🇩🇪 German Flag</option>
+                    <!-- Add more emojis and flags here -->
+                </select>
+
+                <br /><br />
+
+                <input type="submit" id="submit" value="Add your post" style="background-color: blue; color: white; border: none; border-radius: 10px; padding: 10px 20px; font-family: 'Your Handwritten Font', cursive; font-size: 16px;">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function addEmojiToContent() {
+            var emojiSelect = document.getElementById('emoji');
+            var contentTextarea = document.getElementById('content');
+            var selectedEmoji = emojiSelect.value;
+            contentTextarea.value += selectedEmoji;
+        }
+
+        var heading = document.getElementById('header');
+        var emojis = ['😊', '🇧🇷', '🇬🇧', '🇪🇬', '🇩🇪']; // Array of smiley faces and flags
+        var currentIndex = 0;
+
+        setInterval(function() {
+            var currentEmoji = emojis[currentIndex];
+            heading.innerText = currentEmoji;
+            currentIndex = (currentIndex + 1) % emojis.length;
+        }, 300);
+    </script>
+
+
 
 {{/inline}}
 {{/layout}}
