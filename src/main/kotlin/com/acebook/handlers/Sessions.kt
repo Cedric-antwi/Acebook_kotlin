@@ -113,7 +113,7 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/vcu4806/IdeaProjects/Acebook_kotlin/src/main/resources/static"
+        val uploadDirectory = "/Users/mmu4265/KotlinStuff/ace_kotlin/src/main/resources/static/"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)
@@ -134,7 +134,7 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         }
 
         Response(Status.SEE_OTHER)
-            .header("Location", "/")
+            .header("Location", "/settings/editprofile")
             .body("")
 
     } else {
@@ -183,6 +183,6 @@ fun editInfo(contexts: RequestContexts, request: Request, id: Int): Response {
     }
 
     return Response(Status.SEE_OTHER)
-        .header("Location", "/")
+        .header("Location", "/settings/editprofile")
         .body("")
 }

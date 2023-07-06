@@ -3,40 +3,41 @@
 <!DOCTYPE html>
 <html>
 <body>
-        <h1>Add a new comment</h1>
-
-
-
-        <h1>{{currentPost.content}}</h1>
+<div style="margin:10px">
+        <h3 style="padding-left: 20px">Add a new comment</h3>
+        <h6 style="display:flex; flex-direction: column; margin-right: 50px; margin-left: 50px" align="justify">{{currentPost.content}}</h6>
         {{#if currentUser}}
-            <form method="POST" action="/posts/add/{{currentPost.id}}">
-                Content: <br />
-                <textarea name="comment"></textarea>
+            <div style="display:flex; flex-direction: column">
+            <form method="POST" action="/posts/add/{{currentPost.id}}" style="display:flex; flex-direction: column; padding-bottom:20px; margin-left: 50px; margin-top: 10px">
+                Comment: <br />
+                <textarea  style="margin-bottom: 10px; height: 150px; width:400px" name="comment"></textarea>
 
-                <input type="submit" id="submit" />
+                <input type="submit" id="submit" style="height: 30px; width:100px"/>
             </form>
+            </div>
+
         {{/if}}
-        <hr>
-        <hr>
-        <div id="comment-section">
-            <h3>Comments</h3>
+
+        <div id="comment-section" style="display:flex; flex-direction: column" align="justify">
+            <h3 style="padding-left:20px; margin: 0px">Comments</h3>
 
         {{#each comment}}
-            <p>{{commentBody}}</p>
-            <smal>By {{authorName}}</smal>
-            <br>
-            <small>posted: {{dateCreated}}</small>
-            <hr>
-            <smal>{{commentsLikeCount}} Likes</smal>
+            <p style="margin-left: 20px; width:800px">{{commentBody}}</p>
+            <smal style="margin-left: 20px">By {{authorName}}</smal>
+            <small style="margin-left: 20px">posted: {{dateCreated}}</small>
+        <br>
+            <smal style="margin-left: 20px">{{commentsLikeCount}} Likes</smal>
             {{#if currentUser}}
-                <form class="button-styling" method="POST" action="/comment-like/{{id}}">
-                    <input type="submit" value="like">
+                <form style="margin-left: 20px" class="button-styling" method="POST" action="/comment-like/{{id}}">
+                    <input style="color:red" type="submit" value="❤">
                 </form>
             {{/if}}
         {{/each}}
         </div>
+    </div>
+
 </body>
-<html>
+</html>
 
     {{/inline}}
 {{/layout}}
