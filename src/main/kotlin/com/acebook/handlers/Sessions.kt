@@ -134,7 +134,7 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         }
 
         Response(Status.SEE_OTHER)
-            .header("Location", "/")
+            .header("Location", "/settings/editprofile")
             .body("")
 
     } else {
