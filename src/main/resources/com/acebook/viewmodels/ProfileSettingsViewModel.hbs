@@ -5,21 +5,65 @@
 
 </div>
 
-<h1>Hi {{currentUser.firstName}} {{currentUser.lastName}}</h1>
+<h1 style="
+display:flex;
+flex-direction:column;
+align-content:center;
+flex-wrap:wrap;
+align-items:center" >Hello {{currentUser.firstName}} {{currentUser.lastName}}, you can edit your settings here.
+</h1>
 
-<form method="POST" action="/settings" enctype="multipart/form-data">
-    <input name="picture" type="file" />
-    <input type="submit">
-</form><br>
+<div style="
+display:flex;
+flex-direction:column;
+align-content:center;
+flex-wrap:wrap;
+align-items:stretch">
 
-<form method="POST" action="/settings/editinfo/{{currentUser.id}}">
+<form method="POST" action="/settings/editinfo/{{currentUser.id}}" style="
+flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    text-align: center;
+    border-style: solid;
+    border-width: unset;
+    border-color: gray;
+    align-items: center;
+    padding: 10px 30px 10px 30px;
+    background: aliceblue;">
+    <p>Enter new username</p>
     <input type="text" name="username" placeholder="username">
+    <p>Enter new first name</p>
     <input type="text" name="firstname" placeholder="firstname">
+    <p>Enter new last name</p>
     <input type="text" name="lastname" placeholder="lastname">
-
+    <br>
+    <br>
     <input type="submit">
-</form><br>
+</form>
 
+    <br>
+
+<form method="POST" action="/settings" enctype="multipart/form-data"  style="
+flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    text-align: center;
+    border-style: solid;
+    border-width: unset;
+    border-color: gray;
+    align-items: center;
+    padding: 10px 30px 10px 30px;
+    background: aliceblue;">
+    <h5>upload a new profile picture here</h5>
+    <p class="w3-center"><img src="{{currentUser.image}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+    <input name="picture" type="file" />
+    <br>
+    <input type="submit" value="upload">
+</form><br>
+</div>
 
 
 {{/inline}}
