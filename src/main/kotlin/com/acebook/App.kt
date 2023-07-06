@@ -17,6 +17,7 @@ import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.find
 import org.ktorm.entity.sequenceOf
+import java.text.Normalizer.Form
 
 // http4k has the concept of "lens" which acts
 // as a validator for certain fields in the incoming HTTP request.
@@ -25,6 +26,9 @@ import org.ktorm.entity.sequenceOf
 
 val requiredEmailField = FormField.nonEmptyString().required("email")
 val requiredPasswordField = FormField.nonEmptyString().required("password")
+val requiredUsernameField = FormField.nonEmptyString().required("username")
+val requiredFirstnameField = FormField.nonEmptyString().required("firstname")
+val requiredLastnameField = FormField.nonEmptyString().required("lastname")
 val requiredLoginCredentialsLens = Body.webForm(
     Validator.Strict,
     requiredEmailField,
@@ -34,6 +38,11 @@ val requiredSignupFormLens = Body.webForm(
     Validator.Strict,
     requiredEmailField,
     requiredPasswordField
+).toLens()
+
+val requiredEditProfileLens = Body.webForm(
+    Validator.Strict,
+    requiredUsernameField
 ).toLens()
 
 val requiredPostContent = FormField.nonEmptyString().required("content")
@@ -128,14 +137,19 @@ fun app(contexts: RequestContexts) = routes(
 
     "/settings" bind routes(
         "/editprofile" bind Method.GET to viewProfile(contexts),
-        "/" bind Method.POST to updateProfile(contexts)
+        "/" bind Method.POST to updateProfile(contexts),
+        "/editinfo/{id}" bind Method.POST to { request: Request ->
+            val idParamLens = Path.int().of("id")
+            val id = idParamLens(request)
+            editInfo(contexts, request, id)
+        }
     ),
 
     "/static" bind static(ResourceLoader.Directory("src/main/resources/static"))
 )
 
 fun failResponse (failure: LensFailure) =
-    Response(Status.BAD_REQUEST).body("Invalid parameters")
+    Response(Status.BAD_REQUEST).body("Invalid parameters 1")
 
 fun appHttpHandler(contexts: RequestContexts): HttpHandler =
     ServerFilters.InitialiseRequestContext(contexts)

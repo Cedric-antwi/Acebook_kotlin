@@ -10,7 +10,17 @@
 <form method="POST" action="/settings" enctype="multipart/form-data">
     <input name="picture" type="file" />
     <input type="submit">
-</form>
+</form><br>
+
+<form method="POST" action="/settings/editinfo/{{currentUser.id}}">
+    <input type="text" name="username" placeholder="username">
+    <input type="text" name="firstname" placeholder="firstname">
+    <input type="text" name="lastname" placeholder="lastname">
+
+    <input type="submit">
+</form><br>
+
+
 
 {{/inline}}
 {{/layout}}
