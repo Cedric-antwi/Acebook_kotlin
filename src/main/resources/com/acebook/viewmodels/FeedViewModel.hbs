@@ -1,21 +1,18 @@
 {{#> layout}}
 {{#*inline "content"}}
 
-
-
 <div class="navbar-links">
-
 </div>
-<div class="intro">
-    {{# if currentUser}}
-        <h1>Welcome to Acebook {{currentUser.username}}</h1>
-    {{else}}
-    <h1>Welcome to Acebook</h1>
-    {{/if}}
-</div>
+<!--<div class="intro">-->
+<!--    { {# if currentUser}}-->
+<!--        <h1>Welcome to Acebook { {currentUser.username}}</h1>-->
+<!--    { {else}}-->
+<!--    <h1>Welcome to Acebook</h1>-->
+<!--    { {/if}}-->
+<!--</div>-->
 
+<!--<h3>Latest posts</h3>-->
 
-<h3>Latest posts</h3>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
     <!-- The Grid -->
@@ -26,8 +23,9 @@
             {{#if currentUser}}
             <div class="w3-card w3-round w3-white">
                 <div class="w3-container">
-                    <h4 class="w3-center">My Profile</h4>
+                    <h4 class="w3-center">Welcome</h4>
                     <p class="w3-center"><img src="{{currentUser.image}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+                    <h4 class="w3-center">{{currentUser.firstName}} {{currentUser.lastName}}</h4>
                     <hr>
                     <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
                     <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
@@ -102,36 +100,45 @@
         <!-- Middle Column -->
         <div class="w3-col m7">
 
-
             {{#each posts}}
                 <a href="/posts/{{id}}">
-                    <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-                        <span class="w3-right w3-opacity">Posted: {{dateCreated}}</span>
-                        <!-- User from database -->
+                    <div class="w3-row-padding">
+                        <div class="w3-card w3-round w3-white">
+                            <div class="w3-container w3-padding">
+                                <span class="w3-right w3-opacity">Posted: {{dateCreated}}</span>
 
-                        <h3>{{content}}</h3>
-                        <h5>{{likesCount}} likes</h5>
+                                <!-- User from database -->
+                                <h3>{{content}}</h3>
+                                <h5>{{likesCount}} likes</h5>
 
-                        {{#if currentUser}}
-                        <form class="button-styling" method="POST" action="/like/{{id}}">
-                            <input type="submit" value="like">
-                        </form>
-                        {{/if}}
-                        <hr class="w3-clear">
-                        <p>By: {{authorName}}</p><br>
-                        <div class="w3-row-padding" style="margin:0 -16px">
+                                {{#if currentUser}}
+                                    <form class="button-styling" method="POST" action="/like/{{id}}">
+                                        <input type="submit" value="like">
+                                    </form>
+                                {{/if}}
+                                <hr class="w3-clear">
+                                <p>By: {{authorName}}</p><br>
+                                <div class="w3-row-padding" style="margin:0 -16px">
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-                </a>
-        {{/each}}
+                </a><br>
+            {{/each}}
 
-            <!-- End Middle Column -->
+        <!-- End Middle Column -->
         </div>
 
         <!-- Right Column -->
         <div class="w3-col m2">
             <div class="w3-card w3-round w3-white w3-center">
+                <div class="w3-container">
+                    <p>Upcoming Events:</p>
+                    <img src="/w3images/forest.jpg" alt="Forest" style="width:100%;">
+                    <p><strong>Holiday</strong></p>
+                    <p>Friday 15:00</p>
+                    <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
+                </div>
             </div>
             <br>
 
@@ -152,6 +159,14 @@
             </div>
             <br>
 
+            <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
+                <p>ADS</p>
+            </div>
+            <br>
+
+            <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
+                <p><i class="fa fa-bug w3-xxlarge"></i></p>
+            </div>
 
             <!-- End Right Column -->
         </div>
