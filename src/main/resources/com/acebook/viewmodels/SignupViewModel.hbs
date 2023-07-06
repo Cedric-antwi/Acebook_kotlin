@@ -1,17 +1,69 @@
 {{#> layout}}
 {{#*inline "content"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    @keyframes mymove {
+  80% {font-size: 40px;}
+  30% {color: #0066b2 }
+}
+        .signup-form{
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            border: 2px solid darkgray;
+            border-radius: 8px;
+            padding: 28px;
+            margin: auto auto;
+            justify-content: space-around;
+            height: 450px;
+        }
+        .title {
+            text-align: center;
+            animation: mymove 15s infinite;
+        }
+        .title:hover {
+            color: #0066b2;
+            transition: 0.5s ease-out;
+        }
+        .container {
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            margin-top: 7%;
+        }
+        .input {
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        .input:hover {
+            border: 2px solid #0066b2 ;
+        }
+        .submit {
+            border-radius: 5px;
+            padding: 5px 10px;
+            align-self: center;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
 
-<h1>Sign up</h1>
+<div class="container">
+    <h1 class="title">Sign up to AceBook</h1><br><br>
 
-<form method="POST" action="/users">
-    First Name: <input type="text" id="firstname" name="firstname" >
-    Last Name: <input type="text" id="lastname" name="lastname" >
-    Username: <input type="text" id="username" name="username" >
-    Email: <input type="text" id="email" name="email" />
-    Password: <input type="password" id="password" name="password" />
+<form method="POST" action="/users" class="signup-form">
+    <input type="text" id="firstname" name="firstname" class="input" placeholder="First Name">
+    <input type="text" id="lastname" name="lastname" class="input" placeholder="Last Name" >
+    <input type="text" id="username" name="username" class="input" placeholder="Username">
+    <input type="text" id="email" name="email" class="input" placeholder="Email" />
+    <input type="password" id="password" name="password" class="input" placeholder="Password"/>
 
-    <input type="submit" id="submit" />
+    <input type="submit" id="submit" class="submit"/>
 </form>
-
+</div>
+</body>
+</html>
 {{/inline}}
 {{/layout}}
