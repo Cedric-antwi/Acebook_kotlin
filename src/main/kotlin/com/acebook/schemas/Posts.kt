@@ -1,6 +1,7 @@
 package com.acebook.schemas
 
 import com.acebook.entities.Post
+import com.acebook.schemas.Posts.bindTo
 import org.ktorm.schema.Table
 import org.ktorm.schema.datetime
 import org.ktorm.schema.int

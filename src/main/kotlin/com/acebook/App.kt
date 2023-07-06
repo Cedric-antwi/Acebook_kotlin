@@ -43,7 +43,7 @@ val requiredContentLens = Body.webForm(
     requiredPostContent
 ).toLens()
 
-val requiredPictureField= FormField.required("pictureField")
+val requiredPictureField= FormField.required("picture")
 
 val requiredProfileFormLens = Body.webForm(
     Validator.Strict,
@@ -128,12 +128,9 @@ fun app(contexts: RequestContexts) = routes(
 
     "/settings" bind routes(
         "/editprofile" bind Method.GET to viewProfile(contexts),
-        "/" bind Method.POST to updateProfile()
+        "/" bind Method.POST to updateProfile(contexts)
     ),
 
-    // Static assets routes for CSS and images, etc.
-    // For example, http://localhost:9000/static/main.css
-    // will serve the file src/main/resources/static/main.css
     "/static" bind static(ResourceLoader.Directory("src/main/resources/static"))
 )
 
