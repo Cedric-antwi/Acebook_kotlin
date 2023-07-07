@@ -5,6 +5,9 @@
 <body>
 <div style="margin:10px">
         <h3 style="padding-left: 20px">Add a new comment</h3>
+        <div style="text-align: center; padding-top: 20px">
+            <img style="width: 60%" class="image-post" src="{{currentPost.postImage}}">
+        </div>
         <h6 style="display:flex; flex-direction: column; margin-right: 50px; margin-left: 50px" align="justify">{{currentPost.content}}</h6>
         {{#if currentUser}}
             <div style="display:flex; flex-direction: column">
