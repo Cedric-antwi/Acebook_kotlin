@@ -12,9 +12,9 @@ DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS friends;
 DROP TABLE IF EXISTS requests;
+DROP TABLE IF EXISTS users CASCADE;
 
 
 
