@@ -101,23 +101,29 @@
         <div class="w3-col m7">
 
             {{#each posts}}
-                <a href="/posts/{{id}}">
+                <a style="text-decoration: none" href="/posts/{{id}}">
                     <div class="w3-row-padding">
                         <div class="w3-card w3-round w3-white">
                             <div class="w3-container w3-padding">
-                                <span class="w3-right w3-opacity">Posted: {{dateCreated}}</span>
 
                                 <!-- User from database -->
-                                <h3>{{content}}</h3>
-                                <h5>{{likesCount}} likes</h5>
+                                <div style="text-align: center; padding-top: 20px">
+                                    <img style="width: 40%" class="image-post" src="{{postImage}}">
+                                </div>
+
+                                <h4 style="text-decoration: none; text-align: justify">{{content}}</h4>
+
+                                <h5 >{{likesCount}} likes</h5>
 
                                 {{#if currentUser}}
                                     <form class="button-styling" method="POST" action="/like/{{id}}">
-                                        <input type="submit" value="like">
+                                        <input style="color:red" type="submit" value="❤">
                                     </form>
                                 {{/if}}
-                                <hr class="w3-clear">
+<!--                                <hr class="w3-clear">-->
                                 <p>By: {{authorName}}</p><br>
+                                <small style="text-align: center" class="w3-right w3-opacity">Posted: {{dateCreated}}</small>
+
                                 <div class="w3-row-padding" style="margin:0 -16px">
                                 </div>
                             </div>

@@ -11,5 +11,6 @@ interface Post : Entity<Post> {
     var dateCreated: LocalDateTime?
     var authorName:String
     var likesCount: Int
+    var postImage: String
 
 }
