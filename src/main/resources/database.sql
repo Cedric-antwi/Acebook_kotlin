@@ -42,6 +42,7 @@ CREATE TABLE posts (
     date_Created TIMESTAMP,
     author_name text,
     likes_count INT DEFAULT 0,
+    post_image varchar default NULL,
     user_id int4,
        CONSTRAINT fk_user
           FOREIGN KEY(user_id)
