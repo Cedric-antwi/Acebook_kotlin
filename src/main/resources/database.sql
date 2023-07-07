@@ -12,16 +12,31 @@ DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS friends;
+DROP TABLE IF EXISTS requests;
+
+
+
 -- Sequence and defined type
 DROP SEQUENCE IF EXISTS posts_id_seq;
 DROP SEQUENCE IF EXISTS likes_id_seq;
 DROP SEQUENCE IF EXISTS comments_id_seq;
 DROP SEQUENCE IF EXISTS users_id_seq;
+DROP SEQUENCE IF EXISTS friends_id_seq;
+DROP SEQUENCE IF EXISTS requests_id_seq;
+
+
+
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
 CREATE SEQUENCE IF NOT EXISTS posts_id_seq;
 CREATE SEQUENCE IF NOT EXISTS likes_id_seq;
 CREATE SEQUENCE IF NOT EXISTS comments_id_seq;
+CREATE SEQUENCE IF NOT EXISTS friends_id_seq;
+CREATE SEQUENCE IF NOT EXISTS requests_id_seq;
+
+
+
 -- Table Definition
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 -- Sequence and defined type
@@ -83,6 +98,37 @@ CREATE TABLE likes(
                   FOREIGN KEY(comment_id)
                     REFERENCES comments(id)
 );
+
+CREATE TABLE friends(
+    id INT GENERATED ALWAYS AS IDENTITY,
+    sender_id int4,
+                CONSTRAINT fk_request_sender
+                  FOREIGN KEY(sender_id)
+                    REFERENCES users(id),
+    receiver_id int4,
+              CONSTRAINT fk_request_receiver
+                  FOREIGN KEY(receiver_id)
+                    REFERENCES users(id),
+    friend_status boolean DEFAULT false
+);
+
+
+CREATE TABLE requests(
+    id INT GENERATED ALWAYS AS IDENTITY,
+    sender_id int4,
+        CONSTRAINT fk_user_sender
+              FOREIGN KEY(sender_id)
+                  REFERENCES users(id),
+    receiver_id int4,
+                CONSTRAINT fk_user_receiver
+                      FOREIGN KEY(receiver_id)
+                           REFERENCES users(id),
+    request_status boolean DEFAULT false,
+    PRIMARY KEY (id)
+);
+
+
+
 INSERT INTO users (email, encrypted_password)
 VALUES
   ('user1@example.com', 'password1'),

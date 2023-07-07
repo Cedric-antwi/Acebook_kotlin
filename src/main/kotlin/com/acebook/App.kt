@@ -1,5 +1,6 @@
 package com.acebook
 
+import com.acebook.entities.User
 import com.acebook.handlers.*
 import com.acebook.schemas.Users
 import io.github.reactivecircus.cache4k.Cache
@@ -13,11 +14,14 @@ import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.routing.static
 import org.http4k.template.HandlebarsTemplates
+import org.http4k.template.ViewModel
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.find
 import org.ktorm.entity.sequenceOf
+import org.ktorm.schema.Column
 import java.text.Normalizer.Form
+import com.acebook.viewmodels.ListUsersViewModel
 
 // http4k has the concept of "lens" which acts
 // as a validator for certain fields in the incoming HTTP request.
@@ -29,6 +33,14 @@ val requiredPasswordField = FormField.nonEmptyString().required("password")
 val requiredUsernameField = FormField.nonEmptyString().required("username")
 val requiredFirstnameField = FormField.nonEmptyString().required("firstname")
 val requiredLastnameField = FormField.nonEmptyString().required("lastname")
+
+//data class AllUsers(val firstName: Column<String> = Users.firstName)
+
+
+
+
+
+val requiredUserQuery = Query.required("")
 val requiredLoginCredentialsLens = Body.webForm(
     Validator.Strict,
     requiredEmailField,
@@ -48,6 +60,11 @@ val requiredEditProfileLens = Body.webForm(
     requiredFirstnameField,
     requiredLastnameField
 ).toLens()
+
+//val requiredUsersListLens = Body.(
+//    Validator.Strict,
+//
+//)
 
 val requiredPostContent = FormField.nonEmptyString().required("content")
 
@@ -154,6 +171,10 @@ fun app(contexts: RequestContexts) = routes(
             val id = idParamLens(request)
             editInfo(contexts, request, id)
         }
+    ),
+
+    "/friendslist" bind routes(
+        "/request" bind Method.GET to listUsers()
     ),
 
     "/static" bind static(ResourceLoader.Directory("src/main/resources/static"))
