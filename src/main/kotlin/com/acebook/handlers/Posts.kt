@@ -65,10 +65,11 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
             }
         }
 
+        val fileSize = savedFile.readBytes().size
+
+
         val pictureLink = "/static/$savedFilename"
         val currentUser: User? = contexts[request]["user"]
-
-
         val userPost = Post {
             content = text
             dateCreated = currentTime
@@ -78,12 +79,13 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
             if (currentUser != null) {
                 authorName = currentUser.email
             }
-            if (pictureFile != null){
+            if(fileSize == 0){
+                postImage = null
+            } else{
                 postImage = pictureLink
             }
-
-
         }
+
         val post = database.sequenceOf(Posts).add(userPost)
 
         Response(Status.SEE_OTHER)
