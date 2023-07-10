@@ -55,7 +55,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/cau4611/Desktop/MakersCode/acebook-kotlin-http4k-template/src/main/resources/static"
+        val uploadDirectory = "/Users/ssu4807/Projects/Acebook/Acebook_kotlin/src/main/resources/static"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)

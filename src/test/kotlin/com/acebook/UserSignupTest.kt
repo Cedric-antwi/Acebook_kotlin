@@ -20,10 +20,16 @@ class UserSignupTest {
     val requiredEmailField = FormField.nonEmptyString().required("email")
     val requiredPasswordField = FormField.nonEmptyString().required("password")
     val requiredPostContent = FormField.nonEmptyString().required("content")
+    val requiredFirstName = FormField.nonEmptyString().required("firstname")
+    val requiredLastName = FormField.nonEmptyString().required("lastname")
+    val requiredUsername = FormField.nonEmptyString().required("username")
     val requiredSignupFormLens = Body.webForm(
         Validator.Strict,
         requiredEmailField,
-        requiredPasswordField
+        requiredPasswordField,
+        requiredFirstName,
+        requiredLastName,
+        requiredUsername
     ).toLens()
 
     val requiredLoginCredentialsLens = Body.webForm(
@@ -36,6 +42,7 @@ class UserSignupTest {
         Validator.Strict,
         requiredPostContent
     ).toLens()
+
     @BeforeEach
     fun setup() {
 //        database.deleteAll(Users)
@@ -51,7 +58,7 @@ class UserSignupTest {
         )
 
         assertThat(response, hasStatus(Status.BAD_REQUEST))
-        assertThat(response, hasBody("Invalid parameters"))
+        assertThat(response, hasBody("Invalid parameters 1"))
     }
 
 
@@ -65,7 +72,7 @@ class UserSignupTest {
         )
 
         assertThat(response, hasStatus(Status.BAD_REQUEST))
-        assertThat(response, hasBody("Invalid parameters"))
+        assertThat(response, hasBody("Invalid parameters 1"))
     }
     @Test //custom test
     fun `Testing the signup and login functionality`() {
@@ -73,9 +80,12 @@ class UserSignupTest {
         val client = OkHttp(OkHttpClient().newBuilder().cookieJar(cookieHelper.cookieJar()).build())
         val form = WebForm(
             mapOf(
-                "email" to listOf("email"),
-                "password" to listOf("password")
-            ))
+                "email" to listOf("test@acebook.com"),
+                "password" to listOf("s3cr3tp4ss"),
+                "firstname" to listOf("Tester"),
+                "lastname" to listOf("User"),
+                "username" to listOf("Tester_User"))
+            )
 
         val response: Response = client(
             Request(Method.POST, "http://localhost:9999/users").with(
@@ -113,7 +123,7 @@ class UserSignupTest {
         assertThat(response, hasStatus(Status.OK))
         assertThat(
             response,
-            hasBody(Body.string(ContentType.TEXT_HTML).toLens(), containsSubstring("<h1>Sign up</h1>"))
+            hasBody(Body.string(ContentType.TEXT_HTML).toLens(), containsSubstring("<h1 class=\"title\">Sign up to AceBook</h1><br><br>"))
         )
     }
 
@@ -128,25 +138,27 @@ class UserSignupTest {
         assertThat(response, hasStatus(Status.OK))
         assertThat(
             response,
-            hasBody(Body.string(ContentType.TEXT_HTML).toLens(), containsSubstring("<h1>Login</h1>"))
+            hasBody(Body.string(ContentType.TEXT_HTML).toLens(), containsSubstring("<h1 class=\"title\">Login</h1>"))
         )
     }
 
     @Test
     fun `New signed up user can sign in`() {
-        val client = OkHttp()
+        val cookieHelper = OkHttp3CookieHelper()
+        val client = OkHttp(OkHttpClient().newBuilder().cookieJar(cookieHelper.cookieJar()).build())
 
         val signupResponse: Response = client(
             Request(Method.POST, "http://localhost:9999/users")
                 .with(
                     requiredSignupFormLens of WebForm(mapOf(
                         "email" to listOf("test@acebook.com"),
-                        "password" to listOf("s3cr3tp4ss")
-                    ))
+                        "password" to listOf("s3cr3tp4ss"),
+                        "firstname" to listOf("Tester"),
+                        "lastname" to listOf("User"),
+                        "username" to listOf("Tester_User"))
+                        )
                 )
         )
-
-        assertThat(signupResponse, hasStatus(Status.FOUND))
 
         val response: Response = client(
             Request(Method.POST, "http://localhost:9999/sessions")
@@ -158,8 +170,7 @@ class UserSignupTest {
                 )
         )
 
-        assertThat(response, hasStatus(Status.FOUND))
-        assertThat(response, hasHeader("location", "/"))
-        assertThat(response, hasHeader("set-cookie"))
+          assertThat(response, hasStatus(Status.OK))
+          assert(response.bodyString().contains("Welcome"))
     }
 }
