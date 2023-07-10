@@ -14,11 +14,32 @@ import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import org.ktorm.database.*
 import org.ktorm.dsl.*
+import org.ktorm.dsl.Query
 
 //import io.reactivex.Completable
 
 
 //fun createUserHandler(): HttpHandler = { request: Request ->
+
+fun queryHandleBar(contexts: RequestContexts, request: Request): String {
+    val currentUser: User? = contexts[request]["user"]
+    var print: String = ""
+    val query = if (currentUser != null) {
+
+        for (row in database
+            .from(Users)
+            .innerJoin(FriendRequests, on = Users.id eq FriendRequests.receiverId)
+            .select(Users.firstName, Users.lastName, Users.username)
+            .where { currentUser.id eq FriendRequests.receiverId })
+        {
+            val printRow = row[Users.username]
+            print = printRow.toString()
+        }
+    } else {
+        print = "Nothing"
+    }
+    return print
+}
 fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
 val currentUser: User? = contexts[request]["user"]
     val users = database.sequenceOf(Users).toList()
@@ -31,14 +52,8 @@ val currentUser: User? = contexts[request]["user"]
         null
     }
 
-    val query = database
-        .from(Users)
-        .leftJoin(FriendRequests, on = Users.id eq FriendRequests.receiverId )
-        .select(Users.firstName, Users.lastName, Users.username)
-
-    println("our query here $query")
-
-    val viewModel = ListUsersViewModel(users, pending)
+    val queryString = queryHandleBar(contexts, request)
+    val viewModel = ListUsersViewModel(users, pending, queryString)
     Response(Status.OK).body(templateRenderer(viewModel))
 }
 
