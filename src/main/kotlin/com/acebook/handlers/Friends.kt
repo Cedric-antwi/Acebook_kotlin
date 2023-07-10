@@ -32,13 +32,16 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): String {
             .select(Users.firstName, Users.lastName, Users.username)
             .where { currentUser.id eq FriendRequests.receiverId })
         {
+
             val printRow = row[Users.username]
             print = printRow.toString()
+            return print
         }
     } else {
         print = "Nothing"
+        return print
     }
-    return print
+    return query.toString()
 }
 fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
 val currentUser: User? = contexts[request]["user"]
