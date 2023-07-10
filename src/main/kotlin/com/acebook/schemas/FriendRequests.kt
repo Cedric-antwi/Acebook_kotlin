@@ -1,13 +1,11 @@
 package com.acebook.schemas
 
-import com.acebook.entities.Requests
-import com.acebook.schemas.Friends.bindTo
-import com.acebook.schemas.Friends.primaryKey
+import com.acebook.entities.FriendRequest
 import org.ktorm.schema.Table
 import org.ktorm.schema.boolean
 import org.ktorm.schema.int
 
-object Requests: Table<Requests>("requests") {
+object FriendRequests: Table<FriendRequest>("requests") {
     val id = int("id").primaryKey().bindTo { it.id }
     val senderId = int("sender_id").bindTo { it.senderId }
     val receiverId = int("receiver_id").bindTo { it.receiverId }

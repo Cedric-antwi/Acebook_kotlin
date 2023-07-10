@@ -61,10 +61,6 @@ val requiredEditProfileLens = Body.webForm(
     requiredLastnameField
 ).toLens()
 
-//val requiredUsersListLens = Body.(
-//    Validator.Strict,
-//
-//)
 
 val requiredPostContent = FormField.nonEmptyString().required("content")
 
@@ -174,7 +170,12 @@ fun app(contexts: RequestContexts) = routes(
     ),
 
     "/friendslist" bind routes(
-        "/request" bind Method.GET to listUsers()
+        "/request" bind Method.GET to listUsers(),
+        "/pending-friend/{id}" bind Method.GET to { request: Request ->
+            val idParamLens = Path.int().of("id")
+            val friendId = idParamLens(request)
+            friendRequest(contexts, request, friendId)
+        }
     ),
 
     "/static" bind static(ResourceLoader.Directory("src/main/resources/static"))

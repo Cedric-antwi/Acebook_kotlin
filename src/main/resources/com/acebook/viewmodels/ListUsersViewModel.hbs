@@ -1,8 +1,20 @@
 <html>
 <head></head>
 <body>
+<p>All Users</p>
 {{#each users}}
-    <p>{{email}}</p>
+<div class="w3-card w3-round w3-white w3-center">
+    <div class="w3-container">
+        <span>{{username}}</span> <br>
+        <span>{{firstName}} {{lastName}}</span>
+        <form action="/friendslist/pending-friend/{{id}}">
+            <input type="submit" value="Add friend">
+        </form>
+        </div>
+    </div>
+</div>
+<br>
 {{/each}}
+
 </body>
 </html>

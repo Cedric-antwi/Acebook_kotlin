@@ -2,10 +2,9 @@ package com.acebook.entities
 
 import org.ktorm.entity.Entity
 
-interface Friends : Entity<Friends> {
-    companion object : Entity.Factory<Friends>()
+interface Friend : Entity<Friend> {
+    companion object : Entity.Factory<Friend>()
     val id: Int
     val senderId: Int
     val receiverId: Int
-    val friendStatus: Boolean
 }

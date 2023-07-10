@@ -129,11 +129,11 @@ CREATE TABLE requests(
 
 
 
-INSERT INTO users (email, encrypted_password)
+INSERT INTO users (email, encrypted_password, first_name, last_name, username)
 VALUES
-  ('user1@example.com', 'password1'),
-  ('user2@example.com', 'password2'),
-  ('user3@example.com', 'password3');
+  ('user1@example.com', 'password1', 'John', 'Doe', 'JDog'),
+  ('user2@example.com', 'password2', 'Mary', 'Jane', 'MJ'),
+  ('user3@example.com', 'password3', 'Michael', 'Jackson', 'King of Pop');
 -- Insert random data into the "posts" table
 INSERT INTO posts (content,date_Created,author_name, user_id)
 VALUES
