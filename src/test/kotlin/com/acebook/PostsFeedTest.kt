@@ -76,8 +76,11 @@ class PostsFeedTest {
         val client = OkHttp(OkHttpClient().newBuilder().cookieJar(cookieHelper.cookieJar()).build())
         val form = WebForm(
             mapOf(
-                "email" to listOf("email"),
-                "password" to listOf("password")
+                "email" to listOf("test@acebook.com"),
+                "password" to listOf("s3cr3tp4ss"),
+                "firstname" to listOf("Tester"),
+                "lastname" to listOf("User"),
+                "username" to listOf("Tester_User")
             ))
 
         val response: Response = client(
