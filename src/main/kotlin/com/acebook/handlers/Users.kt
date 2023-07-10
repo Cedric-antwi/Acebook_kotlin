@@ -26,15 +26,27 @@ fun createUserHandler(): HttpHandler = { request: Request ->
     val inputUsername = requiredUsernameField(form)
     val inputFirstname = requiredFirstnameField(form)
     val inputLastname = requiredLastnameField(form)
-    val newUser = User {
-        username = inputUsername
-        email = inputEmail
-        encryptedPassword = BCrypt.hashpw(inputPassword, BCrypt.gensalt())
-        lastName = inputLastname
-        firstName = inputFirstname
+
+     if (inputPassword.length < 8 ){
+        val renderer = HandlebarsTemplates().HotReload("src/main/resources")
+        val viewModel = SignupViewModel("", "", errorMessage = true)
+
+        Response(Status.OK).body(renderer(viewModel))
+
+    }else{
+        val newUser = User {
+            username = inputUsername
+            email = inputEmail
+            encryptedPassword = BCrypt.hashpw(inputPassword, BCrypt.gensalt())
+            lastName = inputLastname
+            firstName = inputFirstname
+        }
+
+        database.sequenceOf(Users).add(newUser)
+
+        Response(Status.FOUND).header("Location", "/sessions/new")
+    }
     }
 
-    database.sequenceOf(Users).add(newUser)
 
-    Response(Status.FOUND).header("Location", "/sessions/new")
-}
+

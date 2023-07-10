@@ -52,13 +52,19 @@
 
 <div class="container">
     <h1 class="title">Sign up to AceBook</h1><br><br>
+    {{#if errorMessage}}
+        <div style="text-align: center; color: red; font-weight: bold">
+            <p> Short Password try again </p>
+
+        </div>
+    {{/if}}
 
 <form method="POST" action="/users" class="signup-form">
-    <input type="text" id="firstname" name="firstname" class="input" placeholder="First Name">
-    <input type="text" id="lastname" name="lastname" class="input" placeholder="Last Name" >
-    <input type="text" id="username" name="username" class="input" placeholder="Username">
-    <input type="text" id="email" name="email" class="input" placeholder="Email" />
-    <input type="password" id="password" name="password" class="input" placeholder="Password"/>
+    <input  required type="text" id="firstname" name="firstname" class="input" placeholder="First Name">
+    <input  required type="text" id="lastname" name="lastname" class="input" placeholder="Last Name" >
+    <input required type="text" id="username" name="username" class="input" placeholder="Username">
+    <input  required type="email" id="email" name="email" class="input" placeholder="Email" />
+    <input required type="password" id="password" name="password" class="input" placeholder="Password"/>
 
     <input type="submit" id="submit" class="submit"/>
 </form>
