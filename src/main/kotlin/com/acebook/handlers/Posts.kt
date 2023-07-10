@@ -75,14 +75,14 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
             dateCreated = currentTime
             if (currentUser != null) {
                 userId = currentUser.id
+                authorName = currentUser.username
+                authorImage = currentUser.image
             }
-            if (currentUser != null) {
-                authorName = currentUser.email
-            }
-            if(fileSize == 0){
-                postImage = null
+
+            postImage = if(fileSize == 0){
+                null
             } else{
-                postImage = pictureLink
+                pictureLink
             }
         }
 

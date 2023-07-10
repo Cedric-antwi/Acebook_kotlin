@@ -52,10 +52,10 @@ fun addNewcomment(contexts: RequestContexts, request: Request, id: Int): Respons
             postId = id
             if (currentUser != null) {
                 userId = currentUser.id
-            }
-            if (currentUser != null) {
                 authorName = currentUser.username
+                authorImage=currentUser.image
             }
+
         }
     database.sequenceOf(Comments).add(userComment)
 

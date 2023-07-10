@@ -11,6 +11,7 @@ interface Comment : Entity<Comment> {
     var postId: Int
     var dateCreated: LocalDateTime?
     var authorName:String
+    var authorImage: String
     var commentsLikeCount: Int
 
 }
