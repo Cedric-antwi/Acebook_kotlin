@@ -170,7 +170,7 @@ fun app(contexts: RequestContexts) = routes(
     ),
 
     "/friendslist" bind routes(
-        "/request" bind Method.GET to listUsers(),
+        "/request" bind Method.GET to listUsers(contexts),
         "/pending-friend/{id}" bind Method.GET to { request: Request ->
             val idParamLens = Path.int().of("id")
             val friendId = idParamLens(request)
