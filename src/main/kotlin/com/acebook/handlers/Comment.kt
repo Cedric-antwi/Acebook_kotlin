@@ -54,7 +54,7 @@ fun addNewcomment(contexts: RequestContexts, request: Request, id: Int): Respons
                 userId = currentUser.id
             }
             if (currentUser != null) {
-                authorName = currentUser.email
+                authorName = currentUser.username
             }
         }
     database.sequenceOf(Comments).add(userComment)
