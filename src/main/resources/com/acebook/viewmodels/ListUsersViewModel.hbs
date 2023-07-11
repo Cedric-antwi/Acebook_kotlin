@@ -2,13 +2,18 @@
 <head></head>
 <body>
 <h1>All Users</h1>
-<h3>pending requests</h3>
-{{#each pending}}
-<p>{{pending}}</p><br>
-<p>{{query}}</p>
-{{/each}}
+<h2>pending requests</h2>
+    {{#each pendingReq}}
+        <form method="get" action="">
+            <p>New friend Request from {{firstName}}, {{lastName}}: Username ~ {{username}}</p>
+            <input type="submit" value="Accept Request">
+            <button type="submit" formaction="">Delete</button>
+        </form>
+    {{/each}}
 
+<hr>
 
+<h2>Others who use Acebook...</h2>
 {{#each users}}
 <div class="w3-card w3-round w3-white w3-center">
     <div class="w3-container">

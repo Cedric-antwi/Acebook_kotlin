@@ -1,11 +1,13 @@
 package com.acebook.handlers
 
 import com.acebook.*
+import com.acebook.entities.Comment.Companion.invoke
 import com.acebook.entities.FriendRequest
 import com.acebook.entities.User
 import com.acebook.schemas.FriendRequests
 import com.acebook.schemas.Users
 import com.acebook.templateRenderer
+import com.acebook.viewmodels.FriendRequestViewModel
 import com.acebook.viewmodels.ListUsersViewModel
 import org.http4k.core.*
 import org.ktorm.entity.add
@@ -21,42 +23,68 @@ import org.ktorm.dsl.Query
 
 //fun createUserHandler(): HttpHandler = { request: Request ->
 
-fun queryHandleBar(contexts: RequestContexts, request: Request): String {
+//fun queryHandleBar(contexts: RequestContexts, request: Request): String {
+//    val currentUser: User? = contexts[request]["user"]
+//    var print: String
+//    val query = if (currentUser != null) {
+//
+//        for (row in database
+//            .from(Users)
+//            .innerJoin(FriendRequests, on = Users.id eq FriendRequests.senderId)
+//            .select(Users.firstName, Users.lastName, Users.username)
+//            .where { currentUser.id eq FriendRequests.receiverId })
+//        {
+//
+//            val printRow = "Request from user: ${row[Users.username]} ${row[Users.firstName]} ${row[Users.lastName]}"
+//            print = printRow
+//            return print
+//        }
+//    } else {
+//        print = "Nothing"
+//        return print
+//    }
+//    return query.toString()
+//}
+fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<FriendRequestViewModel> {
     val currentUser: User? = contexts[request]["user"]
-    var print: String
-    val query = if (currentUser != null) {
+    var query = mutableListOf<FriendRequestViewModel>()
+    if (currentUser != null) {
 
         for (row in database
-            .from(Users)
-            .innerJoin(FriendRequests, on = Users.id eq FriendRequests.receiverId)
-            .select(Users.firstName, Users.lastName, Users.username)
+            .from(FriendRequests)
+            .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
+            .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username)
             .where { currentUser.id eq FriendRequests.receiverId })
         {
-
-            val printRow = "Request from user: ${row[Users.username]} ${row[Users.firstName]} ${row[Users.lastName]}"
-            print = printRow
-            return print
+            query.add(FriendRequestViewModel (
+                row[Users.id]!!,
+                row[FriendRequests.id]!!,
+                row[Users.firstName].toString(),
+                row[Users.lastName].toString(),
+                row[Users.username].toString()
+            ))
         }
+        println(query)
     } else {
-        print = "Nothing"
-        return print
+        query = mutableListOf<FriendRequestViewModel>()
+        return query
     }
-    return query.toString()
+    return query
 }
 fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
 val currentUser: User? = contexts[request]["user"]
     val users = database.sequenceOf(Users).toList()
 
-    val pending = if (currentUser!=null) {
-        database.sequenceOf(FriendRequests)
-            .filter { it.receiverId eq currentUser.id }
-            .toList()
-    } else {
-        null
-    }
+//    val pending = if (currentUser!=null) {
+//        database.sequenceOf(FriendRequests)
+//            .filter { it.receiverId eq currentUser.id }
+//            .toList()
+//    } else {
+//        null
+//    }
 
-    val queryString = queryHandleBar(contexts, request)
-    val viewModel = ListUsersViewModel(users, pending, queryString)
+    val pendingReq = queryHandleBar(contexts, request)
+    val viewModel = ListUsersViewModel(users, pendingReq)
     Response(Status.OK).body(templateRenderer(viewModel))
 }
 
