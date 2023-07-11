@@ -23,7 +23,7 @@ import org.ktorm.dsl.Query
 
 fun queryHandleBar(contexts: RequestContexts, request: Request): String {
     val currentUser: User? = contexts[request]["user"]
-    var print: String = ""
+    var print: String
     val query = if (currentUser != null) {
 
         for (row in database
@@ -33,8 +33,8 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): String {
             .where { currentUser.id eq FriendRequests.receiverId })
         {
 
-            val printRow = row[Users.username]
-            print = printRow.toString()
+            val printRow = "Request from user: ${row[Users.username]} ${row[Users.firstName]} ${row[Users.lastName]}"
+            print = printRow
             return print
         }
     } else {
