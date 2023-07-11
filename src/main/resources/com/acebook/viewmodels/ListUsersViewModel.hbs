@@ -1,15 +1,23 @@
-<html>
-<head></head>
-<body>
-<h1>All Users</h1>
+{{#> layout}}
+{{#*inline "content"}}
+
+<div class="navbar-links">
+
+<h3>All Users</h3>
 <h3>pending requests</h3>
 {{#each pending}}
 <p>{{pending}}</p><br>
 <p>{{query}}</p>
 {{/each}}
 
-
 {{#each users}}
+    <div style="
+display:flex;
+flex-direction:column;
+align-content:flex-start;
+flex-wrap:wrap;
+align-items:stretch;
+padding-left: 50px">
 <div class="w3-card w3-round w3-white w3-center">
     <div class="w3-container">
         <span>{{username}}</span> <br>
@@ -22,6 +30,7 @@
 </div>
 <br>
 {{/each}}
+</div>
 
-</body>
-</html>
+    {{/inline}}
+{{/layout}}
