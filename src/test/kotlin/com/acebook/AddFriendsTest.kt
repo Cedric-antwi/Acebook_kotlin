@@ -1,22 +1,12 @@
 package com.acebook
 
-import com.acebook.entities.Post
-import com.acebook.schemas.Posts
 import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.contains
-import com.natpryce.hamkrest.containsSubstring
 import okhttp3.OkHttpClient
 import org.http4k.client.OkHttp
 import org.http4k.core.*
-import org.http4k.hamkrest.hasBody
 import org.http4k.hamkrest.hasStatus
 import org.http4k.lens.WebForm
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.ktorm.database.Database
-import org.ktorm.dsl.deleteAll
-import org.ktorm.entity.add
-import org.ktorm.entity.sequenceOf
 import org.riversun.okhttp3.OkHttp3CookieHelper
 
 class AddFriendsTest {
@@ -53,10 +43,7 @@ class AddFriendsTest {
             )
                 .header("content-type", "application/x-www-form-urlencoded")
         )
-
         assertThat(response2, hasStatus(Status.OK))
         assert(response2.bodyString().contains("Add Friends"))
-
-
     }
 }

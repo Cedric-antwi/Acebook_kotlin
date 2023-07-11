@@ -1,8 +1,6 @@
 package com.acebook.schemas
 
 import com.acebook.entities.Requests
-import com.acebook.schemas.Friends.bindTo
-import com.acebook.schemas.Friends.primaryKey
 import org.ktorm.schema.Table
 import org.ktorm.schema.boolean
 import org.ktorm.schema.int

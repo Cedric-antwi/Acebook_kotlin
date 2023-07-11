@@ -9,19 +9,11 @@ import org.ktorm.database.Database
 
 val templateRenderer = HandlebarsTemplates().HotReload("src/main/resources")
 val database = Database.connect("jdbc:postgresql://localhost:5432/${Environment.databaseName()}")
-
-// This is a in-memory cache to store associated session IDs and user IDs
-// (in-memory means it is lost once the program is restarted)
 val sessionCache = Cache.Builder().build<String, Int>()
 
 fun main() {
-    // RequestContexts is used
-    // to hold session information about the currently signed-in user
     val contexts = RequestContexts()
-
     val port = Environment.port()
-
     val server = appHttpHandler(contexts).asServer(Undertow(port)).start()
-
     println("Server started on " + server.port())
 }
