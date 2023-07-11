@@ -9,7 +9,7 @@ interface Comment : Entity<Comment> {
     var commentBody: String
     var userId: Int
     var postId: Int
-    var dateCreated: LocalDateTime?
+    var dateCreated: String
     var authorName:String
     var authorImage: String
     var commentsLikeCount: Int

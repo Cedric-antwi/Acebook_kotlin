@@ -5,9 +5,7 @@ import com.acebook.entities.User
 import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
 import com.acebook.schemas.Users
-import com.acebook.viewmodels.FeedViewModel
 import com.acebook.viewmodels.LoginViewModel
-import com.acebook.viewmodels.PostViewModel
 import com.acebook.viewmodels.ProfileSettingsViewModel
 import org.http4k.core.*
 import org.http4k.core.cookie.Cookie
@@ -18,18 +16,9 @@ import org.ktorm.dsl.update
 import org.mindrot.jbcrypt.BCrypt
 import java.io.File
 import java.util.*
-//import org.http4k.client.ApacheClient
-import org.http4k.core.Body
-import org.http4k.core.ContentType
-import org.http4k.core.Method.POST
 import org.http4k.core.MultipartFormBody
 import org.http4k.core.Request
 import org.http4k.core.Response
-import org.http4k.core.Status.Companion.OK
-import org.http4k.lens.MultipartFormFile
-import org.http4k.server.SunHttp
-import org.http4k.server.asServer
-import org.ktorm.dsl.update
 import org.ktorm.entity.*
 import java.util.UUID
 
@@ -156,19 +145,7 @@ fun editInfo(contexts: RequestContexts, request: Request, id: Int): Response {
 
     database.update(Users) {
         set(it.username, inputUsername)
-        where {
-            it.id eq user.id
-        }
-    }
-
-    database.update(Users) {
         set(it.firstName, inputFirstname)
-        where {
-            it.id eq user.id
-        }
-    }
-
-    database.update(Users) {
         set(it.lastName, inputLastname)
         where {
             it.id eq user.id

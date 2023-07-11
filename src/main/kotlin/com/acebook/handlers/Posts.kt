@@ -4,19 +4,18 @@ import com.acebook.*
 import com.acebook.entities.Like
 import com.acebook.entities.Post
 import com.acebook.entities.User
-import com.acebook.requiredPostContent
 import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
 import com.acebook.viewmodels.FeedViewModel
 import com.acebook.viewmodels.PostViewModel
 import org.http4k.core.*
-import org.http4k.lens.WebForm
 import org.ktorm.dsl.and
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.update
 import org.ktorm.entity.*
 import java.io.File
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -43,6 +42,9 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
     val pictureFile = receivedForm.file("picture")
     val text = receivedForm.fieldValue("text")
     val currentTime = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val formattedDateTime = currentTime.format(formatter)
+
     if (pictureFile != null && text != null) {
         // Handle picture upload
         val pictureFilename = pictureFile.filename ?: ""
@@ -72,7 +74,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val currentUser: User? = contexts[request]["user"]
         val userPost = Post {
             content = text
-            dateCreated = currentTime
+            dateCreated = formattedDateTime
             if (currentUser != null) {
                 userId = currentUser.id
                 authorName = currentUser.username
