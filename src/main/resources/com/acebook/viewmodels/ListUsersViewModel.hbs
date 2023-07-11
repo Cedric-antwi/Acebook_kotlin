@@ -1,53 +1,64 @@
 {{#> layout}}
-{{#*inline "content"}}
+    {{#*inline "content"}}
 
-<div class="navbar-links">
+        <div class="navbar-links">
 
-<h3>All Users</h3>
-<h3>pending requests</h3>
+            <h3>All Users</h3>
+            <!-- Page Container -->
+            <div class="w3-container w3-content" style="max-width:1400px;margin-top:30px">
+                <!-- The Grid -->
+                <div class="w3-row">
+                    <!-- Top Column -->
+                    <div class="w3-col m3" style="display: flex">
 
-    {{#each pending}}
-<div style="
-display:flex;
-flex-direction:column;
-align-content:flex-end;
-flex-wrap:wrap;
-align-items:stretch;
-padding-right: 50px">
-<div class="w3-card w3-round w3-white w3-center">
-<div class="w3-container">
-<p>{{pending}}</p><br>
-<p>{{query}}</p>
-</div>
-</div>
-{{/each}}
+                        {{#each users}}
 
-</div>
+                            <div class="w3-card w3-round w3-white w3-center"
+                                 style="display: flex; flex-direction: row; margin: 10px">
+                                <div class="w3-container">
+                                    <img src="{{image}}" class="w3-circle" style="height:80px;width:80px;margin:10px"
+                                         alt="Avatar">
+                                    <br>
+                                    <span>{{username}}</span> <br>
+                                    <span>{{firstName}} {{lastName}}</span>
+                                    <form action="/friendslist/pending-friend/{{id}}">
+                                        <input type="submit" class="w3-button w3-theme-d1 w3-margin-bottom"
+                                               value="Add friend">
+                                    </form>
+                                </div>
+                            </div>
 
-{{#each users}}
-    <div style="
-display:flex;
-flex-direction:column;
-align-content:flex-start;
-flex-wrap:wrap;
-align-items:stretch;
-padding-left: 50px">
-        <div class="w3-col m3">
-<div class="w3-card w3-round w3-white w3-center">
-    <div class="w3-container">
-        <span>{{username}}</span> <br>
-        <span>{{firstName}} {{lastName}}</span>
-        <form action="/friendslist/pending-friend/{{id}}">
-            <input type="submit" value="Add friend">
-        </form>
+                            <br>
+                        {{/each}}
+
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <h3>Pending requests</h3>
+            <!-- Page Container -->
+            <div class="w3-container w3-content" style="max-width:1400px;margin-top:30px">
+                <!-- The Grid -->
+                <div class="w3-row">
+                    <!-- Bottom Column -->
+                    <div class="w3-col m3" style="display: flex">
+
+                        {{#each pending}}
+
+                            <div class="w3-card w3-round w3-white w3-center"
+                                 style="display: flex; flex-direction: row margin: 10px">
+                                <div class="w3-container  w3-padding">
+                                    <p>{{query}}</p>
+
+                                </div>
+                            </div>
+
+                        {{/each}}
+
+
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-    </div>
-
-<br>
-{{/each}}
-</div>
-
     {{/inline}}
 {{/layout}}

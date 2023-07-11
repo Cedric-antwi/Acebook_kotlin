@@ -29,11 +29,11 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): String {
         for (row in database
             .from(Users)
             .innerJoin(FriendRequests, on = Users.id eq FriendRequests.receiverId)
-            .select(Users.firstName, Users.lastName, Users.username)
+            .select(Users.firstName, Users.lastName, Users.username, Users.image)
             .where { currentUser.id eq FriendRequests.receiverId })
         {
 
-            val printRow = "Request from user: ${row[Users.username]} ${row[Users.firstName]} ${row[Users.lastName]}"
+            val printRow = "Request from user: ${row[Users.username]} ${row[Users.firstName]} ${row[Users.lastName]} "
             print = printRow
             return print
         }
