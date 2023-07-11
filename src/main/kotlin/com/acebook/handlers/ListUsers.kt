@@ -13,8 +13,14 @@ import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 
 
+
+
 fun listUsers(): HttpHandler = {
     val users = database.sequenceOf(Users).toList()
     val viewModel = ListUsersViewModel(users)
     Response(Status.OK).body(templateRenderer(viewModel))
+
+
+
+
 }

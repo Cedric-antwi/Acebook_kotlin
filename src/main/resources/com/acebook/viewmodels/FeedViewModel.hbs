@@ -99,33 +99,29 @@
 
         <!-- Middle Column -->
         <div class="w3-col m7">
-
             {{#each posts}}
                 <a style="text-decoration: none" href="/posts/{{id}}">
                     <div class="w3-row-padding">
                         <div class="w3-card w3-round w3-white">
                             <div class="w3-container w3-padding">
-
                                 <!-- User from database -->
                                 {{#if postImage}}
-                                <div style="text-align: center; padding-top: 20px">
-                                    <img style="width: 40%" class="image-post" src="{{postImage}}">
-                                </div>
+                                    <div style="text-align: center; padding-top: 20px">
+                                        <img style="width: 40%" class="image-post" src="{{postImage}}">
+                                    </div>
                                 {{/if}}
-
                                 <h4 style="text-decoration: none; text-align: justify">{{content}}</h4>
-
-                                <h5 >{{likesCount}} likes</h5>
-
+                                <h5>{{likesCount}} likes</h5>
                                 {{#if currentUser}}
                                     <form class="button-styling" method="POST" action="/like/{{id}}">
                                         <input style="color:red" type="submit" value="❤">
                                     </form>
                                 {{/if}}
-<!--                                <hr class="w3-clear">-->
-
-                                <p><img src="{{authorImage}}" class="w3-circle" style="height:23px;width:23px" alt="Avatar"> By: {{authorName}}</p><br>
-                                <small style="text-align: center" class="w3-right w3-opacity">Posted: {{dateCreated}}</small>
+                                <p>
+                                    <img src="{{authorImage}}" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+                                    <span style="vertical-align: middle; margin-left: 5px;">By: {{authorName}}</span>
+                                    <span class="w3-right w3-opacity" style="margin-left: 20px;">Posted: {{dateCreated}}</span>
+                                </p><br>
                                 <div class="w3-row-padding" style="margin:0 -16px">
                                 </div>
                             </div>
@@ -133,48 +129,51 @@
                     </div>
                 </a><br>
             {{/each}}
-
-        <!-- End Middle Column -->
+            <!-- End Middle Column -->
         </div>
+
 
         <!-- Right Column -->
         <div class="w3-col m2">
             <div class="w3-card w3-round w3-white w3-center">
                 <div class="w3-container">
-                    <p>Upcoming Events:</p>
-                    <img src="/w3images/forest.jpg" alt="Forest" style="width:100%;">
-                    <p><strong>Holiday</strong></p>
-                    <p>Friday 15:00</p>
-                    <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
+                    <p>Your Ad goes here</p>
+
+                    <p><button class="w3-button w3-block w3-theme-l4">More  info</button></p>
                 </div>
             </div>
             <br>
 
             <div class="w3-card w3-round w3-white w3-center">
                 <div class="w3-container">
-                    <p>Friend Request</p>
-                    <img src="/w3images/avatar6.png" alt="Avatar" style="width:50%"><br>
-                    <span>Jane Doe</span>
+                    <p>Place holder</p>
+                    <span>------</span>
                     <div class="w3-row w3-opacity">
-                        <div class="w3-half">
-                            <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
-                        </div>
-                        <div class="w3-half">
-                            <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-                        </div>
+<!--                        <div class="w3-half">-->
+<!--                            <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>-->
+<!--                        </div>-->
+<!--                        <div class="w3-half">-->
+<!--                            <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
             <br>
-
-            <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
-                <p>ADS</p>
+            <div class="w3-card w3-round w3-white w3-center">
+                <div class="w3-container">
+                    <p>Place holder</p>
+                    <span>------</span>
+                    <div class="w3-row w3-opacity">
+                        <!--                        <div class="w3-half">-->
+                        <!--                            <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="w3-half">-->
+                        <!--                            <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>-->
+                        <!--                        </div>-->
+                    </div>
+                </div>
             </div>
-            <br>
 
-            <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-                <p><i class="fa fa-bug w3-xxlarge"></i></p>
-            </div>
 
             <!-- End Right Column -->
         </div>

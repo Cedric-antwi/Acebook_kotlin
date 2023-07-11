@@ -3,20 +3,18 @@ package com.acebook.handlers
 import com.acebook.*
 import com.acebook.entities.Comment
 import com.acebook.entities.Like
-import com.acebook.entities.Post
 import com.acebook.entities.User
-import com.acebook.requiredContentLens
 import com.acebook.schemas.Comments
 import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
 import com.acebook.viewmodels.CommentViewModel
-import com.acebook.viewmodels.FeedViewModel
 import org.http4k.core.*
 import org.ktorm.dsl.and
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.update
 import org.ktorm.entity.*
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun viewAllComments(contexts: RequestContexts, request: Request, id: Int): Response {
     val getAllComments = database.sequenceOf(Comments)
@@ -40,15 +38,17 @@ fun viewAllComments(contexts: RequestContexts, request: Request, id: Int): Respo
     return Response(Status.OK)
         .body(render)
 }
-//fun addNewcomment()
+
 fun addNewcomment(contexts: RequestContexts, request: Request, id: Int): Response {
     val form = requiredCommentFormLens (request)
     val newPost = requiredCommentContent (form)
     val currentUser: User? = contexts[request]["user"]
     val currentTime = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val formattedDateTime = currentTime.format(formatter)
     val userComment = Comment {
             commentBody = newPost
-            dateCreated = currentTime
+            dateCreated = formattedDateTime
             postId = id
             if (currentUser != null) {
                 userId = currentUser.id

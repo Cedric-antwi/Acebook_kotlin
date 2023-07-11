@@ -8,7 +8,7 @@ interface Post : Entity<Post> {
     val id: Int
     var content: String
     var userId: Int
-    var dateCreated: LocalDateTime?
+    var dateCreated: String
     var authorName:String
     var authorImage: String?
     var likesCount: Int

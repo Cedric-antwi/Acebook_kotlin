@@ -2,44 +2,66 @@
     {{#*inline "content"}}
 <!DOCTYPE html>
 <html>
+<style>
+    /* Adjustments for the comment section */
+    #comment-section {
+        margin-bottom: 50px;
+    }
+
+    .comment-frame {
+        border: 1px solid black;
+        padding: 10px;
+        margin: 10px;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+</style>
+
 <body>
-<div style="margin:10px">
-        <h3 style="padding-left: 20px">Add a new comment</h3>
-        <div style="text-align: center; padding-top: 20px">
-            <img style="width: 40%" class="image-post" src="{{currentPost.postImage}}">
-        </div>
-        <h6 style="display:flex; flex-direction: column; margin-right: 50px; margin-left: 50px" align="justify">{{currentPost.content}}</h6>
-        {{#if currentUser}}
-            <div style="display:flex; flex-direction: column">
-            <form method="POST" action="/posts/add/{{currentPost.id}}" style="display:flex; flex-direction: column; padding-bottom:20px; margin-left: 50px; margin-top: 10px">
+<div style="margin: 10px">
+    <h3 style="padding-left: 20px; font-family: 'HandwrittenFont', cursive;">Add a new comment</h3>
+    <div style="text-align: center; padding-top: 20px">
+        <img style="width: 40%" class="image-post" src="{{currentPost.postImage}}">
+    </div>
+    <h6 style="display: flex; flex-direction: column; margin-right: 50px; margin-left: 50px; font-family: 'ChatGPTFont', sans-serif;" align="justify">{{currentPost.content}}</h6>
+    {{#if currentUser}}
+        <div style="display: flex; flex-direction: column">
+            <form method="POST" action="/posts/add/{{currentPost.id}}" style="display: flex; flex-direction: column; padding-bottom: 20px; margin-left: 50px; margin-top: 10px">
                 Comment: <br />
-                <textarea  style="margin-bottom: 10px; height: 150px; width:400px" name="comment"></textarea>
+                <textarea style="margin-bottom: 10px; height: 150px; width: 400px; font-family: 'HandwrittenFont', cursive;" name="comment"></textarea>
 
-                <input type="submit" id="submit" style="height: 30px; width:100px"/>
+                <input type="submit" id="submit" style="height: 30px; width: 100px" />
             </form>
-            </div>
+        </div>
+    {{/if}}
 
-        {{/if}}
-
-        <div id="comment-section" style="display:flex; flex-direction: column" align="justify">
-            <h3 style="padding-left:20px; margin: 0px">Comments</h3>
+    <div id="comment-section" style="display: flex; flex-direction: column" align="justify">
+        <h3 style="padding-left: 20px; margin: 0px">Comments</h3>
 
         {{#each comment}}
-            <p style="margin-left: 20px; width:800px">{{commentBody}}</p>
-            <p style="margin-left: 20px"> <img src="{{authorImage}} " class="w3-circle" style="height:23px;width:23px"> By: {{authorName}} </p>
-            <small style="margin-left: 20px">posted: {{dateCreated}}</small>
-        <br>
-            <smal style="margin-left: 20px">{{commentsLikeCount}} Likes</smal>
-            {{#if currentUser}}
-                <form style="margin-left: 20px" class="button-styling" method="POST" action="/comment-like/{{id}}">
-                    <input style="color:red" type="submit" value="❤">
-                </form>
-            {{/if}}
+            <div class="comment-frame">
+                <div style="display: flex; align-items: center">
+                    <img src="{{authorImage}} " class="w3-circle" style="height: 23px; width: 23px; margin-right: 10px;">
+                    <p style="font-size: 12px; margin: 0;">By: {{authorName}}</p>
+                    <div style="flex-grow: 1;"></div>
+                    <small>{{dateCreated}}</small>
+                </div>
+                <p style="font-family: 'ChatGPTFont', sans-serif; margin-top: 10px">{{commentBody}}</p>
+                <div style="display: flex; align-items: center">
+                    <small>{{commentsLikeCount}} Likes</small>
+                    {{#if currentUser}}
+                        <form style="margin-left: 10px" class="button-styling" method="POST" action="/comment-like/{{id}}">
+                            <input style="color: red" type="submit" value="❤">
+                        </form>
+                    {{/if}}
+                </div>
+            </div>
         {{/each}}
-        </div>
     </div>
-
+</div>
 </body>
+
+
 </html>
 
     {{/inline}}

@@ -11,7 +11,7 @@ object Posts: Table<Post>("posts") {
     val id = int("id").primaryKey().bindTo { it.id }
     val userId = int("user_id").bindTo { it.userId }
     val content = text("content").bindTo { it.content }
-    val dateCreated = datetime("date_created").bindTo { it.dateCreated }
+    val dateCreated = text("date_created").bindTo { it.dateCreated }
     val authorName = text("author_name").bindTo{it.authorName}
     val authorImage = text("author_image").bindTo { it.authorImage }
     val likesCount = int("likes_count").bindTo {it.likesCount}
