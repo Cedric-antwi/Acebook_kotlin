@@ -20,31 +20,6 @@ import org.ktorm.dsl.Query
 
 //import io.reactivex.Completable
 
-
-//fun createUserHandler(): HttpHandler = { request: Request ->
-
-//fun queryHandleBar(contexts: RequestContexts, request: Request): String {
-//    val currentUser: User? = contexts[request]["user"]
-//    var print: String
-//    val query = if (currentUser != null) {
-//
-//        for (row in database
-//            .from(Users)
-//            .innerJoin(FriendRequests, on = Users.id eq FriendRequests.senderId)
-//            .select(Users.firstName, Users.lastName, Users.username)
-//            .where { currentUser.id eq FriendRequests.receiverId })
-//        {
-//
-//            val printRow = "Request from user: ${row[Users.username]} ${row[Users.firstName]} ${row[Users.lastName]}"
-//            print = printRow
-//            return print
-//        }
-//    } else {
-//        print = "Nothing"
-//        return print
-//    }
-//    return query.toString()
-//}
 fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<FriendRequestViewModel> {
     val currentUser: User? = contexts[request]["user"]
     var query = mutableListOf<FriendRequestViewModel>()
@@ -65,7 +40,6 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
                 row[Users.image].toString()
             ))
         }
-        println(query)
     } else {
         query = mutableListOf<FriendRequestViewModel>()
         return query
@@ -76,13 +50,6 @@ fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
 val currentUser: User? = contexts[request]["user"]
     val users = database.sequenceOf(Users).toList()
 
-//    val pending = if (currentUser!=null) {
-//        database.sequenceOf(FriendRequests)
-//            .filter { it.receiverId eq currentUser.id }
-//            .toList()
-//    } else {
-//        null
-//    }
 
     val pendingReq = queryHandleBar(contexts, request)
     val viewModel = ListUsersViewModel(users, pendingReq)
@@ -108,3 +75,4 @@ fun friendRequest(contexts: RequestContexts, request: Request, friendId: Int): R
         .body("")
 }
 
+fun acceptRequest()
