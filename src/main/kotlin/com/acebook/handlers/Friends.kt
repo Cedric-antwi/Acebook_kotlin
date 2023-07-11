@@ -53,7 +53,7 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
         for (row in database
             .from(FriendRequests)
             .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
-            .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username)
+            .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
             .where { currentUser.id eq FriendRequests.receiverId })
         {
             query.add(FriendRequestViewModel (
@@ -61,7 +61,8 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
                 row[FriendRequests.id]!!,
                 row[Users.firstName].toString(),
                 row[Users.lastName].toString(),
-                row[Users.username].toString()
+                row[Users.username].toString(),
+                row[Users.image].toString()
             ))
         }
         println(query)

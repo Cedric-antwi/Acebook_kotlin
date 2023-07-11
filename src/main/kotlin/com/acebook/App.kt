@@ -175,6 +175,11 @@ fun app(contexts: RequestContexts) = routes(
             val idParamLens = Path.int().of("id")
             val friendId = idParamLens(request)
             friendRequest(contexts, request, friendId)
+        },
+        "/accept/{id}" bind Method.GET to {request: Request ->
+            val idParamLens = Path.int().of("id")
+            val friendId = idParamLens(request)
+
         }
     ),
 

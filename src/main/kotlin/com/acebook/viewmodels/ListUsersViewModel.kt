@@ -11,7 +11,8 @@ data class FriendRequestViewModel(
     val friendRequestID: Int,
     val firstName: String,
     val lastName: String,
-    val username: String
+    val username: String,
+    val image: String
 )
 data class ListUsersViewModel(
     val users: List<User>,
