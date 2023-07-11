@@ -1,9 +1,5 @@
 package com.acebook
 
-import com.acebook.requiredLoginCredentialsLens
-import com.acebook.requiredSignupFormLens
-import com.acebook.schemas.Posts
-import com.acebook.schemas.Users
 import com.natpryce.hamkrest.assertion.assertThat
 import okhttp3.OkHttpClient
 import org.http4k.client.OkHttp
@@ -12,23 +8,18 @@ import org.http4k.hamkrest.hasStatus
 import org.http4k.lens.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.ktorm.database.Database
-import org.ktorm.dsl.deleteAll
 import org.riversun.okhttp3.OkHttp3CookieHelper
 
 class CreatePostTest {
 
     @BeforeEach
     fun setup() {
-//        database.deleteAll(Posts)
-//        database.deleteAll(Users)
     }
 
     @Test
     fun `Cannot create new post if not signed in`() {
         val client = OkHttp()
         val response: Response = client(Request(Method.GET, "http://localhost:9999/posts/new"))
-
         assert(response.status == Status.FOUND)
         assert(response.header("Location") == "/sessions/new")
     }
@@ -53,18 +44,20 @@ class CreatePostTest {
                 .header("content-type", "application/x-www-form-urlencoded")
         )
         assertThat(response, hasStatus(Status.OK))
-//        assert(response.bodyString().contains("Login"))
+
         val form2 = WebForm(
             mapOf(
                 "email" to listOf("email"),
                 "password" to listOf("password")
             ))
+
         val response2: Response = client(
             Request(Method.POST, "http://localhost:9999/sessions").with(
                 requiredLoginCredentialsLens of form2
             )
                 .header("content-type", "application/x-www-form-urlencoded")
         )
+
         assertThat(response2, hasStatus(Status.OK))
         val nameField = MultipartFormField.string().required("text")
         val imageFile = MultipartFormFile.optional("picture")
@@ -77,6 +70,7 @@ class CreatePostTest {
                 "somebinarycontent".byteInputStream()
             )
         )
+
         val response3: Response = client(
             Request(Method.POST, "http://localhost:9999/posts").with(
                 strictFormBody of multipartform

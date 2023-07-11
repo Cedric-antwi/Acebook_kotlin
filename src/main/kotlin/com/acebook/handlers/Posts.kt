@@ -18,7 +18,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
 fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
     val posts = database.sequenceOf(Posts).sortedBy { it.dateCreated }.toList().reversed()
     println(posts)
@@ -32,7 +31,6 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
 fun newPostHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
     val currentUser: User? = contexts[request]["user"]
     val viewModel = PostViewModel("",  currentUser = currentUser)
-
     Response(Status.OK)
         .body(templateRenderer(viewModel))
 }
@@ -57,7 +55,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/path/"
+        val uploadDirectory = "/Users/ssu4807/Projects/Acebook/Acebook_kotlin/src/main/resources/static/"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)
@@ -68,7 +66,6 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         }
 
         val fileSize = savedFile.readBytes().size
-
 
         val pictureLink = "/static/$savedFilename"
         val currentUser: User? = contexts[request]["user"]

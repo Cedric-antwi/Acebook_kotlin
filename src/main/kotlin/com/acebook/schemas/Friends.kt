@@ -1,8 +1,6 @@
 package com.acebook.schemas
 
 import com.acebook.entities.Friends
-import com.acebook.schemas.Posts.bindTo
-import com.acebook.schemas.Posts.primaryKey
 import org.ktorm.schema.*
 
 object Friends: Table<Friends>("friends") {

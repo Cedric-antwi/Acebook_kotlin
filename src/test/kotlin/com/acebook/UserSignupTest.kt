@@ -1,8 +1,5 @@
 package com.acebook
 
-import com.acebook.requiredLoginCredentialsLens
-import com.acebook.requiredSignupFormLens
-import com.acebook.schemas.Users
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
 import okhttp3.OkHttpClient
@@ -12,14 +9,11 @@ import org.http4k.hamkrest.*
 import org.http4k.lens.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.ktorm.database.Database
-import org.ktorm.dsl.deleteAll
 import org.riversun.okhttp3.OkHttp3CookieHelper
 
 class UserSignupTest {
     val requiredEmailField = FormField.nonEmptyString().required("email")
     val requiredPasswordField = FormField.nonEmptyString().required("password")
-    val requiredPostContent = FormField.nonEmptyString().required("content")
     val requiredFirstName = FormField.nonEmptyString().required("firstname")
     val requiredLastName = FormField.nonEmptyString().required("lastname")
     val requiredUsername = FormField.nonEmptyString().required("username")
@@ -38,43 +32,33 @@ class UserSignupTest {
         requiredPasswordField
     ).toLens()
 
-    val requiredContentLens = Body.webForm(
-        Validator.Strict,
-        requiredPostContent
-    ).toLens()
-
     @BeforeEach
     fun setup() {
-//        database.deleteAll(Users)
     }
 
     @Test
     fun `Login returns 400 Bad request if parameters are missing`() {
         val client = OkHttp()
-
         val response: Response = client(
             Request(Method.POST, "http://localhost:9999/sessions")
                 .header("content-type", "application/x-www-form-urlencoded")
         )
-
         assertThat(response, hasStatus(Status.BAD_REQUEST))
         assertThat(response, hasBody("Invalid parameters 1"))
     }
-
 
     @Test
     fun `Signup returns 400 Bad request if parameters are missing`() {
         val client = OkHttp()
-
         val response: Response = client(
             Request(Method.POST, "http://localhost:9999/users")
                 .header("content-type", "application/x-www-form-urlencoded")
         )
-
         assertThat(response, hasStatus(Status.BAD_REQUEST))
         assertThat(response, hasBody("Invalid parameters 1"))
     }
-    @Test //custom test
+
+    @Test
     fun `Testing the signup and login functionality`() {
         val cookieHelper = OkHttp3CookieHelper()
         val client = OkHttp(OkHttpClient().newBuilder().cookieJar(cookieHelper.cookieJar()).build())
@@ -119,7 +103,6 @@ class UserSignupTest {
         val response: Response = client(
             Request(Method.GET, "http://localhost:9999/users/new")
         )
-
         assertThat(response, hasStatus(Status.OK))
         assertThat(
             response,
@@ -134,7 +117,6 @@ class UserSignupTest {
         val response: Response = client(
             Request(Method.GET, "http://localhost:9999/sessions/new")
         )
-
         assertThat(response, hasStatus(Status.OK))
         assertThat(
             response,
@@ -146,20 +128,6 @@ class UserSignupTest {
     fun `New signed up user can sign in`() {
         val cookieHelper = OkHttp3CookieHelper()
         val client = OkHttp(OkHttpClient().newBuilder().cookieJar(cookieHelper.cookieJar()).build())
-
-        val signupResponse: Response = client(
-            Request(Method.POST, "http://localhost:9999/users")
-                .with(
-                    requiredSignupFormLens of WebForm(mapOf(
-                        "email" to listOf("test@acebook.com"),
-                        "password" to listOf("s3cr3tp4ss"),
-                        "firstname" to listOf("Tester"),
-                        "lastname" to listOf("User"),
-                        "username" to listOf("Tester_User"))
-                        )
-                )
-        )
-
         val response: Response = client(
             Request(Method.POST, "http://localhost:9999/sessions")
                 .with(
@@ -169,7 +137,6 @@ class UserSignupTest {
                     ))
                 )
         )
-
           assertThat(response, hasStatus(Status.OK))
           assert(response.bodyString().contains("Welcome"))
     }

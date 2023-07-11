@@ -32,7 +32,6 @@ fun viewAllComments(contexts: RequestContexts, request: Request, id: Int): Respo
 
     val post = getCurrentPost[0]
     val currentUser: User? = contexts[request]["user"]
-
     val viewModel = CommentViewModel(getAllComments, post, currentUser = currentUser)
     val render = templateRenderer(viewModel)
     return Response(Status.OK)
@@ -70,7 +69,6 @@ fun likeComments(contexts: RequestContexts, request: Request, id: Int): Response
         .filter { it.id eq id }
         .toList()
     val comment = getCurrentComment[0]
-
     val currentUser: User? = contexts[request]["user"]
     val currentLikes = comment.commentsLikeCount
     val getLikesOnComments = if (currentUser!=null) {

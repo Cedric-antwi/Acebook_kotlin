@@ -1,9 +1,7 @@
 package com.acebook
 
-import com.acebook.entities.User
 import com.acebook.handlers.*
 import com.acebook.schemas.Users
-import io.github.reactivecircus.cache4k.Cache
 import org.http4k.core.*
 import org.http4k.core.cookie.cookie
 import org.http4k.filter.DebuggingFilters
@@ -13,20 +11,9 @@ import org.http4k.routing.ResourceLoader
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.routing.static
-import org.http4k.template.HandlebarsTemplates
-import org.http4k.template.ViewModel
-import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.find
 import org.ktorm.entity.sequenceOf
-import org.ktorm.schema.Column
-import java.text.Normalizer.Form
-import com.acebook.viewmodels.ListUsersViewModel
-
-// http4k has the concept of "lens" which acts
-// as a validator for certain fields in the incoming HTTP request.
-
-// https://www.http4k.org/guide/concepts/lens/
 
 val requiredEmailField = FormField.nonEmptyString().required("email")
 val requiredPasswordField = FormField.nonEmptyString().required("password")
@@ -34,13 +21,6 @@ val requiredUsernameField = FormField.nonEmptyString().required("username")
 val requiredFirstnameField = FormField.nonEmptyString().required("firstname")
 val requiredLastnameField = FormField.nonEmptyString().required("lastname")
 
-//data class AllUsers(val firstName: Column<String> = Users.firstName)
-
-
-
-
-
-val requiredUserQuery = Query.required("")
 val requiredLoginCredentialsLens = Body.webForm(
     Validator.Strict,
     requiredEmailField,
@@ -61,27 +41,7 @@ val requiredEditProfileLens = Body.webForm(
     requiredLastnameField
 ).toLens()
 
-//val requiredUsersListLens = Body.(
-//    Validator.Strict,
-//
-//)
-
-val requiredPostContent = FormField.nonEmptyString().required("content")
-
-val requiredContentLens = Body.webForm(
-    Validator.Strict,
-    requiredPostContent
-).toLens()
-
-val requiredPictureField= FormField.required("picture")
-
-val requiredProfileFormLens = Body.webForm(
-    Validator.Strict,
-    requiredPictureField
-).toLens()
-
 val requiredCommentContent = FormField.nonEmptyString().required("comment")
-
 val requiredCommentFormLens = Body.webForm(
     Validator.Strict,
     requiredCommentContent
@@ -116,13 +76,7 @@ fun authenticateRequestFromSession(contexts: RequestContexts) = Filter { next ->
     }
 }
 
-// The following function uses the `routes` function
-// from the http4k library to associate HTTP methods and paths
-// to a "handler" function, which will handle the request
-// to return the response.
 fun app(contexts: RequestContexts) = routes(
-
-
     "/" bind Method.GET to indexHandler(contexts),
     "/like/{id}" bind Method.POST to{request: Request ->
         val idParamLens = Path.int().of ( "id")

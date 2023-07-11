@@ -1,11 +1,7 @@
 package com.acebook.schemas
 
 import com.acebook.entities.Comment
-import com.acebook.entities.Post
-import com.acebook.schemas.Posts.bindTo
-import com.acebook.schemas.Posts.primaryKey
 import org.ktorm.schema.Table
-import org.ktorm.schema.datetime
 import org.ktorm.schema.int
 import org.ktorm.schema.text
 

@@ -1,7 +1,6 @@
 package com.acebook.entities
 
 import org.ktorm.entity.Entity
-import java.time.LocalDateTime
 
 interface Post : Entity<Post> {
     companion object : Entity.Factory<Post>()

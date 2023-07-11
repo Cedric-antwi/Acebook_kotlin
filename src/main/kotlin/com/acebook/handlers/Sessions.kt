@@ -2,7 +2,6 @@ package com.acebook.handlers
 
 import com.acebook.*
 import com.acebook.entities.User
-import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
 import com.acebook.schemas.Users
 import com.acebook.viewmodels.LoginViewModel
@@ -24,7 +23,6 @@ import java.util.UUID
 
 fun newSessionHandler(): HttpHandler = {
     val viewModel = LoginViewModel("", "")
-
     Response(Status.OK)
         .body(templateRenderer(viewModel))
 }
@@ -33,9 +31,7 @@ fun createSessionHandler(): HttpHandler = { request: Request ->
     val form = requiredLoginCredentialsLens.extract(request)
     val email = requiredEmailField(form)
     val password = requiredPasswordField(form)
-
     val user = authenticateUser(email, password)
-
     if (user == null) {
         Response(Status.FOUND).header("Location", "/sessions/new")
     } else {
@@ -77,7 +73,6 @@ private fun authenticateUser(email: String, password: String): User? {
 private fun injectSessionCookie(response: Response, user: User): Response {
     val sessionId = UUID.randomUUID().toString()
     sessionCache.put(sessionId, user.id)
-
     return response.cookie(Cookie("acebook_session_id", sessionId))
 }
 
@@ -87,7 +82,6 @@ fun viewProfile(contexts: RequestContexts):  HttpHandler = { request: Request ->
     Response(Status.OK)
         .body(templateRenderer(viewModel))
 }
-
 
 fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request ->
     val receivedForm = MultipartFormBody.from(request)
@@ -102,7 +96,7 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/PATH/"
+        val uploadDirectory = "/Users/ssu4807/Projects/Acebook/Acebook_kotlin/src/main/resources/static/"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)
@@ -129,7 +123,6 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
     } else {
         Response(Status.BAD_REQUEST).body("No picture uploaded")
     }
-
 }
 
 fun editInfo(contexts: RequestContexts, request: Request, id: Int): Response {
