@@ -1,8 +1,67 @@
 <html>
-<head></head>
-<body>
-{{#each users}}
-    <p>{{email}}</p>
-{{/each}}
-</body>
-</html>
+{{#> layout}}
+    {{#*inline "content"}}
+        <div class="navbar-links">
+            <h3>All Users</h3>
+            <!-- Page Container -->
+            <div class="w3-container w3-content" style="max-width:1400px;margin-top:30px">
+                <!-- The Grid -->
+                <div class="w3-row">
+                    <!-- Top Column -->
+                    <div class="w3-col m3" style="display: flex">
+                        {{#each users}}
+                            <div class="w3-card w3-round w3-white w3-center"
+                                 style="display: flex; flex-direction: row; margin: 10px">
+                                <div class="w3-container">
+                                    <img src="{{image}}" class="w3-circle" style="height:80px;width:80px;margin:10px"
+                                         alt="Avatar">
+                                    <br>
+                                    <span>{{firstName}} {{lastName}}</span> <br>
+                                    <span>@{{username}}</span> <br>
+                                    <form action="/friendslist/pending-friend/{{id}}">
+                                        <input type="submit" class="w3-button w3-theme-d1 w3-margin-bottom"
+                                               value="Add friend">
+                                    </form>
+                                </div>
+                            </div>
+                            <br>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <h3>Pending requests</h3>
+            <!-- Page Container -->
+            <div class="w3-container w3-content" style="max-width:1400px;margin-top:30px">
+                <!-- The Grid -->
+                <div class="w3-row">
+                    <!-- Bottom Column -->
+                    <div class="w3-col m3" style="display: flex">
+                        {{#each pendingReq}}
+                            <div class="w3-card w3-round w3-white w3-center"
+                                 style="display: flex; flex-direction: row ; margin: 10px">
+                                <div class="w3-container  w3-padding">
+                                    <img src="{{image}}" class="w3-circle" style="height:80px;width:80px;margin:10px"
+                                         alt="Avatar">
+                                    <form method="get" action="">
+                                        <p>{{firstName}} {{lastName}}</p>
+                                        <p>@{{username}}</p>
+                                        <input type="submit" value="Accept Request" class="w3-button w3-theme-d1 w3-margin-bottom">
+                                        <button type="submit" formaction="" class="w3-button w3-theme-d1 w3-margin-bottom">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/inline}}
+{{/layout}}
+
+
+
+
+
+
+

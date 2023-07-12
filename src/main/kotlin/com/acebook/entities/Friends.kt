@@ -7,5 +7,4 @@ interface Friends : Entity<Friends> {
     val id: Int
     val senderId: Int
     val receiverId: Int
-    val friendStatus: Boolean
 }
