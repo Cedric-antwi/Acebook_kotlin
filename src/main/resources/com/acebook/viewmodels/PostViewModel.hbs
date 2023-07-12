@@ -2,13 +2,12 @@
 {{#*inline "content"}}
     <div style="text-align: center; margin-top: 50px;">
         <div>
-            <h1 id="header" style="font-family: 'Your Handwritten Font', cursive; animation: blink 2s infinite;"></h1>
-            <h2 style="font-family: 'Your Handwritten Font', cursive;">Add your Post</h2>
+            <h1 id="header" style="animation: blink 2s infinite;"></h1>
+            <h2>Add your Post</h2>
         </div>
 
         <div style="margin-top: 30px;">
             <form method="POST" action="/posts" enctype="multipart/form-data">
-                Content: <br>
                 <div>
                     <textarea name="text" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 400px; height: 200px; resize: none;"></textarea>
                 </div>
@@ -43,7 +42,7 @@
 
                 <br><br>
 
-                <input type="submit" id="submit" value="Add your post" style="background-color: blue; color: white; border: none; border-radius: 10px; padding: 10px 20px; font-family: 'Your Handwritten Font', cursive; font-size: 16px;">
+                <input type="submit" id="submit" value="Add your post" class="w3-button w3-theme-d1 w3-margin-bottom">
             </form>
         </div>
     </div>
