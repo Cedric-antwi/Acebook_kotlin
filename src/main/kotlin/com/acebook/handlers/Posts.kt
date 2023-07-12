@@ -86,7 +86,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
             }
         }
 
-        val post = database.sequenceOf(Posts).add(userPost)
+        database.sequenceOf(Posts).add(userPost)
 
         Response(Status.SEE_OTHER)
             .header("Location", "/")
