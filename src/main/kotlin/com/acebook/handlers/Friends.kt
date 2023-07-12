@@ -5,6 +5,7 @@ import com.acebook.entities.Comment.Companion.invoke
 import com.acebook.entities.FriendRequest
 import com.acebook.entities.User
 import com.acebook.schemas.FriendRequests
+import com.acebook.schemas.Posts
 import com.acebook.schemas.Users
 import com.acebook.templateRenderer
 import com.acebook.viewmodels.FriendRequestViewModel
@@ -29,7 +30,9 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
             .from(FriendRequests)
             .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
             .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
-            .where { currentUser.id eq FriendRequests.receiverId })
+            .where { currentUser.id eq FriendRequests.receiverId
+            FriendRequests.requestStatus eq false
+            })
         {
             query.add(FriendRequestViewModel (
                 row[Users.id]!!,
@@ -74,5 +77,40 @@ fun friendRequest(contexts: RequestContexts, request: Request, friendId: Int): R
     database.sequenceOf(com.acebook.schemas.FriendRequests).add(newFriendRequest)
     return Response(Status.SEE_OTHER)
         .header("Location", "/")
+        .body("")
+}
+
+fun acceptReq(friendId: Int, contexts: RequestContexts, request: Request): Response {
+    val currentUser: User? = contexts[request]["user"]
+    database.update(FriendRequests)
+    {
+        set(it.requestStatus, true)
+        if (currentUser != null) {
+            where {
+                it.receiverId eq currentUser.id
+                it.senderId eq friendId
+            }
+        }
+
+    }
+    if (currentUser != null) {
+        println(currentUser.id)
+    }
+    println(friendId)
+
+
+    return Response(Status.SEE_OTHER)
+        .header("Location", "/friendslist/request")
+        .body("")
+}
+
+fun deleteReq(friendId: Int, contexts: RequestContexts, request: Request): Response {
+    val currentUser: User? = contexts[request]["user"]
+    database.delete(FriendRequests)
+    {
+        it.id eq friendId
+    }
+    return Response(Status.SEE_OTHER)
+        .header("Location", "/friendslist/request")
         .body("")
 }
