@@ -54,7 +54,7 @@ fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
     val filteredList = allUsersList.filter { user -> user.id != currentUser?.id }
 
     val pendingReq = queryHandleBar(contexts, request)
-    val viewModel = ListUsersViewModel(filteredList, pendingReq)
+    val viewModel = ListUsersViewModel(filteredList, pendingReq, currentUser = currentUser)
     Response(Status.OK).body(templateRenderer(viewModel))
 }
 
