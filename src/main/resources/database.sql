@@ -101,18 +101,18 @@ CREATE TABLE likes(
                     REFERENCES comments(id)
 );
 
-CREATE TABLE friends(
-    id INT GENERATED ALWAYS AS IDENTITY,
-    sender_id int4,
-                CONSTRAINT fk_request_sender
-                  FOREIGN KEY(sender_id)
-                    REFERENCES users(id),
-    receiver_id int4,
-              CONSTRAINT fk_request_receiver
-                  FOREIGN KEY(receiver_id)
-                    REFERENCES users(id),
-    friend_status boolean DEFAULT false
-);
+--CREATE TABLE friends(
+--    id INT GENERATED ALWAYS AS IDENTITY,
+--    sender_id int4,
+--                CONSTRAINT fk_request_sender
+--                  FOREIGN KEY(sender_id)
+--                    REFERENCES users(id),
+--    receiver_id int4,
+--              CONSTRAINT fk_request_receiver
+--                  FOREIGN KEY(receiver_id)
+--                    REFERENCES users(id),
+--    friend_status boolean DEFAULT false
+--);
 
 
 CREATE TABLE requests(
@@ -126,6 +126,7 @@ CREATE TABLE requests(
                       FOREIGN KEY(receiver_id)
                            REFERENCES users(id),
     request_status boolean DEFAULT false,
+    friendship_status boolean DEFAULT false,
     PRIMARY KEY (id)
 );
 
