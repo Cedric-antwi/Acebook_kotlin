@@ -151,11 +151,16 @@ fun app(contexts: RequestContexts) = routes(
             val friendId = idParamLens(request)
             friendRequest(contexts, request, friendId)
         },
-//        "/accept/{id}" bind Method.GET to { request: Request ->
-//            val idParamLens = Path.int().of("id")
-//            val friendId = idParamLens(request)
-////            acceptRequest()
-//        }
+        "/accept/{id}" bind Method.GET to { request: Request ->
+            val idParamLens = Path.int().of("id")
+            val friendId = idParamLens(request)
+            acceptReq(friendId ,contexts, request)
+        },
+        "/delete/{id}" bind Method.GET to { request: Request ->
+            val idParamLens = Path.int().of("id")
+            val friendId = idParamLens(request)
+            deleteReq(friendId, contexts, request)
+        }
     ),
 
     "/static" bind static(ResourceLoader.Directory("src/main/resources/static"))

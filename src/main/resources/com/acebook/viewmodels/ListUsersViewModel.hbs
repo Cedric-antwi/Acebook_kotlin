@@ -43,12 +43,12 @@
                                 <div class="w3-container  w3-padding">
                                     <img src="{{image}}" class="w3-circle" style="height:80px;width:80px;margin:10px"
                                          alt="Avatar">
-                                    <form method="get" action="">
+                                    <div>
                                         <p>{{firstName}} {{lastName}}</p>
                                         <p>@{{username}}</p>
-                                        <input type="submit" value="Accept Request" class="w3-button w3-theme-d1 w3-margin-bottom">
-                                        <button type="submit" formaction="" class="w3-button w3-theme-d1 w3-margin-bottom">Delete</button>
-                                    </form>
+                                        <button type="submit" class="w3-button w3-theme-d1 w3-margin-bottom"><a href="/friendslist/accept/{{userID}}" style="text-decoration: none;">Accept Request</a></button>
+                                        <button type="submit" formaction="" class="w3-button w3-theme-d1 w3-margin-bottom"><a href="/friendslist/delete/{{friendRequestID}}" style="text-decoration: none;">Delete</a></button>
+                                    </div>
                                 </div>
                             </div>
                         {{/each}}
