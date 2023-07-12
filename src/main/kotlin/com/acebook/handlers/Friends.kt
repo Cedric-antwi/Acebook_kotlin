@@ -47,12 +47,14 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
     return query
 }
 fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
-val currentUser: User? = contexts[request]["user"]
-    val users = database.sequenceOf(Users).toList()
-
+    val currentUser: User? = contexts[request]["user"]
+    //instantiating a mutable list of all the users
+    val allUsersList: MutableList<User> = database.sequenceOf(Users).toList().toMutableList()
+    //filtering through the allUsersList to exclude current user
+    val filteredList = allUsersList.filter { user -> user.id != currentUser?.id }
 
     val pendingReq = queryHandleBar(contexts, request)
-    val viewModel = ListUsersViewModel(users, pendingReq)
+    val viewModel = ListUsersViewModel(filteredList, pendingReq, currentUser = currentUser)
     Response(Status.OK).body(templateRenderer(viewModel))
 }
 
