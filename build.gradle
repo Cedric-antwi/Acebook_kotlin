@@ -21,6 +21,7 @@ compileKotlin.kotlinOptions.jvmTarget = "11"
 compileTestKotlin.kotlinOptions.jvmTarget = "11"
 compileTestKotlin.kotlinOptions.freeCompilerArgs += "-Xjvm-default=all"
 
+
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
@@ -54,6 +55,8 @@ dependencies {
     implementation(platform("org.http4k:http4k-bom:5.2.1.0"))
     implementation("org.http4k:http4k-core")
     implementation("org.http4k:http4k-multipart")
+    implementation("org.ktorm:ktorm-core:3.4.1")
+    implementation("io.reactivex.rxjava3:rxkotlin:3.0.0")
 
 }
 

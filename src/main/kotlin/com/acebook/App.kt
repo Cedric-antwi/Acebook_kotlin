@@ -41,6 +41,23 @@ val requiredEditProfileLens = Body.webForm(
     requiredLastnameField
 ).toLens()
 
+
+
+val requiredPostContent = FormField.nonEmptyString().required("content")
+
+val requiredContentLens = Body.webForm(
+    Validator.Strict,
+    requiredPostContent
+).toLens()
+
+val requiredPictureField= FormField.required("picture")
+
+val requiredProfileFormLens = Body.webForm(
+    Validator.Strict,
+    requiredPictureField
+).toLens()
+
+
 val requiredCommentContent = FormField.nonEmptyString().required("comment")
 val requiredCommentFormLens = Body.webForm(
     Validator.Strict,
@@ -134,11 +151,11 @@ fun app(contexts: RequestContexts) = routes(
             val friendId = idParamLens(request)
             friendRequest(contexts, request, friendId)
         },
-        "/accept/{id}" bind Method.GET to { request: Request ->
-            val idParamLens = Path.int().of("id")
-            val friendId = idParamLens(request)
-            acceptRequest()
-        }
+//        "/accept/{id}" bind Method.GET to { request: Request ->
+//            val idParamLens = Path.int().of("id")
+//            val friendId = idParamLens(request)
+////            acceptRequest()
+//        }
     ),
 
     "/static" bind static(ResourceLoader.Directory("src/main/resources/static"))

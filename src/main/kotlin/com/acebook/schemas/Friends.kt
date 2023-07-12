@@ -1,8 +1,7 @@
 package com.acebook.schemas
 
-import com.acebook.entities.Friends
+import com.acebook.entities.Friend
 import org.ktorm.schema.*
-
 
 object Friends: Table<Friend>("friends") {
     val id = int("id").primaryKey().bindTo { it.id }

@@ -1,4 +1,5 @@
 package com.acebook.viewmodels
+
 import com.acebook.entities.FriendRequest
 import com.acebook.entities.User
 import com.acebook.schemas.FriendRequests
@@ -14,15 +15,7 @@ data class FriendRequestViewModel(
     val image: String
 )
 data class ListUsersViewModel(
-val users: List<User>,
+    val users: List<User>,
 //    val pending: List<FriendRequest>?,
-val pendingReq: MutableList<FriendRequestViewModel>
+    val pendingReq: MutableList<FriendRequestViewModel>
 ): ViewModel
-
-
-
-
-
-
-
-
