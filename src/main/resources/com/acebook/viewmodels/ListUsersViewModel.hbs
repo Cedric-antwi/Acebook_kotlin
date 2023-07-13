@@ -56,5 +56,11 @@
                     </div>
                 </div>
             </div>
+        <script>
+            document.getElementById("friendForm").addEventListener("submit", function(event) { event.preventDefault();
+            var firstName = “{{firstName}}";
+            var lastName = “{{lastName}}“;
+            var message = "Friend request sent to " + firstName + " " + lastName; alert(message); this.submit(); });
+        </script>
     {{/inline}}
 {{/layout}}

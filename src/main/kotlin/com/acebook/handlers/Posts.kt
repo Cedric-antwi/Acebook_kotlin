@@ -4,14 +4,15 @@ import com.acebook.*
 import com.acebook.entities.Like
 import com.acebook.entities.Post
 import com.acebook.entities.User
+import com.acebook.schemas.FriendRequests
 import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
+import com.acebook.schemas.Users
 import com.acebook.viewmodels.FeedViewModel
+import com.acebook.viewmodels.FriendRequestViewModel
 import com.acebook.viewmodels.PostViewModel
 import org.http4k.core.*
-import org.ktorm.dsl.and
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.update
+import org.ktorm.dsl.*
 import org.ktorm.entity.*
 import java.io.File
 import java.time.LocalDateTime
@@ -20,9 +21,33 @@ import java.util.*
 
 fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
     val posts = database.sequenceOf(Posts).sortedBy { it.dateCreated }.toList().reversed()
-    println(posts)
     val currentUser: User? = contexts[request]["user"]
-    val viewModel = FeedViewModel(posts, currentUser)
+    val myFriends = mutableListOf<FriendRequestViewModel>()
+    if (currentUser != null) {
+        for (row in database
+            .from(FriendRequests)
+            .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
+            .select( FriendRequests.id, Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
+            .where {
+                currentUser.id eq FriendRequests.receiverId
+            }
+            .also {
+                FriendRequests.requestStatus eq true
+            }
+        ) {
+            myFriends.add(FriendRequestViewModel (
+                row[Users.id]!!,
+                row[FriendRequests.id]!!,
+                row[Users.firstName].toString(),
+                row[Users.lastName].toString(),
+                row[Users.username].toString(),
+                row[Users.image].toString()
+            ))
+        }
+    }
+    println(myFriends)
+
+    val viewModel = FeedViewModel(posts, currentUser, myFriends)
 
     Response(Status.OK)
         .body(templateRenderer(viewModel))
@@ -55,7 +80,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "path"
+        val uploadDirectory = "/Users/cau4611/Desktop/MakersCode/acebook-kotlin-http4k-template/src/main/resources/static"
 
 
         // Save the picture to the upload directory
