@@ -129,8 +129,8 @@
                                 <div class="w3-row-padding" style="margin:0 -16px">
                                 </div>
                                 {{#if delete}}
-                                    <button><a href="/posts/delete-post/{{id}}">Delete</a></button>
-                                    <button class="edit-button" data-form-id="editForm-{{id}}">Edit</button>
+                                    <button class="edit-button w3-button w3-theme-d1 w3-margin-bottom" data-form-id="editForm-{{id}}">Edit</button>
+                                    <button class=" w3-button w3-theme-d1 w3-margin-bottom"><a href="/posts/delete-post/{{id}}">Delete</a></button>
                                     <form id="editForm-{{id}}" method="POST" action="/posts/edit-post/{{id}}" enctype="multipart/form-data" style="display: none;">
                                         <div>
                                             <textarea name="text" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 100%; height: 100px; resize: none;">{{content}}</textarea>

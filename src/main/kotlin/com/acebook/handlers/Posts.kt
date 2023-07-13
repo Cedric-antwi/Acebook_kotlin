@@ -111,7 +111,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/path"
+        val uploadDirectory = "/Users/cau4611/Desktop/MakersCode/acebook-kotlin-http4k-template/src/main/resources/static"
 
 
 
@@ -203,14 +203,7 @@ fun likePost(contexts: RequestContexts, request: Request, id: Int): Response {
         .header("Location", "/")
         .body("")
 }
-fun deletePost(request: Request, id:Int): Response{
-    database.delete(Posts)
-    {it.id eq id}
-    return Response(Status.SEE_OTHER)
-        .header("Location", "/")
-        .body("")
 
-}
 fun deletePost(request: Request, id:Int): Response{
     database.delete(Posts)
     {it.id eq id}
@@ -237,7 +230,7 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
             val extension = pictureFilename.substringAfterLast(".", "")
             val savedFilename = "$uniqueFilename.$extension"
             // Specify the directory where the pictures will be saved
-            val uploadDirectory = "/path"
+            val uploadDirectory = "/Users/cau4611/Desktop/MakersCode/acebook-kotlin-http4k-template/src/main/resources/static"
 
             // Save the picture to the upload directory
             val savedFile = File(uploadDirectory, savedFilename)
