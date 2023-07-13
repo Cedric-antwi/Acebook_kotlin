@@ -29,10 +29,8 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
             .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
             .select( FriendRequests.id, Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
             .where {
-                currentUser.id eq FriendRequests.receiverId
-            }
-            .also {
-                FriendRequests.requestStatus eq true
+                (currentUser.id eq FriendRequests.receiverId)and
+                (FriendRequests.friendshipStatus eq true)
             }
         ) {
             myFriends.add(FriendRequestViewModel (

@@ -30,9 +30,10 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
             .from(FriendRequests)
             .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
             .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
-            .where { currentUser.id eq FriendRequests.receiverId
-            }.also {
-                FriendRequests.requestStatus eq false
+            .where {
+                (currentUser.id eq FriendRequests.receiverId)and
+                (FriendRequests.requestStatus eq false)and
+                (FriendRequests.friendshipStatus eq false)
             }
         )
         {
@@ -49,7 +50,7 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
         query = mutableListOf<FriendRequestViewModel>()
         return query
     }
-    return query
+    return query.filter { user -> user.userID != currentUser?.id }.toMutableList()
 }
 fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
     val currentUser: User? = contexts[request]["user"]
@@ -74,6 +75,7 @@ fun friendRequest(contexts: RequestContexts, request: Request, friendId: Int): R
             }
         receiverId = friendReceiverId
         requestStatus = false
+        friendshipStatus = false
     }
 
     database.sequenceOf(com.acebook.schemas.FriendRequests).add(newFriendRequest)
@@ -86,11 +88,16 @@ fun acceptReq(friendId: Int, contexts: RequestContexts, request: Request): Respo
     val currentUser: User? = contexts[request]["user"]
     database.update(FriendRequests)
     {
-        set(it.requestStatus, true)
+        set(
+            it.requestStatus, true
+        )
+        set(
+            it.friendshipStatus, true
+        )
         if (currentUser != null) {
             where {
-                it.receiverId eq currentUser.id
-                it.senderId eq friendId
+                (it.receiverId eq currentUser.id)and
+                (it.senderId eq friendId)
             }
         }
 
