@@ -4,7 +4,7 @@
       <env name="ENVIRONMENT" value="dev" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.acebook.MainKt" />
-    <module name="Acebook_kotlin.Acebook.main" />
+    <module name="ace_kotlin.Acebook.main" />
     <shortenClasspath name="NONE" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />

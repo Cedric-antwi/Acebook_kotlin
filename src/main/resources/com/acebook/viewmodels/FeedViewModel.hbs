@@ -14,7 +14,11 @@
 <!--<h3>Latest posts</h3>-->
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+<div style="align-content: center;background: #d6e35f4f;border-bottom-left-radius: 50%;border-bottom-right-radius: 50%;box-shadow: 11px 0px 6px 2px lightgrey;">
+   <center>  <image src="/static/logo.png" style="height: 80px; width: auto; "> </image> </center>
+</div>
+
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:40px">
     <!-- The Grid -->
     <div class="w3-row">
         <!-- Left Column -->
@@ -27,9 +31,9 @@
                     <p class="w3-center"><img src="{{currentUser.image}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
                     <h4 class="w3-center">{{currentUser.firstName}} {{currentUser.lastName}}</h4>
                     <hr>
-                    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
+                    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>UI/UX Designer</p>
                     <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-                    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+                    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 11, 1988</p>
                 </div>
             </div>
             {{/if}}
@@ -113,14 +117,14 @@
                                 <h4 style="text-decoration: none; text-align: justify">{{content}}</h4>
                                 <h5>{{likesCount}} likes</h5>
                                 {{#if currentUser}}
-                                    <form class="button-styling" method="POST" action="/like/{{id}}">
-                                        <input style="color:red" type="submit" value="❤">
+                                    <form  class="button-styling" method="POST" action="/like/{{id}}">
+                                        <input style="color:red; background: white; border-color: lightgray; border-radius: 50%" color:red" type="submit" value="❤">
                                     </form>
                                 {{/if}}
                                 <p>
                                     <img src="{{authorImage}}" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
                                     <span style="vertical-align: middle; margin-left: 5px;">By: {{authorName}}</span>
-                                    <span class="w3-right w3-opacity" style="margin-left: 20px;">Posted: {{dateCreated}}</span>
+                                    <span class="w3-right w3-opacity" style="margin-left: 20px; font-size:12px;">Posted: {{dateCreated}}</span>
                                 </p><br>
                                 <div class="w3-row-padding" style="margin:0 -16px">
                                 </div>
@@ -137,6 +141,7 @@
                                         <br><br>
                                         <input type="submit" value="Update">
                                     </form>
+
                                 {{/if}}
                             </div>
                         </div>
@@ -149,42 +154,29 @@
 
         <!-- Right Column -->
         <div class="w3-col m2">
-            <div class="w3-card w3-round w3-white w3-center">
+            <div class="w3-card w3-round w3-white w3-center" style="padding-top: 10px;">
                 <div class="w3-container">
-                    <p>Your Ad goes here</p>
+                    <image src="/static/image_processing20200810-7149-rf6qa8.gif" style="height: 80px; width: auto"></image>
 
-                    <p><button class="w3-button w3-block w3-theme-l4">More  info</button></p>
+                    <p><button class="w3-button w3-block w3-theme-l4">Click here</button></p>
                 </div>
             </div>
             <br>
 
-            <div class="w3-card w3-round w3-white w3-center">
+            <div class="w3-card w3-round w3-white w3-center" style="padding-top: 10px;">
                 <div class="w3-container">
-                    <p>Place holder</p>
-                    <span>------</span>
-                    <div class="w3-row w3-opacity">
-<!--                        <div class="w3-half">-->
-<!--                            <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>-->
-<!--                        </div>-->
-<!--                        <div class="w3-half">-->
-<!--                            <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>-->
-<!--                        </div>-->
-                    </div>
+                    <image src="/static/NA5J.gif" style="height: 80px; width: auto"></image>
+
+                    <p><button class="w3-button w3-block w3-theme-l4">Click here</button></p>
                 </div>
             </div>
             <br>
-            <div class="w3-card w3-round w3-white w3-center">
+
+            <div class="w3-card w3-round w3-white w3-center" style="padding-top: 10px;">
                 <div class="w3-container">
-                    <p>Place holder</p>
-                    <span>------</span>
-                    <div class="w3-row w3-opacity">
-                        <!--                        <div class="w3-half">-->
-                        <!--                            <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>-->
-                        <!--                        </div>-->
-                        <!--                        <div class="w3-half">-->
-                        <!--                            <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>-->
-                        <!--                        </div>-->
-                    </div>
+                    <image src="/static/thumb.gif" style="height: 80px; width: auto"></image>
+
+                    <p><button class="w3-button w3-block w3-theme-l4">Click here</button></p>
                 </div>
             </div>
             <br>

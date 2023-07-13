@@ -9,7 +9,7 @@
     }
 
     .comment-frame {
-        border: 1px solid black;
+        border: none;
         padding: 10px;
         margin: 10px;
         margin-left: 50px;
@@ -19,7 +19,7 @@
 
 <body>
 <div style="margin: 10px">
-    <h3 style="padding-left: 20px; font-family: 'HandwrittenFont', cursive;">Add a new comment</h3>
+    <h3 style="padding-left: 20px;">Add a new comment</h3>
     <div style="text-align: center; padding-top: 20px">
         <img style="width: 40%" class="image-post" src="{{currentPost.postImage}}">
     </div>
@@ -28,7 +28,7 @@
         <div style="display: flex; flex-direction: column">
             <form method="POST" action="/posts/add/{{currentPost.id}}" style="display: flex; flex-direction: column; padding-bottom: 20px; margin-left: 50px; margin-top: 10px">
                 Comment: <br />
-                <textarea style="margin-bottom: 10px; height: 150px; width: 400px; font-family: 'HandwrittenFont', cursive;" name="comment"></textarea>
+                <textarea style="margin-bottom: 10px; height: 150px; width: 400px; resize: none;" name="comment"></textarea>
 
                 <input type="submit" id="submit" style="height: 30px; width: 100px" />
             </form>
@@ -39,12 +39,12 @@
         <h3 style="padding-left: 20px; margin: 0px">Comments</h3>
 
         {{#each comment}}
-            <div class="comment-frame">
-                <div style="display: flex; align-items: center">
+            <div class="comment-frame" style="border-bottom: 1px solid lightgray">
+                <div style="display: flex; align-items: center; border-bottom: 2px">
                     <img src="{{authorImage}} " class="w3-circle" style="height: 23px; width: 23px; margin-right: 10px;">
                     <p style="font-size: 12px; margin: 0;">By: {{authorName}}</p>
                     <div style="flex-grow: 1;"></div>
-                    <small>{{dateCreated}}</small>
+                    <small style="color: lightgray";>{{dateCreated}}</small>
                 </div>
                 <p style="font-family: 'ChatGPTFont', sans-serif; margin-top: 10px">{{commentBody}}</p>
                 <div style="display: flex; align-items: center">

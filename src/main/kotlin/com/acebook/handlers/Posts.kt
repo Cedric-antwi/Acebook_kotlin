@@ -21,6 +21,7 @@ import java.util.*
 
 data class APost(val Id:Int?, val content: String?, val userId: Int?, val dateCreated: String?, val authorName: String?,val authorImage: String?,val likesCount:Int?,val postImage:String?, val delete: Boolean? =false, val edited: Boolean?=false)
 fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
+
     val currentUser: User? = contexts[request]["user"]
     val posts: List<APost> = database.from(Posts).select()
         .map {
@@ -79,7 +80,6 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
     val friends = allFriends.filter { user -> user.friendshipStatus == true  }.toMutableList()
     val viewModel = FeedViewModel(posts.sortedBy { it.dateCreated }.toList().reversed(), currentUser, friends)
 
-
     Response(Status.OK)
         .body(templateRenderer(viewModel))
 }
@@ -111,7 +111,8 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/cau4611/Desktop/MakersCode/acebook-kotlin-http4k-template/src/main/resources/static"
+        val uploadDirectory = "/path"
+
 
 
         // Save the picture to the upload directory
@@ -184,11 +185,32 @@ fun likePost(contexts: RequestContexts, request: Request, id: Int): Response {
 
         database.sequenceOf(Likes).add(newLike)
     }
+    else {
+        database.update(Posts){
+            set(it.likesCount, (currentLikes -1))
+            where{
+                it.id eq id
+            }
+        }
+        database.delete(Likes) {
+            if (currentUser != null) {
+                it.userId eq currentUser.id
+            }
+            it.postId eq id
+        }
+    }
     return Response(Status.SEE_OTHER)
         .header("Location", "/")
         .body("")
 }
+fun deletePost(request: Request, id:Int): Response{
+    database.delete(Posts)
+    {it.id eq id}
+    return Response(Status.SEE_OTHER)
+        .header("Location", "/")
+        .body("")
 
+}
 fun deletePost(request: Request, id:Int): Response{
     database.delete(Posts)
     {it.id eq id}
@@ -199,6 +221,7 @@ fun deletePost(request: Request, id:Int): Response{
 fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
     val currentUser: User? = contexts[request]["user"]
     val post = database.sequenceOf(Posts).firstOrNull { it.id eq id }
+
     if (post != null) {
         val receivedForm = MultipartFormBody.from(request)
         val pictureFile = receivedForm.file("picture")
@@ -208,12 +231,14 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
             val pictureFilename = pictureFile.filename ?: ""
             val contentType = pictureFile.contentType ?: ""
             val inputStream = pictureFile.content
+
             // Generate a unique filename using UUID
             val uniqueFilename = UUID.randomUUID().toString()
             val extension = pictureFilename.substringAfterLast(".", "")
             val savedFilename = "$uniqueFilename.$extension"
             // Specify the directory where the pictures will be saved
-            val uploadDirectory = "/Users/cau4611/Desktop/MakersCode/acebook-kotlin-http4k-template/src/main/resources/static"
+            val uploadDirectory = "/path"
+
             // Save the picture to the upload directory
             val savedFile = File(uploadDirectory, savedFilename)
             inputStream.use { input ->
@@ -241,3 +266,4 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
     }
     return Response(Status.BAD_REQUEST).body("Invalid post")
 }
+
