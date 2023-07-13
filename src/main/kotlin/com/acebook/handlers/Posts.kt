@@ -10,6 +10,7 @@ import com.acebook.viewmodels.FeedViewModel
 import com.acebook.viewmodels.PostViewModel
 import org.http4k.core.*
 import org.ktorm.dsl.and
+import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.update
 import org.ktorm.entity.*
@@ -127,6 +128,20 @@ fun likePost(contexts: RequestContexts, request: Request, id: Int): Response {
         }
 
         database.sequenceOf(Likes).add(newLike)
+    }
+    else {
+        database.update(Posts){
+            set(it.likesCount, (currentLikes -1))
+            where{
+                it.id eq id
+            }
+        }
+        database.delete(Likes) {
+            if (currentUser != null) {
+                it.userId eq currentUser.id
+            }
+            it.postId eq id
+        }
     }
     return Response(Status.SEE_OTHER)
         .header("Location", "/")
