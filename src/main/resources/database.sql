@@ -113,6 +113,7 @@ CREATE TABLE requests(
                       FOREIGN KEY(receiver_id)
                            REFERENCES users(id),
     request_status boolean DEFAULT false,
+    friendship_status boolean DEFAULT false,
     PRIMARY KEY (id)
 );
 

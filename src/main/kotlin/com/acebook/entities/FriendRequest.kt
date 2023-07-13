@@ -8,4 +8,5 @@ interface FriendRequest : Entity<FriendRequest> {
     var senderId: Int
     var receiverId: Int
     var requestStatus: Boolean
+    var friendshipStatus: Boolean
 }

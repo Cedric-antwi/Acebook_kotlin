@@ -10,4 +10,5 @@ object FriendRequests: Table<FriendRequest>("requests") {
     val senderId = int("sender_id").bindTo { it.senderId }
     val receiverId = int("receiver_id").bindTo { it.receiverId }
     val requestStatus = boolean("request_status").bindTo { it.requestStatus }
+    val friendshipStatus = boolean("friendship_status").bindTo { it.friendshipStatus }
 }
