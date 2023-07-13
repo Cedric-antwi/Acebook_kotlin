@@ -125,6 +125,16 @@ fun app(contexts: RequestContexts) = routes(
             val id =idParamLens(request)
             addNewcomment(contexts, request, id )
         },
+        "/delete-post/{id}" bind Method.GET to {request: Request->
+            val idParamLens = Path.int().of ( "id")
+            val id =idParamLens(request)
+            deletePost(request,id)
+        },
+        "/edit-post/{id}" bind Method.POST to {request: Request->
+            val idParamLens = Path.int().of ( "id")
+            val id =idParamLens(request)
+            editPost(contexts,request,id)
+        },
     ),
    "/comment-like" bind routes(
        "/{id}" bind Method.POST to{request: Request ->
