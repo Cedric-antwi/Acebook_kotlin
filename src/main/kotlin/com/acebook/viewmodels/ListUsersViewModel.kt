@@ -14,9 +14,18 @@ data class FriendRequestViewModel(
     val username: String,
     val image: String
 )
+
+data class UpdateUsersViewModel(
+    val userID: Int,
+    val friendRequestID: Int,
+    val firstName: String,
+    val lastName: String,
+    val username: String,
+    val image: String,
+    val friendshipStatus: Boolean?
+)
 data class ListUsersViewModel(
-    val users: List<User>,
-//    val pending: List<FriendRequest>?,
+    val users: MutableList<UpdateUsersViewModel>,
     val pendingReq: MutableList<FriendRequestViewModel>,
     val currentUser: User?
 ): ViewModel

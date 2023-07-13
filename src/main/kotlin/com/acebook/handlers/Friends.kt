@@ -10,6 +10,7 @@ import com.acebook.schemas.Users
 import com.acebook.templateRenderer
 import com.acebook.viewmodels.FriendRequestViewModel
 import com.acebook.viewmodels.ListUsersViewModel
+import com.acebook.viewmodels.UpdateUsersViewModel
 import org.http4k.core.*
 import org.ktorm.entity.add
 import org.ktorm.entity.filter
@@ -53,12 +54,39 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
 fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
     val currentUser: User? = contexts[request]["user"]
     //instantiating a mutable list of all the users
-    val allUsersList: MutableList<User> = database.sequenceOf(Users).toList().toMutableList()
+    var allUsersList: MutableList<UpdateUsersViewModel> =  mutableListOf<UpdateUsersViewModel>()
     //filtering through the allUsersList to exclude current user
-    val filteredList = allUsersList.filter { user -> user.id != currentUser?.id }
+//    val filteredList = allUsersList.filter { user -> user.id != currentUser?.id }
+
+
+    if (currentUser != null) {
+
+        for (row in database
+            .from(FriendRequests)
+            .innerJoin(Users)
+            .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
+            .where {
+                    (Users.id neq currentUser.id)
+            })
+        {
+            allUsersList.add(UpdateUsersViewModel (
+                row[Users.id]!!,
+                row[FriendRequests.id]!!,
+                row[Users.firstName].toString(),
+                row[Users.lastName].toString(),
+                row[Users.username].toString(),
+                row[Users.image].toString(),
+                row[FriendRequests.friendshipStatus]
+            ))
+        }
+    } else {
+        allUsersList = mutableListOf<UpdateUsersViewModel>()
+    }
+
+
 
     val pendingReq = queryHandleBar(contexts, request)
-    val viewModel = ListUsersViewModel(filteredList, pendingReq, currentUser = currentUser)
+    val viewModel = ListUsersViewModel(allUsersList, pendingReq, currentUser = currentUser)
     Response(Status.OK).body(templateRenderer(viewModel))
 }
 
