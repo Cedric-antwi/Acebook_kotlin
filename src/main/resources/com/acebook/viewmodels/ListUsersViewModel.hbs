@@ -3,7 +3,7 @@
     {{#*inline "content"}}
         <div class="navbar-links">
         </div>
-            <h3>All Users</h3>
+            <h3 style="margin-left: 10px">All Users</h3>
             <!-- Page Container -->
             <div class="w3-container w3-content" style="max-width:1400px;margin-top:30px">
                 <!-- The Grid -->
@@ -17,10 +17,10 @@
                                     <img src="{{image}}" class="w3-circle" style="height:80px;width:80px;margin:10px"
                                          alt="Avatar">
                                     <br>
-                                    <span>{{firstName}} {{lastName}}</span> <br>
+                                    <span>{{firstName}} <br> {{lastName}}</span> <br>
                                     <span>@{{username}}</span> <br>
                                     <form action="/friendslist/pending-friend/{{id}}">
-                                        <input type="submit" class="w3-button w3-theme-d1 w3-margin-bottom"
+                                        <input type="submit" class="w3-button w3-theme-d1 w3-margin-bottom; w3-margin-top"
                                                value="Add friend">
                                     </form>
                                 </div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <br><br>
-            <h3>Pending requests</h3>
+            <h3 style="margin-left: 10px">Pending requests</h3>
             <!-- Page Container -->
             <div class="w3-container w3-content" style="max-width:1400px;margin-top:30px">
                 <!-- The Grid -->
