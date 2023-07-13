@@ -29,8 +29,9 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
             .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
             .select( FriendRequests.id, Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
             .where {
-                (currentUser.id eq FriendRequests.receiverId)and
-                (FriendRequests.friendshipStatus eq true)
+                (FriendRequests.friendshipStatus eq true)and
+                (currentUser.id eq FriendRequests.receiverId)or
+                (currentUser.id eq FriendRequests.senderId)
             }
         ) {
             myFriends.add(FriendRequestViewModel (
@@ -43,7 +44,6 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
             ))
         }
     }
-    println(myFriends)
 
     val viewModel = FeedViewModel(posts, currentUser, myFriends)
 

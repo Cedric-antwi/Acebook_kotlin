@@ -16,7 +16,6 @@ data class FriendRequestViewModel(
 )
 data class ListUsersViewModel(
     val users: MutableList<User>,
-//    val pending: List<FriendRequest>?,
     val pendingReq: MutableList<FriendRequestViewModel>,
     val currentUser: User?
 ): ViewModel
