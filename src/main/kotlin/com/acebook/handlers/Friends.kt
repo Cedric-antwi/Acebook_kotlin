@@ -43,14 +43,15 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
                 row[Users.firstName].toString(),
                 row[Users.lastName].toString(),
                 row[Users.username].toString(),
-                row[Users.image].toString()
+                row[Users.image].toString(),
+                row[FriendRequests.friendshipStatus]
             ))
         }
     } else {
         query = mutableListOf<FriendRequestViewModel>()
         return query
     }
-    return query.filter { user -> user.userID != currentUser?.id }.toMutableList()
+    return query
 }
 fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
     val currentUser: User? = contexts[request]["user"]

@@ -12,7 +12,8 @@ data class FriendRequestViewModel(
     val firstName: String,
     val lastName: String,
     val username: String,
-    val image: String
+    val image: String,
+    val friendshipStatus: Boolean?
 )
 data class ListUsersViewModel(
     val users: MutableList<User>,

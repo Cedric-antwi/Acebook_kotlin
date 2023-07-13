@@ -26,12 +26,13 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
     if (currentUser != null) {
         for (row in database
             .from(FriendRequests)
-            .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
-            .select( FriendRequests.id, Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
+            .innerJoin(Users, on = ((Users.id eq FriendRequests.senderId) or (Users.id eq FriendRequests.receiverId)))
+            .select( FriendRequests.friendshipStatus,FriendRequests.id, Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
             .where {
+                (Users.id neq currentUser.id)and
                 (FriendRequests.friendshipStatus eq true)and
-                (currentUser.id eq FriendRequests.receiverId)or
-                (currentUser.id eq FriendRequests.senderId)
+                (FriendRequests.senderId eq currentUser.id)or
+                (FriendRequests.receiverId eq currentUser.id)
             }
         ) {
             myFriends.add(FriendRequestViewModel (
@@ -40,12 +41,15 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
                 row[Users.firstName].toString(),
                 row[Users.lastName].toString(),
                 row[Users.username].toString(),
-                row[Users.image].toString()
+                row[Users.image].toString(),
+                row[FriendRequests.friendshipStatus]
             ))
         }
     }
 
-    val viewModel = FeedViewModel(posts, currentUser, myFriends)
+    val allFriends = myFriends.filter { user -> user.userID != currentUser?.id }.toMutableList()
+    val friends = allFriends.filter { user -> user.friendshipStatus == true  }.toMutableList()
+    val viewModel = FeedViewModel(posts, currentUser, friends)
 
     Response(Status.OK)
         .body(templateRenderer(viewModel))
