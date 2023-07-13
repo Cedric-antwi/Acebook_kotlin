@@ -30,8 +30,9 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
             .from(FriendRequests)
             .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
             .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
-            .where { currentUser.id eq FriendRequests.receiverId
-            FriendRequests.requestStatus eq false
+            .where { (FriendRequests.receiverId eq currentUser.id) and
+                    (FriendRequests.requestStatus eq false) and
+                    (Users.id neq currentUser.id)
             })
         {
             query.add(FriendRequestViewModel (
