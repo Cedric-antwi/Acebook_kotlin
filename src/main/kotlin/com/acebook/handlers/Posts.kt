@@ -4,9 +4,12 @@ import com.acebook.*
 import com.acebook.entities.Like
 import com.acebook.entities.Post
 import com.acebook.entities.User
+import com.acebook.schemas.FriendRequests
 import com.acebook.schemas.Likes
 import com.acebook.schemas.Posts
+import com.acebook.schemas.Users
 import com.acebook.viewmodels.FeedViewModel
+import com.acebook.viewmodels.FriendRequestViewModel
 import com.acebook.viewmodels.PostViewModel
 import org.http4k.core.*
 import org.ktorm.dsl.*
@@ -16,10 +19,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-data class APost(val Id:Int?, val content: String?, val userId: Int?, val dateCreated: String?, val authorName: String?,val authorImage: String?,val likesCount:Int?,val postImage:String?, val delete: Boolean? =false)
-
+data class APost(val Id:Int?, val content: String?, val userId: Int?, val dateCreated: String?, val authorName: String?,val authorImage: String?,val likesCount:Int?,val postImage:String?, val delete: Boolean? =false, val edited: Boolean?=false)
 fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
-//    val allPosts: List<Post>
+
     val currentUser: User? = contexts[request]["user"]
     val posts: List<APost> = database.from(Posts).select()
         .map {
@@ -49,10 +51,34 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
                 )
             }
         }
+    val myFriends = mutableListOf<FriendRequestViewModel>()
+    if (currentUser != null) {
+        for (row in database
+            .from(FriendRequests)
+            .innerJoin(Users, on = ((Users.id eq FriendRequests.senderId) or (Users.id eq FriendRequests.receiverId)))
+            .select( FriendRequests.friendshipStatus,FriendRequests.id, Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
+            .where {
+                (Users.id neq currentUser.id)and
+                (FriendRequests.friendshipStatus eq true)and
+                (FriendRequests.senderId eq currentUser.id)or
+                (FriendRequests.receiverId eq currentUser.id)
+            }
+        ) {
+            myFriends.add(FriendRequestViewModel (
+                row[Users.id]!!,
+                row[FriendRequests.id]!!,
+                row[Users.firstName].toString(),
+                row[Users.lastName].toString(),
+                row[Users.username].toString(),
+                row[Users.image].toString(),
+                row[FriendRequests.friendshipStatus]
+            ))
+        }
+    }
 
-    println(posts)
-
-    val viewModel = FeedViewModel(posts.sortedBy { it.dateCreated }.toList().reversed(), currentUser)
+    val allFriends = myFriends.filter { user -> user.userID != currentUser?.id }.toMutableList()
+    val friends = allFriends.filter { user -> user.friendshipStatus == true  }.toMutableList()
+    val viewModel = FeedViewModel(posts.sortedBy { it.dateCreated }.toList().reversed(), currentUser, friends)
 
     Response(Status.OK)
         .body(templateRenderer(viewModel))
@@ -85,7 +111,8 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/mmu4265/KotlinStuff/ace_kotlin/src/main/resources/static"
+        val uploadDirectory = "/path"
+
 
 
         // Save the picture to the upload directory
@@ -184,6 +211,13 @@ fun deletePost(request: Request, id:Int): Response{
         .body("")
 
 }
+fun deletePost(request: Request, id:Int): Response{
+    database.delete(Posts)
+    {it.id eq id}
+    return Response(Status.SEE_OTHER)
+        .header("Location", "/")
+        .body("")
+}
 fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
     val currentUser: User? = contexts[request]["user"]
     val post = database.sequenceOf(Posts).firstOrNull { it.id eq id }
@@ -192,7 +226,6 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
         val receivedForm = MultipartFormBody.from(request)
         val pictureFile = receivedForm.file("picture")
         val text = receivedForm.fieldValue("text")
-
         if (pictureFile != null && text != null) {
             // Handle picture upload and update post with new content and image
             val pictureFilename = pictureFile.filename ?: ""
@@ -203,9 +236,8 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
             val uniqueFilename = UUID.randomUUID().toString()
             val extension = pictureFilename.substringAfterLast(".", "")
             val savedFilename = "$uniqueFilename.$extension"
-
             // Specify the directory where the pictures will be saved
-            val uploadDirectory = "/Users/mmu4265/KotlinStuff/ace_kotlin/src/main/resources/static"
+            val uploadDirectory = "/path"
 
             // Save the picture to the upload directory
             val savedFile = File(uploadDirectory, savedFilename)
@@ -214,10 +246,8 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
                     input.copyTo(output)
                 }
             }
-
             val fileSize = savedFile.readBytes().size
             val pictureLink = "/static/$savedFilename"
-
             database.update(Posts) {
                 set(it.content, text)
                 set(it.postImage, if (fileSize == 0) null else pictureLink)
@@ -230,11 +260,10 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
                 where { it.id eq id }
             }
         }
-
         return Response(Status.SEE_OTHER)
             .header("Location", "/")
             .body("")
     }
-
     return Response(Status.BAD_REQUEST).body("Invalid post")
 }
+

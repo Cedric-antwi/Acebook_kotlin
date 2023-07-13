@@ -12,11 +12,11 @@ data class FriendRequestViewModel(
     val firstName: String,
     val lastName: String,
     val username: String,
-    val image: String
+    val image: String,
+    val friendshipStatus: Boolean?
 )
 data class ListUsersViewModel(
-    val users: List<User>,
-//    val pending: List<FriendRequest>?,
+    val users: MutableList<User>,
     val pendingReq: MutableList<FriendRequestViewModel>,
     val currentUser: User?
 ): ViewModel

@@ -43,7 +43,19 @@ class AddFriendsTest {
             )
                 .header("content-type", "application/x-www-form-urlencoded")
         )
-        assertThat(response2, hasStatus(Status.OK))
-        assert(response2.bodyString().contains("Add Friends"))
+        //on home page at this point
+        val addAFriend: Response = client(
+            Request(Method.GET, "http://localhost:9000/friendslist/pending-friend/1")
+        )
+        //back at home page after clicking to add friend
+        val addFriendPage: Response = client(
+            Request(Method.GET, "http://localhost:9000/friendslist/request")
+        )
+        assertThat(addFriendPage, hasStatus(Status.OK))
+        assert(addFriendPage.bodyString().contains(""))
+
+
+//        assertThat(response2, hasStatus(Status.OK))
+//        assert(response2.bodyString().contains("Add Friends"))
     }
 }

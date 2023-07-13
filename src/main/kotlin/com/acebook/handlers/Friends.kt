@@ -30,10 +30,12 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
             .from(FriendRequests)
             .innerJoin(Users, on = Users.id eq FriendRequests.senderId)
             .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
-            .where { (FriendRequests.receiverId eq currentUser.id) and
-                    (FriendRequests.requestStatus eq false) and
-                    (Users.id neq currentUser.id)
-            })
+            .where {
+                (currentUser.id eq FriendRequests.receiverId)and
+                (FriendRequests.requestStatus eq false)and
+                (FriendRequests.friendshipStatus eq false)
+            }
+        )
         {
             query.add(FriendRequestViewModel (
                 row[Users.id]!!,
@@ -41,7 +43,8 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
                 row[Users.firstName].toString(),
                 row[Users.lastName].toString(),
                 row[Users.username].toString(),
-                row[Users.image].toString()
+                row[Users.image].toString(),
+                row[FriendRequests.friendshipStatus]
             ))
         }
     } else {
@@ -55,10 +58,10 @@ fun listUsers(contexts: RequestContexts): HttpHandler = { request: Request ->
     //instantiating a mutable list of all the users
     val allUsersList: MutableList<User> = database.sequenceOf(Users).toList().toMutableList()
     //filtering through the allUsersList to exclude current user
-    val filteredList = allUsersList.filter { user -> user.id != currentUser?.id }
+    val filteredList = allUsersList.filter { user -> user.id != currentUser?.id }.toMutableList()
 
     val pendingReq = queryHandleBar(contexts, request)
-    val viewModel = ListUsersViewModel(filteredList, pendingReq, currentUser = currentUser)
+    val viewModel = ListUsersViewModel(users = filteredList, pendingReq, currentUser = currentUser)
     Response(Status.OK).body(templateRenderer(viewModel))
 }
 
@@ -73,11 +76,12 @@ fun friendRequest(contexts: RequestContexts, request: Request, friendId: Int): R
             }
         receiverId = friendReceiverId
         requestStatus = false
+        friendshipStatus = false
     }
 
     database.sequenceOf(com.acebook.schemas.FriendRequests).add(newFriendRequest)
     return Response(Status.SEE_OTHER)
-        .header("Location", "/")
+        .header("Location", "/friendslist/request")
         .body("")
 }
 
@@ -85,19 +89,21 @@ fun acceptReq(friendId: Int, contexts: RequestContexts, request: Request): Respo
     val currentUser: User? = contexts[request]["user"]
     database.update(FriendRequests)
     {
-        set(it.requestStatus, true)
+        set(
+            it.requestStatus, true
+        )
+        set(
+            it.friendshipStatus, true
+        )
         if (currentUser != null) {
             where {
-                it.receiverId eq currentUser.id
-                it.senderId eq friendId
+                (it.receiverId eq currentUser.id)and
+                (it.senderId eq friendId)
             }
         }
 
     }
-    if (currentUser != null) {
-        println(currentUser.id)
-    }
-    println(friendId)
+
 
 
     return Response(Status.SEE_OTHER)

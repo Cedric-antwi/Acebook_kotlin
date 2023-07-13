@@ -179,8 +179,18 @@
                     <p><button class="w3-button w3-block w3-theme-l4">Click here</button></p>
                 </div>
             </div>
-
-
+            <br>
+        {{#if currentUser}}
+            <div class="w3-card w3-round w3-white" style="height: 200px; overflow: scroll;">
+                <h4 style="text-align: center;">My Buddies</h4>
+                {{#each myFriends}}
+                    <div style=" align-items: center; display: flex; flex-direction: row; border: 1px solid gray; border-radius: 15px; height:60px; padding:7px 2px; margin-bottom: 5px; cursor: pointer">
+                        <p class="w3-center"><img src="{{image}}" class="w3-circle" style="height:53px;width:53px" alt="Avatar"></p>
+                        <h4 style="margin-left: 3px;">{{username}}</h4>
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
             <!-- End Right Column -->
         </div>
 
@@ -190,6 +200,7 @@
     <!-- End Page Container -->
 </div>
 <br>
+
 <script>
     // Add event listeners to the edit buttons
     const editButtons = document.querySelectorAll('.edit-button');
