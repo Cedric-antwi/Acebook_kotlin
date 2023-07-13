@@ -9,7 +9,12 @@
         <div style="margin-top: 30px;">
             <form method="POST" action="/posts" enctype="multipart/form-data">
                 <div>
-                    <textarea name="text" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 400px; height: 200px; resize: none;"></textarea>
+                    {{#if content}}
+                        <textarea name="text" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 400px; height: 200px; resize: none;" >{{content}}</textarea>
+                    {{else}}
+                        <textarea name="text" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 400px; height: 200px; resize: none;"></textarea>
+
+                    {{/if}}
                 </div>
                 <div>
                     <input name="picture" type="file" />

@@ -9,21 +9,50 @@ import com.acebook.schemas.Posts
 import com.acebook.viewmodels.FeedViewModel
 import com.acebook.viewmodels.PostViewModel
 import org.http4k.core.*
-import org.ktorm.dsl.and
-import org.ktorm.dsl.delete
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.update
+import org.ktorm.dsl.*
 import org.ktorm.entity.*
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+data class APost(val Id:Int?, val content: String?, val userId: Int?, val dateCreated: String?, val authorName: String?,val authorImage: String?,val likesCount:Int?,val postImage:String?, val delete: Boolean? =false)
+
 fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
-    val posts = database.sequenceOf(Posts).sortedBy { it.dateCreated }.toList().reversed()
-    println(posts)
+//    val allPosts: List<Post>
     val currentUser: User? = contexts[request]["user"]
-    val viewModel = FeedViewModel(posts, currentUser)
+    val posts: List<APost> = database.from(Posts).select()
+        .map {
+            if (currentUser != null) {
+                APost(
+                    it[Posts.id],
+                    it[Posts.content],
+                    it[Posts.userId],
+                    it[Posts.dateCreated],
+                    it[Posts.authorName],
+                    it[Posts.authorImage],
+                    it[Posts.likesCount],
+                    it[Posts.postImage],
+                    it[Posts.userId] == currentUser.id
+                )
+            } else {
+                APost(
+                    it[Posts.id],
+                    it[Posts.content],
+                    it[Posts.userId],
+                    it[Posts.dateCreated],
+                    it[Posts.authorName],
+                    it[Posts.authorImage],
+                    it[Posts.likesCount],
+                    it[Posts.postImage],
+                    false
+                )
+            }
+        }
+
+    println(posts)
+
+    val viewModel = FeedViewModel(posts.sortedBy { it.dateCreated }.toList().reversed(), currentUser)
 
     Response(Status.OK)
         .body(templateRenderer(viewModel))
@@ -56,7 +85,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/mou4587/Acebook_kotlin/src/main/resources/static"
+        val uploadDirectory = "/Users/mmu4265/KotlinStuff/ace_kotlin/src/main/resources/static"
 
 
         // Save the picture to the upload directory
@@ -146,4 +175,66 @@ fun likePost(contexts: RequestContexts, request: Request, id: Int): Response {
     return Response(Status.SEE_OTHER)
         .header("Location", "/")
         .body("")
+}
+fun deletePost(request: Request, id:Int): Response{
+    database.delete(Posts)
+    {it.id eq id}
+    return Response(Status.SEE_OTHER)
+        .header("Location", "/")
+        .body("")
+
+}
+fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
+    val currentUser: User? = contexts[request]["user"]
+    val post = database.sequenceOf(Posts).firstOrNull { it.id eq id }
+
+    if (post != null) {
+        val receivedForm = MultipartFormBody.from(request)
+        val pictureFile = receivedForm.file("picture")
+        val text = receivedForm.fieldValue("text")
+
+        if (pictureFile != null && text != null) {
+            // Handle picture upload and update post with new content and image
+            val pictureFilename = pictureFile.filename ?: ""
+            val contentType = pictureFile.contentType ?: ""
+            val inputStream = pictureFile.content
+
+            // Generate a unique filename using UUID
+            val uniqueFilename = UUID.randomUUID().toString()
+            val extension = pictureFilename.substringAfterLast(".", "")
+            val savedFilename = "$uniqueFilename.$extension"
+
+            // Specify the directory where the pictures will be saved
+            val uploadDirectory = "/Users/mmu4265/KotlinStuff/ace_kotlin/src/main/resources/static"
+
+            // Save the picture to the upload directory
+            val savedFile = File(uploadDirectory, savedFilename)
+            inputStream.use { input ->
+                savedFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+
+            val fileSize = savedFile.readBytes().size
+            val pictureLink = "/static/$savedFilename"
+
+            database.update(Posts) {
+                set(it.content, text)
+                set(it.postImage, if (fileSize == 0) null else pictureLink)
+                where { it.id eq id }
+            }
+        } else if (text != null) {
+            // Update post content only
+            database.update(Posts) {
+                set(it.content, text)
+                where { it.id eq id }
+            }
+        }
+
+        return Response(Status.SEE_OTHER)
+            .header("Location", "/")
+            .body("")
+    }
+
+    return Response(Status.BAD_REQUEST).body("Invalid post")
 }
