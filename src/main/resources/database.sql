@@ -94,7 +94,8 @@ CREATE TABLE likes(
     post_id int4,
            CONSTRAINT fk_post
               FOREIGN KEY(post_id)
-                REFERENCES posts(id),
+                REFERENCES posts(id)
+                ON DELETE CASCADE,
      comment_id int4,
                CONSTRAINT fk_comment
                   FOREIGN KEY(comment_id)
