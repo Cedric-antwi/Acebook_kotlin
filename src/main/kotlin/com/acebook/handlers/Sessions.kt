@@ -96,7 +96,8 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/ssu4807/Projects/Acebook/Acebook_kotlin/src/main/resources/static"
+
+        val uploadDirectory = "/PATH"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)

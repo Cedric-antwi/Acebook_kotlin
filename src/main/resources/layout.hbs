@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Welcome to Acebook</title>
-      <link rel="icon" type="image/x-icon" href="/static/favicon.ico" style="border-radius: 50%">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" style="border-radius: 50%">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,28 +38,28 @@
 <!-- Navbar -->
 <div class="w3-top">
     {{# if currentUser}}
-    <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-        <image src="/static/logo.png" style="height: 50px; width: auto; display: inline-block; margin: 0 auto;"> </image>
-        <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i></a>
-        <a href="/posts/new" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="New Post"><i class="fa fa-pencil"></i></a>
-        <a href="/friendslist/request" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Add Friends"><i class="fa fa-user-plus"></i></a>
-        <a href="/sessions/clear" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out"><i class="fa fa-sign-out"></i></a>
-        <a href="/settings/editprofile" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src="{{currentUser.image}}" class="w3-circle" style="height:23px;width:23px" alt="...">
-        </a>
-    </div>
+        <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+            <image src="/static/logo.png" style="height: 50px; width: auto; display: inline-block; margin: 0 auto;"> </image>
+            <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i></a>
+            <a href="/posts/new" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="New Post"><i class="fa fa-pencil"></i></a>
+            <a href="/friendslist/request" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Add Friends"><i class="fa fa-user-plus"></i></a>
+            <a href="/sessions/clear" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out"><i class="fa fa-sign-out"></i></a>
+            <a href="/settings/editprofile" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+                <img src="{{currentUser.image}}" class="w3-circle" style="height:23px;width:23px" alt="...">
+            </a>
+        </div>
 
     {{else}}
-    <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-        <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
-        <a href="/sessions/new" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out">Sign in</a>
-        <a href="/users/new" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out">Register</a>
-    </div>
+        <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+            <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+            <a href="/sessions/new" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out">Sign in</a>
+            <a href="/users/new" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign out">Register</a>
+        </div>
     {{/if}}
 </div>
-    <script>
+<script>
     // Accordion
     function myFunction(id) {
       var x = document.getElementById(id);
@@ -83,6 +83,6 @@
       }
     }
     </script>
-        {{> content}}
-    </body>
+{{> content}}
+</body>
 </html>

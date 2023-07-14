@@ -59,9 +59,9 @@ fun indexHandler(contexts: RequestContexts): HttpHandler = { request: Request ->
             .select( FriendRequests.friendshipStatus,FriendRequests.id, Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
             .where {
                 (Users.id neq currentUser.id)and
-                (FriendRequests.friendshipStatus eq true)and
-                (FriendRequests.senderId eq currentUser.id)or
-                (FriendRequests.receiverId eq currentUser.id)
+                        (FriendRequests.friendshipStatus eq true)and
+                        (FriendRequests.senderId eq currentUser.id)or
+                        (FriendRequests.receiverId eq currentUser.id)
             }
         ) {
             myFriends.add(FriendRequestViewModel (
@@ -111,7 +111,7 @@ fun createNewPost(contexts: RequestContexts): HttpHandler = { request: Request -
         val savedFilename = "$uniqueFilename.$extension"
 
         // Specify the directory where the pictures will be saved
-        val uploadDirectory = "/Users/ssu4807/Projects/Acebook/Acebook_kotlin/src/main/resources/static"
+        val uploadDirectory = "PATH"
 
 
 
@@ -230,7 +230,7 @@ fun editPost(contexts: RequestContexts, request: Request, id: Int): Response {
             val extension = pictureFilename.substringAfterLast(".", "")
             val savedFilename = "$uniqueFilename.$extension"
             // Specify the directory where the pictures will be saved
-            val uploadDirectory = "/Users/ssu4807/Projects/Acebook/Acebook_kotlin/src/main/resources/static"
+            val uploadDirectory = "PATH"
 
             // Save the picture to the upload directory
             val savedFile = File(uploadDirectory, savedFilename)
