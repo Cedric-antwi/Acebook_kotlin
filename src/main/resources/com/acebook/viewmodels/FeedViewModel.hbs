@@ -127,8 +127,10 @@
                                 <div class="w3-row-padding" style="margin:0 -16px">
                                 </div>
                                 {{#if delete}}
-                                    <button class=" edit-button w3-button w3-theme-l3 w3-margin-bottom" data-form-id="editForm-{{id}}">Edit</button>
-                                    <button  class=" w3-button w3-theme-l3 w3-margin-bottom"><a style="text-decoration:none; " href="/posts/delete-post/{{id}}">Delete</a></button>
+
+                                    <button><a href="/posts/delete-post/{{id}}">Delete</a></button>
+                                    <button class="edit-button" data-form-id="editForm-{{id}}">Edit</button>
+
                                     <form id="editForm-{{id}}" method="POST" action="/posts/edit-post/{{id}}" enctype="multipart/form-data" style="display: none;">
                                         <div>
                                             <textarea name="text" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 100%; height: 100px; resize: none;">{{content}}</textarea>
@@ -139,7 +141,6 @@
                                         <br><br>
                                         <input type="submit" value="Update">
                                     </form>
-
                                 {{/if}}
                             </div>
                         </div>
@@ -148,57 +149,51 @@
             {{/each}}
             <!-- End Middle Column -->
         </div>
-
-
         <!-- Right Column -->
         <div class="w3-col m2">
-            <div class="w3-card w3-round w3-white w3-center" style="padding-top: 10px;">
+            <div class="w3-card w3-round w3-white w3-center">
                 <div class="w3-container">
-                    <image src="/static/image_processing20200810-7149-rf6qa8.gif" style="height: 80px; width: auto"></image>
-
-                    <p><button class="w3-button w3-block w3-theme-l4">Click here</button></p>
+                    <p>Your Ad goes here</p>
+                    <p><button class="w3-button w3-block w3-theme-l4">More  info</button></p>
                 </div>
             </div>
             <br>
-
-            <div class="w3-card w3-round w3-white w3-center" style="padding-top: 10px;">
+            <div class="w3-card w3-round w3-white w3-center">
                 <div class="w3-container">
-                    <image src="/static/NA5J.gif" style="height: 80px; width: auto"></image>
-
-                    <p><button class="w3-button w3-block w3-theme-l4">Click here</button></p>
-                </div>
-            </div>
-            <br>
-
-            <div class="w3-card w3-round w3-white w3-center" style="padding-top: 10px;">
-                <div class="w3-container">
-                    <image src="/static/thumb.gif" style="height: 80px; width: auto"></image>
-
-                    <p><button class="w3-button w3-block w3-theme-l4">Click here</button></p>
-                </div>
-            </div>
-            <br>
-        {{#if currentUser}}
-            <div class="w3-card w3-round w3-white" style="height: 200px; overflow: scroll;">
-                <h4 style="text-align: center;">My Buddies</h4>
-                {{#each myFriends}}
-                    <div style=" align-items: center; display: flex; flex-direction: row; border: 1px solid gray; border-radius: 15px; height:60px; padding:7px 2px; margin-bottom: 5px; cursor: pointer">
-                        <p class="w3-center"><img src="{{image}}" class="w3-circle" style="height:53px;width:53px" alt="Avatar"></p>
-                        <h4 style="margin-left: 3px;">{{username}}</h4>
+                    <p>Place holder</p>
+                    <span>------</span>
+                    <div class="w3-row w3-opacity">
+                        <!--                        <div class="w3-half">-->
+                        <!--                            <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="w3-half">-->
+                        <!--                            <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>-->
+                        <!--                        </div>-->
                     </div>
-                {{/each}}
+                </div>
             </div>
-        {{/if}}
+            <br>
+            <div class="w3-card w3-round w3-white w3-center">
+                <div class="w3-container">
+                    <p>Place holder</p>
+                    <span>------</span>
+                    <div class="w3-row w3-opacity">
+                        <!--                        <div class="w3-half">-->
+                        <!--                            <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="w3-half">-->
+                        <!--                            <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>-->
+                        <!--                        </div>-->
+                    </div>
+                </div>
+            </div>
             <!-- End Right Column -->
         </div>
-
         <!-- End Grid -->
     </div>
-
     <!-- End Page Container -->
 </div>
 <br>
-
 <script>
     // Add event listeners to the edit buttons
     const editButtons = document.querySelectorAll('.edit-button');
@@ -210,7 +205,5 @@
         });
     });
 </script>
-
-
 {{/inline}}
 {{/layout}}
