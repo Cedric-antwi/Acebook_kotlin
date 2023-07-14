@@ -15,7 +15,6 @@
 
 <!-- Page Container -->
 
-
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:40px">
     <!-- The Grid -->
     <div class="w3-row">
@@ -127,10 +126,8 @@
                                 <div class="w3-row-padding" style="margin:0 -16px">
                                 </div>
                                 {{#if delete}}
-
                                     <button><a href="/posts/delete-post/{{id}}">Delete</a></button>
                                     <button class="edit-button" data-form-id="editForm-{{id}}">Edit</button>
-
                                     <form id="editForm-{{id}}" method="POST" action="/posts/edit-post/{{id}}" enctype="multipart/form-data" style="display: none;">
                                         <div>
                                             <textarea name="text" id="content" style="border: 2px solid black; border-radius: 10px; padding: 10px; width: 100%; height: 100px; resize: none;">{{content}}</textarea>
