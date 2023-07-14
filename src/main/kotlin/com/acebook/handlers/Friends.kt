@@ -32,8 +32,8 @@ fun queryHandleBar(contexts: RequestContexts, request: Request): MutableList<Fri
             .select( FriendRequests.id,Users.id, Users.firstName, Users.lastName, Users.username, Users.image)
             .where {
                 (currentUser.id eq FriendRequests.receiverId)and
-                (FriendRequests.requestStatus eq false)and
-                (FriendRequests.friendshipStatus eq false)
+                        (FriendRequests.requestStatus eq false)and
+                        (FriendRequests.friendshipStatus eq false)
             }
         )
         {
@@ -71,9 +71,9 @@ fun friendRequest(contexts: RequestContexts, request: Request, friendId: Int): R
     val friendReceiverId = friendId // friends id
 
     val newFriendRequest = FriendRequest {
-            if (mySenderId != null) {
-                senderId = mySenderId
-            }
+        if (mySenderId != null) {
+            senderId = mySenderId
+        }
         receiverId = friendReceiverId
         requestStatus = false
         friendshipStatus = false
@@ -98,7 +98,7 @@ fun acceptReq(friendId: Int, contexts: RequestContexts, request: Request): Respo
         if (currentUser != null) {
             where {
                 (it.receiverId eq currentUser.id)and
-                (it.senderId eq friendId)
+                        (it.senderId eq friendId)
             }
         }
 
