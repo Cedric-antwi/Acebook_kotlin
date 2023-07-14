@@ -80,7 +80,8 @@ CREATE TABLE comments(
     post_id int4,
            CONSTRAINT fk_post
               FOREIGN KEY(post_id)
-                REFERENCES posts(id),
+                REFERENCES posts(id)
+                ON DELETE CASCADE,
     PRIMARY KEY (id)
 
 );

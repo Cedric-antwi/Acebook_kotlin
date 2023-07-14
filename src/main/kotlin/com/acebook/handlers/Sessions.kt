@@ -97,7 +97,7 @@ fun updateProfile(contexts: RequestContexts):  HttpHandler = { request: Request 
 
         // Specify the directory where the pictures will be saved
 
-        val uploadDirectory = "/path"
+        val uploadDirectory = "/Users/mou4587/Acebook_kotlin/src/main/resources/static"
 
         // Save the picture to the upload directory
         val savedFile = File(uploadDirectory, savedFilename)
