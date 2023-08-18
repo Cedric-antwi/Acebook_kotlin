@@ -21,7 +21,9 @@ This template app was built using:
 
 ## Current features
 - Users can sign up, sign in and log out
-- The page to create a new post is implemented, but submitting it is not yet done
+- Users can create a post
+- Users can add friends
+- Users can interact with existing posts(Like and comment)
 - Users have to be signed in to create posts
 
 ## How to setup and run
